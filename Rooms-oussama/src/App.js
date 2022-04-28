@@ -11,16 +11,15 @@ export default function App() {
 
 
     return(
-    // <BrowserRouter>
-    //   <Routes>
-    //     {/* <Route path="/" element={<Layout />}> */}
-    //       <Route path="/login" element={user? <Feed /> : <Login />} />
-    //       <Route path="/register" element={user? <Feed /> : <Register />} />
-    //       <Route path="/" element={<Feed />} />
-    //     {/* </Route> */}
-    //   </Routes>
-    // </BrowserRouter>
-      <Feed />
+    <BrowserRouter>
+      <Routes>
+        {/* <Route path="/" element={<Layout />}> */}
+          <Route path="/login" element={user? <Feed /> : <Login />} />
+          <Route path="/register" element={user? <Feed /> : <Register />} />
+          <Route path="/" element={<Feed />} />
+        {/* </Route> */}
+      </Routes>
+    </BrowserRouter>
         
     )
 }

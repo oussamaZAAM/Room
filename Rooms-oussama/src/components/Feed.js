@@ -26,15 +26,15 @@ export default function Feed() {
     const myPosts = posts.map(x=>
             <Post 
                 key={x.id}
-                // post={x}
-                desc={x.desc}
-                img={x.photo}
-                date={x.date}
-                userId={x.userId}
-                room={x.room}
-                roomers={x.roomers}
-                vote={x.vote}
-                comments={x.comments}
+                post={x}
+                // desc={x.desc}
+                // img={x.photo}
+                // date={x.date}
+                // userId={x.userId}
+                // room={x.room}
+                // roomers={x.roomers}
+                // vote={x.vote}
+                // comments={x.comments}
                 />
         )
     return(

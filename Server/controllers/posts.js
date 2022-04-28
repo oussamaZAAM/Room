@@ -36,7 +36,7 @@ export const allPosts = async (req, res) => {
    export const feedPosts = async (req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
-      const userPosts = await Post.find({ username: currentUser._id });
+      const userPosts = await PostMessage.find({ userId: currentUser._id });
     //   const friendPosts = await Promise.all(
     //     currentUser.followings.map((friendId) => {
     //       return Post.find({ userId: friendId });

@@ -14,6 +14,9 @@ export default function AddPost() {
                     <textarea className="add-comment-textarea" placeholder="New Comment" />
                 </div>
             </div>
+            <div className="add-submit">
+                <button>Post</button>
+            </div>
         </div>
     )
 }

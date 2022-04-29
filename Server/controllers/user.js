@@ -38,3 +38,17 @@ export const login = async (req, res) => {
         res.status(409).json({message: error.message})
     }
 }
+
+export const allUsers = async (req, res) => {
+    try {
+      const allUsers = await User.find();
+    //   const friendPosts = await Promise.all(
+    //     currentUser.followings.map((friendId) => {
+    //       return Post.find({ userId: friendId });
+    //     })
+    //   );
+      res.status(200).json(allUsers);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };

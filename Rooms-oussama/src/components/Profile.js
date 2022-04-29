@@ -6,6 +6,7 @@ import RoomCard from "./RoomCard"
 import Post from "./Post"
 import { Posts, Rooms } from "../dummyData"
 import AddPost from "./AddComment"
+import axios from "axios"
 
 export default function Profile() {
     const [posts, setPosts] = useState([]);

@@ -1,27 +1,40 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike} from "react-icons/ai"
-import { Users } from "../dummyData";
+import axios from "axios"
 
 export default function Comment(props) {
+    const [users, setUsers] = useState([]);
     const [commentVote, setCommentVote] = useState(props.vote);
     const [isLiked, setIsLike] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
     
     function userName(thisId) {
-        for (let i=0;i<Users.length;i++){
-            if(Users[i].id==thisId){
-                return(Users[i].username)
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].username)
             }
         }
     }
     function userImg(thisId) {
-        for (let i=0;i<Users.length;i++){
-            if(Users[i].id==thisId){
-                return(Users[i].profilePicture)
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].profilePicture)
             }
         }
     }
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+        const res = await axios.get("http://localhost:5000/api/user/allusers");
+        setUsers(
+            res.data.sort((p1, p2) => {
+              return new Date(p2.createdAt) - new Date(p1.createdAt);
+            })
+        );
+        };
+        fetchUsers();
+    }, []);
+    console.log(users)
     function upvote() {
         if(!isDisliked){
             if(!isLiked) {
@@ -60,7 +73,7 @@ export default function Comment(props) {
             </div>
             <div className="comment-content">
                 <div className="comment-header">
-                    <h5>{props.userId}</h5>
+                    <h5>{userName(props.userId)}</h5>
                     <div className="comment-like">
                         {isLiked 
                             ? <AiFillLike className="comment-like" onClick={upvote}/> 

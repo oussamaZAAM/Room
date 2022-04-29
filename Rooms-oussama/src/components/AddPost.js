@@ -15,6 +15,9 @@ export default function AddPost() {
                 </div>
                 <button className="add-image"><BsCardImage /></button>
             </div>
+            <div className="add-submit">
+                <button>Post</button>
+            </div>
         </div>
     )
 }

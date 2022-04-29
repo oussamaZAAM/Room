@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Navbar from "./Navbar"
 import cover from "../images/post1.jpg"
 import { AiFillEdit } from "react-icons/ai"
@@ -7,6 +7,7 @@ import Post from "./Post"
 import { Posts, Rooms } from "../dummyData"
 import AddPost from "./AddComment"
 import axios from "axios"
+import { AuthContext } from "../Context/authContext"
 
 export default function Profile() {
     const [posts, setPosts] = useState([]);
@@ -17,7 +18,6 @@ export default function Profile() {
             if(x.roomers[i].id==user._id){
                 return(
                     <RoomCard 
-                        key={x.roomId}
                         img={x.roomImg}
                         title={x.roomTitle}
                         roomers={x.roomers}
@@ -81,7 +81,7 @@ export default function Profile() {
                     <AiFillEdit className="profile-pic-edit"/>
                 </div>
                 <div className="profile-name">
-                    <h1>Alfredo Condo</h1>
+                    <h1>{user.username}</h1>
                 </div>
                 <div className="profile-desc">
                     <p>

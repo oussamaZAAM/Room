@@ -50,6 +50,7 @@ export default function Post(props) {
             }
         }
     }
+    //katgad date
 
     const comments = props.comments.map(x=>
         <Comment 

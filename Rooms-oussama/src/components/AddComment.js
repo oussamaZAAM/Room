@@ -4,7 +4,7 @@ import {BsCardImage} from "react-icons/bs"
 
 export default function AddPost() {
     return(
-        <div className="comment-add">
+        <form className="comment-add">
             <div className="add-comment-title">
                 <h3>Add a Comment</h3>
             </div>
@@ -17,6 +17,6 @@ export default function AddPost() {
             <div className="add-submit">
                 <button>Post</button>
             </div>
-        </div>
+        </form>
     )
 }

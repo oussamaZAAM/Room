@@ -11,7 +11,6 @@ export default function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         loginCall({email: email.current.value, password: password.current.value}, dispatch);
-
     }
 
     return(
@@ -24,7 +23,7 @@ export default function Login() {
                         <input className="login-input" type="password" placeholder="Password" ref={password} />
                         <input className="login-submit" value="Login" type="submit" onClick={handleLogin}/>
                     </form>
-                    <h5 className="login-suggest">Don’t have an account? <span><Link to="../Register">Register</Link></span></h5>
+                    <h5 className="login-suggest">Don't have an account? <span><Link to="../Register">Register</Link></span></h5>
                 </div>
             </div>
         </main>

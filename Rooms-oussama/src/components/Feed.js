@@ -4,7 +4,6 @@ import Post from "./Post";
 import { postCall } from "../apiCalls";
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
-import { Posts } from "../dummyData";
 import AddPost from "./AddPost";
 
 export default function Feed() {
@@ -42,7 +41,7 @@ export default function Feed() {
         <>
             <Navbar />
             <div className="feed">
-                <AddPost />
+                <AddPost /> {/* Khasna ngadouha bach machi kola mra nzido post f db */} 
                 {myPosts.length!=0 && myPosts }
             </div>
         </>

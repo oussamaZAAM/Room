@@ -24,9 +24,10 @@ export const registerCall = async (userCred, dispatch) => {
     }
 }
 
+
 // export const postCall = async (username) =>{
 //     try{
-//         const res = await axios.get(`http://localhost:5000/api/${usename}/posts`)
+//         const res = await axios.get(`http://localhost:5000/api/${username}/posts`)
 //         console.log(res.data)
 //         return res.data
 //     } catch (err) {

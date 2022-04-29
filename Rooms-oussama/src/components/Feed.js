@@ -4,8 +4,8 @@ import Post from "./Post";
 import { postCall } from "../apiCalls";
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
-
 import { Posts } from "../dummyData";
+import AddPost from "./AddPost";
 
 export default function Feed() {
 
@@ -23,25 +23,27 @@ export default function Feed() {
     };
     fetchPosts();
   }, [user._id]);
-    const myPosts = posts.map(x=>
-            <Post 
-                key={x.id}
-                post={x}
-                // desc={x.desc}
-                // img={x.photo}
-                // date={x.date}
-                // userId={x.userId}
-                // room={x.room}
-                // roomers={x.roomers}
-                // vote={x.vote}
-                // comments={x.comments}
+    const myPosts = posts.map(x=>{
+        return(
+           <Post 
+                key={x._id}
+                // post={x}
+                desc={x.desc}
+                img={x.photo}
+                date={x.createdAt}
+                userId={x.userId}
+                room={x.room}
+                roomers={x.roomers}
+                vote={x.likeCount}
+                comments={x.comments}
                 />
-        )
+    )})
     return(
         <>
             <Navbar />
             <div className="feed">
-                {myPosts}
+                <AddPost />
+                {myPosts.length!=0 && myPosts }
             </div>
         </>
     )

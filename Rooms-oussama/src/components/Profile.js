@@ -5,12 +5,15 @@ import { AiFillEdit } from "react-icons/ai"
 import RoomCard from "./RoomCard"
 import Post from "./Post"
 import { Posts, Rooms } from "../dummyData"
+import AddPost from "./AddComment"
 
 export default function Profile() {
-    const userId=5;
+    const [posts, setPosts] = useState([]);
+    const { user } = useContext(AuthContext);
+
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==userId){
+            if(x.roomers[i].id==user._id){
                 return(
                     <RoomCard 
                         key={x.roomId}
@@ -25,7 +28,7 @@ export default function Profile() {
     })
     const roomCards = Rooms1.map(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==userId){
+            if(x.roomers[i].id==user._id){
                 return(
                     <RoomCard 
                         key={x.roomId}
@@ -38,24 +41,34 @@ export default function Profile() {
             }
         }
     })
-    console.log(roomCards)
-    const profilePosts = Posts.map(x=>{
-        if (x.userId==1){
-            return(
-                <Post
-                    key={x.id}
-                    desc={x.desc}
-                    img={x.photo}
-                    date={x.date}
-                    userId={x.userId}
-                    room={x.room}
-                    roomers={x.roomers}
-                    vote={x.vote}
-                    comments={x.comments}
+    
+    useEffect(() => {
+        const fetchPosts = async () => {
+        const res = await axios.get("http://localhost:5000/api/posts/timeline/" + user._id);
+        setPosts(
+            res.data.sort((p1, p2) => {
+              return new Date(p2.createdAt) - new Date(p1.createdAt);
+            })
+        );
+        };
+        fetchPosts();
+    }, [user._id]);
+    const myPosts = posts.map(x=>{
+        return(
+           <Post 
+                key={x._id}
+                // post={x}
+                desc={x.desc}
+                img={x.photo}
+                date={x.createdAt}
+                userId={x.userId}
+                room={x.room}
+                roomers={x.roomers}
+                vote={x.likeCount}
+                comments={x.comments}
                 />
-            )
-        }
-    })
+    )})
+
     return(
         <div className="profile">
             <Navbar />
@@ -92,7 +105,8 @@ export default function Profile() {
                     : <div><button className="allrooms-button">See new Rooms</button></div>
                 }
             </div>
-            {profilePosts}
+            <AddPost />
+            {myPosts}
         </div>
     )
 } 

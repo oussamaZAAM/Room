@@ -13,7 +13,6 @@ export default function Login() {
         loginCall({email: email.current.value, password: password.current.value}, dispatch);
 
     }
-    console.log(user)
 
     return(
         <main>
@@ -22,7 +21,7 @@ export default function Login() {
                 <div> 
                     <form className="login-form">
                         <input className="login-input" placeholder="Email Adress" ref={email}/>
-                        <input className="login-input" placeholder="Password" ref={password} />
+                        <input className="login-input" type="password" placeholder="Password" ref={password} />
                         <input className="login-submit" value="Login" type="submit" onClick={handleLogin}/>
                     </form>
                     <h5 className="login-suggest">Don’t have an account? <span><Link to="../Register">Register</Link></span></h5>

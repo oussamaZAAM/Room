@@ -60,7 +60,7 @@ export default function Comment(props) {
             </div>
             <div className="comment-content">
                 <div className="comment-header">
-                    <h5>{userName(props.userId)}</h5>
+                    <h5>{props.userId}</h5>
                     <div className="comment-like">
                         {isLiked 
                             ? <AiFillLike className="comment-like" onClick={upvote}/> 

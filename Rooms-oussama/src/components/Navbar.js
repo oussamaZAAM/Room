@@ -22,21 +22,21 @@ export default function Navbar() {
                 <li className="navbar-li">
                     <input className="navbar-search" placeholder="Search Rooms..." />
                 </li>
+                <li className="navbar-li"></li>
+                <li className="navbar-li"></li>
                 <li className="navbar-li">
                     <div className="navbar-notice">
                         <AiFillMessage />
                         <MdNotificationsActive />
                     </div>
                 </li>
-                <li className="navbar-li">
-                    <Link to="../Profile">
-                      <div className="navbar-user">
-                        <img className="profileimage" src={profileimage} />
-                        <p>{user.username}</p>
-                      </div>
+                <li className="dropdown">
+                    <img className="profileimage" src={profileimage} />
+                    <Link  className="navbar-username" to="../Profile">
+                      <p>{user.username}</p>
                     </Link>
+                    <button className="logout" onClick={handleLogout}>Log Out</button>
                 </li>
-                <button onClick={handleLogout}>Log Out</button>
             </ul>
         </div>
   )

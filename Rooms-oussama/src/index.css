@@ -458,8 +458,6 @@ code {
 .add-submit{
   display: flex;
   justify-content: center;
-}
-.add-submit button{
   border-radius: 10px;
   background-color: #B2FFDA;
   padding: 1% 5%;

@@ -10,6 +10,7 @@ export default function Navbar() {
   const {user, isFetching, error, dispatch} = useContext(AuthContext)
   function handleLogout() {
     dispatch({ type: "LOGIN_SUCCESS", payload: null});
+    localStorage.removeItem("user")
   }
   return(
         <div className="navbar">

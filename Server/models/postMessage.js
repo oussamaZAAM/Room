@@ -18,7 +18,10 @@ const postSchema = new mongoose.Schema({
     }, 
     room: String,
     comments: Array,
-    roomers: Number,
+    roomers: {
+        type: Number,
+        default: 0
+    },
     vote: Number,
 });
 

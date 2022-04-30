@@ -5,15 +5,38 @@ import cors from 'cors';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
 import dotenv from "dotenv"
+import multer from "multer"
+import path from "path";
+import {fileURLToPath} from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const app = express();
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+
 app.use(bodyParser.json({limit: "30mb", extended: true}));
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors());
 
-
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "public/images");
+    },
+    filename: (req, file, cb) => {
+      cb(null, req.body.name);
+    },
+  });
+  const upload = multer({ storage: storage });
+  app.post("/api/upload", upload.single("file"), (req, res) => {
+    try {
+      return res.status(200).json("File uploded successfully");
+    } catch (error) {
+      console.error(error);
+    }
+  });
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
 

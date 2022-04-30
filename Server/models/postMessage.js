@@ -4,7 +4,9 @@ const postSchema = new mongoose.Schema({
     title: String,
     desc: String,
     userId: String,
-    photo: String,
+    photo: {
+        type: String,
+      },
     selectedFile: String,
     likeCount: {
         type: Number,

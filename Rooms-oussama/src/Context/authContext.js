@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react"
 import AuthReducer from "./authReducer"
 
 const INITIAL_STATE = {
-    user: null,
+    user: localStorage.getItem('user'),
     isFetching: false,
     error: false,
 }

@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/authContext";
 
 export default function Navbar() {
-  const { user } = useContext(AuthContext);
+  const {user, isFetching, error, dispatch} = useContext(AuthContext)
   function handleLogout() {
-    // Ila 9derti tgad log out
+    dispatch({ type: "LOGIN_SUCCESS", payload: null});
   }
   return(
         <div className="navbar">

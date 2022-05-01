@@ -10,7 +10,7 @@ export default function AddPost() {
     const [file, setFile] = useState(null);
 
     const handlePost = async (e) => {
-         //e.preventDefault();
+         e.preventDefault();
         const post = {desc:desc.current.value, userId:user._id}
         if (file) {
             const data = new FormData();
@@ -38,6 +38,7 @@ export default function AddPost() {
             <form>
             <div className="add-post">
                 <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" />
+
                 <input className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
                 <label>
                 <BsCardImage />

@@ -57,14 +57,15 @@ export default function Profile() {
             data.append("name", fileName);
             data.append("file", profPic);
             console.log(fileName);
-            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
-            localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
-            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
+            
             try {
               await axios.post("http://localhost:5000/api/upload", data);
             } catch (err) {
                 console.log(err)
             }
+            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
+            localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
           }
         }
         changeProfPic();
@@ -75,14 +76,15 @@ export default function Profile() {
             data.append("name", fileName);
             data.append("file", coverPic);
             console.log(fileName);
-            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, cover:fileName}});
-            localStorage.setItem("user", JSON.stringify({...user,cover:fileName}));
-            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, cover:fileName})
+            
             try {
               await axios.post("http://localhost:5000/api/upload", data);
             } catch (err) {
                 console.log(err)
             }
+            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, cover:fileName}});
+            localStorage.setItem("user", JSON.stringify({...user,cover:fileName}));
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, cover:fileName})
           }
         }
         changeCoverPic();

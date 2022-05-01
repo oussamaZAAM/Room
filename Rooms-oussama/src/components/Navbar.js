@@ -32,7 +32,7 @@ export default function Navbar() {
                     </div>
                 </li>
                 <li className="dropdown">
-                    <img className="profileimage" src={profileimage} />
+                    <img className="profileimage" src={"http://localhost:5000/images/" +user.picture} />
                     <Link  className="navbar-username" to="../Profile">
                       <p>{user.username}</p>
                     </Link>

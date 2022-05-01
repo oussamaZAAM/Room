@@ -65,11 +65,6 @@ export default function Comment(props) {
             setIsDisliked(prevClick=>!prevClick);
         }
     }
-    function handleUser(id) {
-        props.handleUserId(id)
-    }
-
-    
     return(
         <div className="comment-grid">
             <div>
@@ -77,7 +72,7 @@ export default function Comment(props) {
             </div>
             <div className="comment-content">
                 <div className="comment-header">
-                    <Link to={"../otherprofile"}> <h5 onClick={props.handleUserId}>{userName(props.userId)}</h5></Link>
+                    <Link to={"../"+props.userId}> <h5>{userName(props.userId)}</h5></Link>
                     <div className="comment-like">
                         {isLiked 
                             ? <AiFillLike className="comment-like" onClick={upvote}/> 

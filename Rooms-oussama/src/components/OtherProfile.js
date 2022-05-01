@@ -94,10 +94,8 @@ export default function OtherProfile(props) {
                 roomers={x.roomers}
                 vote={x.likeCount}
                 comments={x.comments}
-                handleUserId={props.handleUserId}
                 />
     )})
-
     return(
         <div className="profile">
             <Navbar />

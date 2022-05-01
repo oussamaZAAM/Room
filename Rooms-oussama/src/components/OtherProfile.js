@@ -9,13 +9,40 @@ import axios from "axios"
 import { AuthContext } from "../Context/authContext"
 import AddPost from "./AddPost"
 
-export default function Profile() {
+export default function OtherProfile(props) {
+    const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
-    const { user } = useContext(AuthContext);
+
+    function userName(thisId) {
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].username)
+            }
+        }
+    }
+    function userImg(thisId) {
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].profilePicture)
+            }
+        }
+    }
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+        const res = await axios.get("http://localhost:5000/api/user/allusers");
+        setUsers(
+            res.data.sort((p1, p2) => {
+              return new Date(p2.createdAt) - new Date(p1.createdAt);
+            })
+        );
+        };
+        fetchUsers();
+    }, []);
 
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==user._id){
+            if(x.roomers[i].id==props.userId){
                 return(
                     <RoomCard 
                         img={x.roomImg}
@@ -29,7 +56,7 @@ export default function Profile() {
     })
     const roomCards = Rooms1.map(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==user._id){
+            if(x.roomers[i].id==props.userId){
                 return(
                     <RoomCard 
                         key={x.roomId}
@@ -45,7 +72,7 @@ export default function Profile() {
     
     useEffect(() => {
         const fetchPosts = async () => {
-        const res = await axios.get("http://localhost:5000/api/posts/timeline/" + user._id);
+        const res = await axios.get("http://localhost:5000/api/posts/timeline/" + props.userId);
         setPosts(
             res.data.sort((p1, p2) => {
               return new Date(p2.createdAt) - new Date(p1.createdAt);
@@ -53,8 +80,8 @@ export default function Profile() {
         );
         };
         fetchPosts();
-    }, [user._id]);
-    const myPosts = posts.map(x=>{
+    }, [props.userId]);
+    const otherPosts = posts.map(x=>{
         return(
            <Post 
                 key={x._id}
@@ -67,6 +94,7 @@ export default function Profile() {
                 roomers={x.roomers}
                 vote={x.likeCount}
                 comments={x.comments}
+                handleUserId={props.handleUserId}
                 />
     )})
 
@@ -81,7 +109,7 @@ export default function Profile() {
                     <AiFillEdit className="profile-pic-edit"/>
                 </div>
                 <div className="profile-name">
-                    <h1>{user.username}</h1>
+                    <h1>{userName(props.userId)}</h1>
                 </div>
                 <div className="profile-desc">
                     <p>
@@ -106,8 +134,7 @@ export default function Profile() {
                     : <div><button className="allrooms-button">See new Rooms</button></div>
                 }
             </div>
-            <AddPost />
-            {myPosts}
+            {otherPosts}
         </div>
     )
 } 

@@ -2,7 +2,7 @@ import React from "react";
 import profileimage from "../images/profile.png"
 import {BsCardImage} from "react-icons/bs"
 
-export default function AddPost() {
+export default function AddComment() {
     return(
         <form className="comment-add">
             <div className="add-comment-title">
@@ -14,8 +14,8 @@ export default function AddPost() {
                     <textarea className="add-comment-textarea" placeholder="New Comment" />
                 </div>
             </div>
-            <div className="add-submit">
-                <button>Post</button>
+            <div className="div-submit">
+                <button className="add-submit">Post</button>
             </div>
         </form>
     )

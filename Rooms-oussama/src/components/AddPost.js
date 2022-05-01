@@ -32,8 +32,9 @@ export default function AddPost() {
                 {/* </div> */}
                 <button className="add-image"><BsCardImage /></button>
             </div>
+            <div className="div-submit">
             <input className="add-submit" value="post" type="submit" onClick={handlePost}/>
-
+            </div>
             </form>
         </div>
     )

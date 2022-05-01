@@ -50,7 +50,6 @@ export default function Post(props) {
             }
         }
     }
-    //katgad date
 
     const comments = props.comments.map(x=>
         <Comment 
@@ -59,6 +58,7 @@ export default function Post(props) {
             content={x.content}
             vote={x.vote}
             date={x.date}
+            handleUserId={()=>props.handleUserId(x.userId)}
         />
     )
     
@@ -150,7 +150,7 @@ export default function Post(props) {
                             : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
                         }
                     </div>
-                    <div onClick={props.comments.length!=0 && handlecomment}>
+                    <div onClick={handlecomment}>
                         <div style={{cursor: "pointer"}} className="hover-background">
                             <BiComment />
                             <small style={{marginLeft:"5px"}}> comments</small>
@@ -166,11 +166,11 @@ export default function Post(props) {
             </div>
             {comment && 
               <div className="comment">
-                {props.comments.length!=0 && 
-                    <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
-                }
+                <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
                 <AddComment />
-                {comments}
+                {props.comments.length!=0 && 
+                    comments
+                }
               </div>
             }
         </div>

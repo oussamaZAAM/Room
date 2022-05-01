@@ -456,11 +456,15 @@ code {
   display: flex;
 }
 .add-submit{
-  display: flex;
-  justify-content: center;
   border-radius: 10px;
   background-color: #B2FFDA;
   padding: 1% 5%;
+}
+.div-submit{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .add-comment-textarea{
   border-radius: 9px;

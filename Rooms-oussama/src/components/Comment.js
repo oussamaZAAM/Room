@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike} from "react-icons/ai"
 import axios from "axios"
+import { Link } from "react-router-dom";
 
 export default function Comment(props) {
     const [users, setUsers] = useState([]);
@@ -34,7 +35,6 @@ export default function Comment(props) {
         };
         fetchUsers();
     }, []);
-    console.log(users)
     function upvote() {
         if(!isDisliked){
             if(!isLiked) {
@@ -65,7 +65,6 @@ export default function Comment(props) {
             setIsDisliked(prevClick=>!prevClick);
         }
     }
-
     return(
         <div className="comment-grid">
             <div>
@@ -73,7 +72,7 @@ export default function Comment(props) {
             </div>
             <div className="comment-content">
                 <div className="comment-header">
-                    <h5>{userName(props.userId)}</h5>
+                    <Link to={"../"+props.userId}> <h5>{userName(props.userId)}</h5></Link>
                     <div className="comment-like">
                         {isLiked 
                             ? <AiFillLike className="comment-like" onClick={upvote}/> 

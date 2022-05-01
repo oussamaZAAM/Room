@@ -102,9 +102,9 @@ code {
   height: 50px;
 }
 .navbar-list{
-  display: grid;
+  display: flex;
+  justify-content: space-evenly;
   grid-gap: 10px; /* size of the line between cells */
-  grid-template-columns: 1fr 2fr 0.5fr 0.5fr 0.25fr;
   flex-direction: row;
   overflow: hidden;
   background: #FFFFFF;
@@ -125,7 +125,6 @@ code {
   align-items: center;
   grid-template-columns: 0.5fr 0.5fr;
   background: #B2FFDA;
-  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 35px;
   font-style: normal;
   font-weight: 700;
@@ -148,7 +147,32 @@ code {
   grid-template-columns: 0.6fr 5fr 0.5fr;
   align-items: center;
 }
+.dropdown{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  background: #B2FFDA;
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 35px;
+  margin-right: 5%;
+}
 
+.navbar-username{
+  text-decoration: none;
+  color: #000000;
+  font-weight: 700;
+  cursor: pointer;
+}
+.logout:hover {cursor: pointer;}
+.logout{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 1px solid;
+}
 .text-button{
   border: none;
   background:none; 
@@ -432,11 +456,15 @@ code {
   display: flex;
 }
 .add-submit{
-  display: flex;
-  justify-content: center;
   border-radius: 10px;
   background-color: #B2FFDA;
   padding: 1% 5%;
+}
+.div-submit{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .add-comment-textarea{
   border-radius: 9px;

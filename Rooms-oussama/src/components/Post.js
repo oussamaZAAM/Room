@@ -1,16 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import profileimage from "../images/profile.png"
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose} from "react-icons/ai"
 import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
 import Comment from "./Comment";
 import { AuthContext } from "../Context/authContext";
-import { Users } from "../dummyData";
 import AddComment from "./AddComment";
+import axios from "axios";
 
 
 
 export default function Post(props) {
+    const [users, setUsers] = useState([]);
     const [vote, setVote] = useState(props.vote);
     const [isLiked, setIsLike] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
@@ -54,7 +55,6 @@ export default function Post(props) {
             }
         }
     }
-    //katgad date
 
     const comments = props.comments.map(x=>
         <Comment 
@@ -67,19 +67,32 @@ export default function Post(props) {
     )
     
     function userName(thisId) {
-        for (let i=0;i<Users.length;i++){
-            if(Users[i].id==thisId){
-                return(Users[i].username)
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].username)
             }
         }
     }
     function userImg(thisId) {
-        for (let i=0;i<Users.length;i++){
-            if(Users[i].id==thisId){
-                return(Users[i].profilePicture)
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].profilePicture)
             }
         }
     }
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+        const res = await axios.get("http://localhost:5000/api/user/allusers");
+        setUsers(
+            res.data.sort((p1, p2) => {
+              return new Date(p2.createdAt) - new Date(p1.createdAt);
+            })
+        );
+        };
+        fetchUsers();
+    }, []);
+
     function upvote() {
         if(!isDisliked){
             if(!isLiked) {
@@ -122,7 +135,7 @@ export default function Post(props) {
             <div className="post-grid">
                 <img className="profileimage" src={profileimage} />
                 <div className="post-room-name">
-                    <h5><b>{props.room} -</b> <small>{user.username}</small></h5>
+                    <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
                     <p><small>{dateStr}</small></p>
                 </div>
                 <button className="text-button"><h3>...</h3></button>
@@ -154,7 +167,7 @@ export default function Post(props) {
                             : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
                         }
                     </div>
-                    <div onClick={props.comments.length!=0 && handlecomment}>
+                    <div onClick={handlecomment}>
                         <div style={{cursor: "pointer"}} className="hover-background">
                             <BiComment />
                             <small style={{marginLeft:"5px"}}> comments</small>
@@ -170,11 +183,11 @@ export default function Post(props) {
             </div>
             {comment && 
               <div className="comment">
-                {props.comments.length!=0 && 
-                    <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
-                }
+                <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
                 <AddComment />
-                {comments}
+                {props.comments.length!=0 && 
+                    comments
+                }
               </div>
             }
         </div>

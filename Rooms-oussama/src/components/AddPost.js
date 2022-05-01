@@ -46,8 +46,9 @@ export default function AddPost() {
                 </label>
                 
             </div>
-            <input className="add-submit" value="post" type="submit" onClick={e=>handlePost(e)}/>
-
+            <div className="div-submit">
+            <input className="add-submit" value="post" type="submit" onClick={handlePost}/>
+            </div>
             </form>
         </div>
     )

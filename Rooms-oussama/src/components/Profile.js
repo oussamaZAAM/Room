@@ -1,24 +1,41 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import Navbar from "./Navbar"
-import { AiFillEdit } from "react-icons/ai"
+import { AiFillEdit, AiOutlineClose } from "react-icons/ai"
 import RoomCard from "./RoomCard"
 import Post from "./Post"
 import { Posts, Rooms } from "../dummyData"
 import axios from "axios"
 import { AuthContext } from "../Context/authContext"
 import AddPost from "./AddPost"
+import Modal from 'react-modal';
+import { BsCardImage } from "react-icons/bs"
 
 export default function Profile() {
     const [posts, setPosts] = useState([]);
     const { user, dispatch } = useContext(AuthContext);
     const [profPic, setProfPic] = useState(null);
     const [coverPic, setCoverPic] = useState(null);
+    const desc = useRef();
 
     
-       
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
        
            
-   
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
             if(x.roomers[i].id==user._id){
@@ -117,23 +134,63 @@ export default function Profile() {
     return(
         <div className="profile">
             <Navbar />
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                contentLabel="Example Modal"
+            >
+                <div className="profile-modal">
+                    <div className="modal-close">
+                        <AiOutlineClose onClick={closeModal} className="modal-close-btn" />
+                    </div>
+                    <div className="modal-form"> 
+                        <div className="flex-row">
+                            <h3 style={{width: "200px"}}>Profile :</h3>
+                            <img src={"http://localhost:5000/images/" +user.picture} width="100px"/>
+                            <label>
+                                <BsCardImage className="upload-image"/>
+                                <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
+                            </label>
+                        </div>
+                        <div className="flex-row">
+                            <h3 style={{width: "200px"}}>Cover :</h3>
+                            <img src={"http://localhost:5000/images/" +user.cover} width="100px" />
+                            <label>
+                                <BsCardImage className="upload-image"/>
+                                <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
+                            </label>
+                        </div>
+                    </div>
+                    <h2>Edit Profile</h2>
+                    <form className="modal-form">
+                        <div className="flex-row">
+                            <h3 style={{width: "200px"}}>Username :</h3>
+                            <input className="login-input" placeholder={user.username} />
+                        </div>
+                        <div className="flex-row">
+                            <h3 style={{width: "200px"}}>Email :</h3>
+                            <input className="login-input" placeholder={user.email} />
+                        </div>
+                        <div className="flex-row">
+                            <h3 style={{width: "200px"}}>Password :</h3>
+                            <input className="login-input" placeholder="Password" />
+                        </div>
+                        <div className="flex-row">
+                            <h3 style={{width: "250px"}}>Description :</h3>
+                            <input className="login-textarea" type="textarea" placeholder="Description" ref={desc}/>
+                        </div>
+                        <input type="submit" className="add-submit" />
+                    </form>
+                </div>
+            </Modal>
             <div className="profile-card">
                 <div className="profile-images">
-                    <label>
-                    <AiFillEdit className="profile-pic-edit"/>
-                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
-                    </label>
                     <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} />
                     <img className="profile-pic" src={"http://localhost:5000/images/" +user.picture} />
-                    
-                    <label>
-                    <AiFillEdit className="profile-pic-edit"/>
-                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
-                    </label>
                 </div>
                 <div className="profile-name">
                     <h1>{user.username}</h1>
-                    <AiFillEdit className="profile-pic-edit"/>
                 </div>
                 <div className="profile-desc">
                     {user.desc 
@@ -146,6 +203,9 @@ export default function Profile() {
                           </div> 
                     }
                 </div>
+                <label>
+                    <AiFillEdit onClick={openModal} className="profile-pic-edit"/>
+                </label>
             </div>
             <div className="profile-rooms">
                 <h1 className="rooms-title">Rooms</h1>

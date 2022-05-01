@@ -20,7 +20,7 @@ export default function Post(props) {
 
 
 
-    const d1 = new Date();
+    const d1 = Date.now();
     const d2 = new Date(props.date);
     var diff= Math.abs(d1-d2);
     var date = 0;
@@ -45,10 +45,8 @@ export default function Post(props) {
                         date = diff/(1000*60)
                         dateStr = Math.floor(date).toString() + " min"
                     } else {
-                        if(diff >= (1000)){
-                            date = diff/(1000)
-                            dateStr = Math.floor(date).toString() + " s"
-                        }
+                        date = diff/(1000)
+                        dateStr = Math.floor(date).toString() + " s"
                     }
                 }
             }

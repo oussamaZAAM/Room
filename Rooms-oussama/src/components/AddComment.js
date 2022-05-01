@@ -13,7 +13,7 @@ export default function AddComment() {
                 <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" />
                 <div className="add-comment-text">
                     <textarea className="add-comment-textarea" placeholder="New Comment" />
-                </div>
+                </div> 
             </div>
             <div className="div-submit">
                 <button className="add-submit">Post</button>

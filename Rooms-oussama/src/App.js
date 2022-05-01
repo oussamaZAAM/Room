@@ -9,7 +9,7 @@ import OtherProfile from "./components/OtherProfile"
 
 
 export default function App() {
-  const [userId,setUserId] = useState("62684b4f6310e9c80ab3f35a");
+  const [userId,setUserId] = useState("");
   console.log(userId)
   const {user} = useContext(AuthContext);
 
@@ -25,9 +25,11 @@ export default function App() {
           <Route path="/register" element={user ? <Feed /> : <Register />} />
           <Route path="/" element={user ? <Feed /> : <Login />} />
           <Route path="/profile" element={user ? <Profile /> : <Login />} />
-          <Route path="/otherprofile" element={user ? <OtherProfile userId={userId} handleUserId={handleUserId} /> : <Login />} />
+          <Route path="/otherprofile" element={user 
+              ? <OtherProfile userId={userId} handleUserId={()=>handleUserId("62684b4f6310e9c80ab3f35a")} /> 
+              : <Login />} />
           {/* Hadchi ba9i mkhwer */}
-          
+
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

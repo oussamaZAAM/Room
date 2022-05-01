@@ -44,6 +44,7 @@ export default function AddPost() {
                     <BsCardImage className="upload-image"/>
                     <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setFile(e.target.files[0])}/>
                     </label>
+                    {file && <img src={"http://localhost:5000/images/" + file.name} />} 
                 </div>
                 
             </div>

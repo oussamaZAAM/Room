@@ -23,7 +23,21 @@ export default function OtherProfile(props) {
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
-                return(users[i].profilePicture)
+                return(users[i].picture)
+            }
+        }
+    }
+    function userCover(thisId) {
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].cover)
+            }
+        }
+    }
+    function userDesc(thisId) {
+        for (let i=0;i<users.length;i++){
+            if(users[i]._id==thisId){
+                return(users[i].desc)
             }
         }
     }
@@ -101,22 +115,14 @@ export default function OtherProfile(props) {
             <Navbar />
             <div className="profile-card">
                 <div className="profile-images">
-                    <AiFillEdit className="profile-cover-edit"/>
-                    <img className="profile-cover" src={cover} />
-                    <img className="profile-pic" src={cover} />
-                    <AiFillEdit className="profile-pic-edit"/>
+                    <img className="profile-cover" src={"http://localhost:5000/images/" + userCover(props.userId)} />
+                    <img className="profile-pic" src={"http://localhost:5000/images/" + userImg(props.userId)} />
                 </div>
                 <div className="profile-name">
                     <h1>{userName(props.userId)}</h1>
                 </div>
                 <div className="profile-desc">
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Fusce justo elit, volutpat sit amet cursus non, convallis vel nibh. 
-                    Suspendisse potenti. 
-                    Sed accumsan sapien faucibus metus pellentesque, sit amet accumsan diam imperdiet. 
-                    Morbi eget nisl tempus, molestie est vel, vehicula lorem. Nulla facilisi.
-                    </p>
+                    <p>{userDesc(props.userId)}</p>
                 </div>
             </div>
             <div className="profile-rooms">

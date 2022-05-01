@@ -1,5 +1,4 @@
 import React, {useRef, useContext, useState} from "react";
-import profileimage from "../images/profile.png"
 import {BsCardImage} from "react-icons/bs"
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
@@ -38,7 +37,7 @@ export default function AddPost() {
             </div>
             <form>
             <div className="add-post">
-                <img src={profileimage} className="profileimage" />
+                <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" />
                 <input className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
                 <label>
                 <BsCardImage />

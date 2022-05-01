@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import profileimage from "../images/profile.png"
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose} from "react-icons/ai"
 import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
@@ -76,7 +75,7 @@ export default function Post(props) {
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
-                return(users[i].profilePicture)
+                return(users[i].picture)
             }
         }
     }
@@ -133,7 +132,7 @@ export default function Post(props) {
     return(
         <div className="post">
             <div className="post-grid">
-                <img className="profileimage" src={profileimage} />
+                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
                 <div className="post-room-name">
                     <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
                     <p><small>{dateStr}</small></p>

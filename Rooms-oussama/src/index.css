@@ -330,6 +330,11 @@ code {
   margin-right: -10%;
   z-index: 0;
 }
+.edit-desc{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .profile-room-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -337,6 +342,12 @@ code {
 }
 .profile-col{
   flex: 2;
+}
+.profile-name{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
 }
 .profile-rooms{
   max-width: 600px;

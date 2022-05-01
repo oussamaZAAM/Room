@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import Navbar from "./Navbar"
-import cover from "../images/post1.jpg"
 import { AiFillEdit } from "react-icons/ai"
 import RoomCard from "./RoomCard"
 import Post from "./Post"
@@ -132,15 +131,18 @@ export default function Profile() {
                 </div>
                 <div className="profile-name">
                     <h1>{user.username}</h1>
+                    <AiFillEdit className="profile-pic-edit"/>
                 </div>
                 <div className="profile-desc">
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Fusce justo elit, volutpat sit amet cursus non, convallis vel nibh. 
-                    Suspendisse potenti. 
-                    Sed accumsan sapien faucibus metus pellentesque, sit amet accumsan diam imperdiet. 
-                    Morbi eget nisl tempus, molestie est vel, vehicula lorem. Nulla facilisi.
-                    </p>
+                    {user.desc 
+                        ? <div className="edit-desc">
+                            <p>{user.desc}</p>
+                            <AiFillEdit className="profile-pic-edit"/>
+                          </div>
+                        : <div className="div-submit" style={{marginBottom: "10px"}}>
+                            <button className="add-submit"><b>Add Description</b></button>
+                          </div> 
+                    }
                 </div>
             </div>
             <div className="profile-rooms">

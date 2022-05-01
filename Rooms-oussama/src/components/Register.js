@@ -24,7 +24,7 @@ export default function Register() {
                  console.log(err)        
             }
         } else {
-            passwordAgain.current.setCustomValidity("Passwords don't match!");
+            rePassword.current.setCustomValidity("Passwords don't match!");
         }
     }
     return(

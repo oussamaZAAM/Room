@@ -8,6 +8,8 @@ import { AuthContext } from "../Context/authContext";
 import { Users } from "../dummyData";
 import AddComment from "./AddComment";
 
+
+
 export default function Post(props) {
     const [vote, setVote] = useState(props.vote);
     const [isLiked, setIsLike] = useState(false);
@@ -15,6 +17,8 @@ export default function Post(props) {
     const [roomers, setRoomers] = useState(props.roomers);
     const [comment, setComment] = useState(false);
     const {user} = useContext(AuthContext)
+
+
 
     const d1 = new Date();
     const d2 = new Date(props.date);
@@ -127,7 +131,7 @@ export default function Post(props) {
                 <p>{props.desc}</p>
             </div>
             <div>
-                {props.img && <img src={props.img} width="100%" />}
+                {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
             </div>
             <div className="post-interact">
                 <div className="post-rating">

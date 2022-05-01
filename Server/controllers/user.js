@@ -10,10 +10,12 @@ export const register = async (req, res) => {
          username:user.username,
          email:user.email,
          password:hashedPassword,
+         picture:user.picture,
+         cover:user.cover,
      });  
     try{
         const cuser = await newUser.save();  
-        
+        console.log(user.picture);
         res.status(201).json(cuser);
     } catch (error) {
          res.status(404).json({ message: error.message });
@@ -52,3 +54,16 @@ export const allUsers = async (req, res) => {
       res.status(500).json(err);
     }
   };
+
+   export const update = async (req, res) => {
+       
+      try {
+        const user = await User.findByIdAndUpdate(req.params.id, {
+          $set: req.body,
+        });
+        res.status(200).json("Account has been updated");
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+    } 
+  ;

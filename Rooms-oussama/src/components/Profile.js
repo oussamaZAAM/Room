@@ -11,8 +11,15 @@ import { AuthContext } from "../Context/authContext"
 
 export default function Profile() {
     const [posts, setPosts] = useState([]);
-    const { user } = useContext(AuthContext);
+    const { user, dispatch } = useContext(AuthContext);
+    const [profPic, setProfPic] = useState(null);
+    const [coverPic, setCoverPic] = useState(null);
 
+    
+       
+       
+           
+   
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
             if(x.roomers[i].id==user._id){
@@ -44,6 +51,42 @@ export default function Profile() {
     })
     
     useEffect(() => {
+        const changeProfPic = async () => {
+        if (profPic) {
+            const data = new FormData();
+            const fileName = Date.now() + profPic.name;
+            data.append("name", fileName);
+            data.append("file", profPic);
+            console.log(fileName);
+            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
+            localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
+            try {
+              await axios.post("http://localhost:5000/api/upload", data);
+            } catch (err) {
+                console.log(err)
+            }
+          }
+        }
+        changeProfPic();
+        const changeCoverPic = async () => {
+        if (coverPic) {
+            const data = new FormData();
+            const fileName = Date.now() + coverPic.name;
+            data.append("name", fileName);
+            data.append("file", coverPic);
+            console.log(fileName);
+            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, cover:fileName}});
+            localStorage.setItem("user", JSON.stringify({...user,cover:fileName}));
+            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, cover:fileName})
+            try {
+              await axios.post("http://localhost:5000/api/upload", data);
+            } catch (err) {
+                console.log(err)
+            }
+          }
+        }
+        changeCoverPic();
         const fetchPosts = async () => {
         const res = await axios.get("http://localhost:5000/api/posts/timeline/" + user._id);
         setPosts(
@@ -53,7 +96,7 @@ export default function Profile() {
         );
         };
         fetchPosts();
-    }, [user._id]);
+    }, [user._id, profPic, coverPic]);
     const myPosts = posts.map(x=>{
         return(
            <Post 
@@ -75,10 +118,17 @@ export default function Profile() {
             <Navbar />
             <div className="profile-card">
                 <div className="profile-images">
-                    <AiFillEdit className="profile-cover-edit"/>
-                    <img className="profile-cover" src={cover} />
-                    <img className="profile-pic" src={cover} />
+                    <label>
                     <AiFillEdit className="profile-pic-edit"/>
+                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
+                    </label>
+                    <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} />
+                    <img className="profile-pic" src={"http://localhost:5000/images/" +user.picture} />
+                    
+                    <label>
+                    <AiFillEdit className="profile-pic-edit"/>
+                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
+                    </label>
                 </div>
                 <div className="profile-name">
                     <h1>{user.username}</h1>

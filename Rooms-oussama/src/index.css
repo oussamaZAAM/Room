@@ -113,8 +113,47 @@ code {
   align-items: center;
 }
 .navbar-li{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   list-style-type: none;
   width: 120%;
+}
+.search-icon{
+  padding: 10px;
+}
+.search-icon:hover{
+  cursor: pointer;
+}
+.search-title{
+  padding: 15px;
+}
+.search-div{
+  border-top: 2px solid black;
+  margin: 15px;
+}
+.searched-user{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 10px;
+}
+.user-propreties{
+  width: 125px;
+}
+.searched-username{
+  padding: 0;
+  font-weight: 700;
+  font-size: 20px;
+}
+.searched-flex{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+.searched-flex:hover{
+  cursor: pointer;
 }
 .navbar-search{
   padding: 10px;
@@ -181,7 +220,6 @@ code {
   background: rgba(255, 255, 255, 0.37);
   box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.25), -4px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  max-width: 50%;
   margin: 2.5% 25%;
 }
 .post-room-name p{
@@ -192,6 +230,12 @@ code {
   height: 50px;
   border-radius: 50%;
 }
+.navbar-profileimage{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
 .post-like{
   padding: 5px;
   margin: 0 5px;
@@ -551,4 +595,65 @@ code {
   border: 1px solid;
   font-size: 20px;
   resize: none;
+}
+.searchimage{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.navbar-link{
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 630px) {
+  .searchimage{
+    display: none;
+  }
+  .navbar-search{
+    display: none;
+  }
+  .add-post{
+    width: 300px;
+  }
+  .add-post-textarea{
+    width: 200px;
+  }
+}
+@media only screen and (max-width: 430px) {
+  
+  .navbar-notice{
+    display: none;
+  }
+  .navbar-logo{
+    width: 45px;
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 330px){
+  .navbar-name{
+    display: none;
+  }
+  .add-post{
+    width: 200px;
+  }
+  .add-post-textarea{
+    width: 100px;
+  }
+  .post{
+    margin: 2.5% 0;
+    width: 200px;
+  }
+  .navbar-profileimage{
+    width: 20px;
+    height: 20px;
+  }
+  .logout{
+    width: 20px;
+    height: 20px;
+    font-size: 6px;
+  }
+  .hidable{
+    display: none;
+  }
 }

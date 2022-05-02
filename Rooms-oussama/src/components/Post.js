@@ -169,13 +169,13 @@ export default function Post(props) {
                     <div onClick={handlecomment}>
                         <div style={{cursor: "pointer"}} className="hover-background">
                             <BiComment />
-                            <small style={{marginLeft:"5px"}}> comments</small>
+                            <small className="hidable" style={{marginLeft:"5px"}}> comments</small>
                         </div>
                     </div>
                     <div className="hover-cursor">
                         <div className="hover-background">
                             <FiShare />
-                            <small style={{marginLeft:"5px"}}>share</small>
+                            <small className="hidable" style={{marginLeft:"5px"}}>share</small>
                         </div>
                     </div>
                 </div>

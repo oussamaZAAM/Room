@@ -6,6 +6,7 @@ import Profile from "./components/Profile"
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/authContext";
 import OtherProfile from "./components/OtherProfile"
+import Searching from "./components/Searching"
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/register" element={user ? <Feed /> : <Register />} />
           <Route path="/" element={user ? <Feed /> : <Login />} />
           <Route path="/profile" element={user ? <Profile /> : <Login />} />
+          <Route path="/test" element={<Searching />} />
           <Route path="/:id" element={user 
               ? <HandleProfile />
               : <Login />} />

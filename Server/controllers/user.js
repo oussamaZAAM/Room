@@ -57,9 +57,26 @@ export const allUsers = async (req, res) => {
   };
 
    export const update = async (req, res) => {
-    const salt = await bcrypt.genSalt(10);
-    const user1 = req.body;
-    const hashedPassword = await bcrypt.hash(user1.password, salt);
+     let samePassword = true;
+     try{
+      const currentUser = await User.findOne({_id: req.body._id} )    
+      console.log(currentUser)
+      samePassword = req.body.password === currentUser.password
+      console.log(samePassword)
+     }catch(error){        
+       res.status(409).json({message: error.message})
+    }
+    console.log(req.body.password)
+    let salt=''
+    let user1={}
+    let hashedPassword = req.body.password
+    console.log(hashedPassword)
+     if(!samePassword){
+       salt = await bcrypt.genSalt(10);
+       user1 = req.body;
+       hashedPassword = await bcrypt.hash(user1.password, salt)
+     }
+     console.log(hashedPassword)
       try {
         const user = await User.findByIdAndUpdate(req.params.id, {
           $set: {...req.body, password:hashedPassword},

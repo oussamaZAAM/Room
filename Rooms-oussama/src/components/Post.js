@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import profileimage from "../images/profile.png"
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose} from "react-icons/ai"
 import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
@@ -21,7 +20,7 @@ export default function Post(props) {
 
 
 
-    const d1 = new Date();
+    const d1 = Date.now();
     const d2 = new Date(props.date);
     var diff= Math.abs(d1-d2);
     var date = 0;
@@ -46,10 +45,8 @@ export default function Post(props) {
                         date = diff/(1000*60)
                         dateStr = Math.floor(date).toString() + " min"
                     } else {
-                        if(diff >= (1000)){
-                            date = diff/(1000)
-                            dateStr = Math.floor(date).toString() + " s"
-                        }
+                        date = diff/(1000)
+                        dateStr = Math.floor(date).toString() + " s"
                     }
                 }
             }
@@ -76,7 +73,7 @@ export default function Post(props) {
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
-                return(users[i].profilePicture)
+                return(users[i].picture)
             }
         }
     }
@@ -133,7 +130,9 @@ export default function Post(props) {
     return(
         <div className="post">
             <div className="post-grid">
-                <img className="profileimage" src={"http://localhost:5000/images/" +user.picture} />
+
+                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+
                 <div className="post-room-name">
                     <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
                     <p><small>{dateStr}</small></p>
@@ -170,13 +169,13 @@ export default function Post(props) {
                     <div onClick={handlecomment}>
                         <div style={{cursor: "pointer"}} className="hover-background">
                             <BiComment />
-                            <small style={{marginLeft:"5px"}}> comments</small>
+                            <small className="hidable" style={{marginLeft:"5px"}}> comments</small>
                         </div>
                     </div>
                     <div className="hover-cursor">
                         <div className="hover-background">
                             <FiShare />
-                            <small style={{marginLeft:"5px"}}>share</small>
+                            <small className="hidable" style={{marginLeft:"5px"}}>share</small>
                         </div>
                     </div>
                 </div>

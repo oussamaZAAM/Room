@@ -1,5 +1,4 @@
 import React, {useRef, useContext, useState} from "react";
-import profileimage from "../images/profile.png"
 import {BsCardImage} from "react-icons/bs"
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
@@ -18,7 +17,6 @@ export default function AddPost() {
             const fileName = Date.now() + file.name;
             data.append("name", fileName);
             data.append("file", file);
-            console.log(fileName);
             post.photo = fileName;
             try {
               await axios.post("http://localhost:5000/api/upload", data);
@@ -38,12 +36,16 @@ export default function AddPost() {
             </div>
             <form>
             <div className="add-post">
-                <img src={"http://localhost:5000/images/" +user.picture} className="profileimage" />
+                <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" />
+
                 <input className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
-                <label>
-                <BsCardImage />
-               <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setFile(e.target.files[0])}/>
-                </label>
+                <div>
+                    <label>
+                    <BsCardImage className="upload-image"/>
+                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setFile(e.target.files[0])}/>
+                    </label>
+                    {file && <img src={"http://localhost:5000/images/" + file.name} />} 
+                </div>
                 
             </div>
             <div className="div-submit">

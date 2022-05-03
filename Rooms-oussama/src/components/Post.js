@@ -22,6 +22,8 @@ export default function Post(props) {
     const [style, setStyle] = useState(hideStyle);
     const [descValue,setDescValue] = useState(props.desc);
     const [description,setDescription] = useState(props.desc);
+    const [likeState, setLikeState] = useState(props.post.likes)
+    const [dislikeState, setDislikeState] = useState(props.post.likes)
     const {user} = useContext(AuthContext);
 
 

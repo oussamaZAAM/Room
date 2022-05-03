@@ -15,6 +15,9 @@ export default function Profile() {
     const { user, dispatch } = useContext(AuthContext);
     const [profPic, setProfPic] = useState(null);
     const [coverPic, setCoverPic] = useState(null);
+    const [profPic1, setProfPic1] = useState("");
+    const [coverPic1, setCoverPic1] = useState("");
+
     const userName = useRef();
     const email = useRef();
     const password = useRef();
@@ -70,9 +73,9 @@ export default function Profile() {
     })
     
     const handleChange = async () => {
-        dispatch({ type: "LOGIN_SUCCESS", payload: {...user, username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}});
-        localStorage.setItem("user", JSON.stringify({...user,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}));
-        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
+        dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}});
+        localStorage.setItem("user", JSON.stringify({...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}));
+        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:profPic1!==""?coverPic1:user.picture,cover:coverPic1!==""?profCov1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
     }
     useEffect(() => {
         const changeProfPic = async () => {
@@ -88,9 +91,10 @@ export default function Profile() {
             } catch (err) {
                 console.log(err)
             }
-            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
-            localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
-            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
+            // dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
+            // localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
+            // await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
+            setProfPic1(fileName)
           }
         }
         changeProfPic();
@@ -107,9 +111,7 @@ export default function Profile() {
             } catch (err) {
                 console.log(err)
             }
-            dispatch({ type: "LOGIN_SUCCESS", payload: {...user, cover:fileName}});
-            localStorage.setItem("user", JSON.stringify({...user,cover:fileName}));
-            await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, cover:fileName})
+            setCoverPic1(fileName)
           }
         }
         changeCoverPic();
@@ -147,6 +149,8 @@ export default function Profile() {
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 contentLabel="Example Modal"
+                ariaHideApp={false}
+
             >
                 <div className="profile-modal">
                     <div className="modal-close">
@@ -155,7 +159,7 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +user.picture} width="100px"/>
+                            <img src={"http://localhost:5000/images/" +profPic1!==""?profPic1:user.picture} width="100px"/>
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
@@ -163,7 +167,7 @@ export default function Profile() {
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Cover :</h3>
-                            <img src={"http://localhost:5000/images/" +user.cover} width="100px" />
+                            <img src={"http://localhost:5000/images/" +coverPic1!==""?coverPic1:user.cover} width="100px" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>

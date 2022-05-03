@@ -37,9 +37,11 @@ export default function Searching(props) {
     }, []);
 
     const allUsers = users.map(x=>{
-        return(x.username.includes(props.userId)?<SearchedUser key={x._id} username={x.username} image={x.picture} />:null )
-    }
-        )
+        return(x.username.includes(props.userId)?
+            <SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
+            :null )
+        }
+    )
 
     return(
         <>

@@ -29,20 +29,26 @@ code {
   mix-blend-mode: multiply;
   box-shadow: -3px 6px 4px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
-  display: grid;
-  grid-gap: 10px; /* size of the line between cells */
-  grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: minmax(min-content, max-content);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
   margin: 10rem; 
   padding: 20px;
 }
-
+.addpost-minipic{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .rooms{
   display: flex;
   justify-content: center;
   align-content: center;
   flex-direction: column;
   text-align: center;
+  padding-right: 10% ;
   border-right: 11px solid #B2FFDA;
 }
 .rooms h1{
@@ -54,7 +60,9 @@ code {
 }
 
 .login-form{
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   margin: 20px 0 0 20px;
 }
@@ -67,6 +75,7 @@ code {
   margin: 10px 10%;
   text-indent: 10px;
   width: 100%;
+  max-width: 250px;
   box-sizing: border-box;
 }
 .login-submit{
@@ -74,7 +83,8 @@ code {
   mix-blend-mode: multiply;
   border-radius: 17px;
   padding: 10px;
-  margin: 10px 10% 0 30%;
+  width: 100%;
+  max-width: 150px;
 }
 .login-suggest{
   font-weight: 300;
@@ -198,7 +208,7 @@ code {
   margin-right: 5%;
 }
 
-.navbar-username{
+.link-username{
   text-decoration: none;
   color: #000000;
   font-weight: 700;
@@ -605,6 +615,11 @@ code {
   align-items: center;
 }
 
+@media only screen and (max-width: 1000px) {
+  .rooms{
+    display: none;
+  }
+}
 @media only screen and (max-width: 630px) {
   .searchimage{
     display: none;

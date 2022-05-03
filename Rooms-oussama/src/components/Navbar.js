@@ -54,7 +54,7 @@ export default function Navbar() {
                     </div>
                 </li>
                 <li className="dropdown">
-                    <Link  className="navbar-username" to="../Profile">
+                    <Link  className="link-username" to="../Profile">
                       <div className="navbar-link">
                         <img className="navbar-profileimage" src={"http://localhost:5000/images/" + user.picture} />
                         <p className="navbar-name">{user.username}</p>

@@ -1,13 +1,14 @@
 import React from "react";
 import { MdAdd, MdRemove } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function SearchedUser(props) {
     return(
         <div >
             <div className="searched-user">
-                <img src={"http://localhost:5000/images/"+props.image} className="searchimage" />
+                <Link to={"../"+props.id}><img src={"http://localhost:5000/images/"+props.image} className="searchimage" /></Link>
                 <div className="user-propreties">
-                    <b className="searched-username">{props.username}</b>
+                    <Link to={"../"+props.id} className="link-username"><b className="searched-username">{props.username}</b></Link>
                     <p>Friend</p>
                     <small>23 common friends</small>
                 </div>

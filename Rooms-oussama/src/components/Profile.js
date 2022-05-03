@@ -32,10 +32,6 @@ export default function Profile() {
         setIsOpen(true);
     }
 
-    function afterOpenModal() {
-        subtitle.style.color = '#f00';
-    }
-
     function closeModal() {
         setIsOpen(false);
     }
@@ -72,9 +68,9 @@ export default function Profile() {
     })
     
     const handleChange = async () => {
-        dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}});
-        localStorage.setItem("user", JSON.stringify({...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}));
-        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:profPic1!==""?coverPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
+        dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)}});
+        localStorage.setItem("user", JSON.stringify({...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)}));
+        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)})
     }
     useEffect(() => {
         const changeProfPic = async () => {
@@ -83,7 +79,6 @@ export default function Profile() {
             const fileName = Date.now() + profPic.name;
             data.append("name", fileName);
             data.append("file", profPic);
-            console.log(fileName);
             
             try {
               await axios.post("http://localhost:5000/api/upload", data);
@@ -103,14 +98,12 @@ export default function Profile() {
             const fileName = Date.now() + coverPic.name;
             data.append("name", fileName);
             data.append("file", coverPic);
-            console.log(fileName);
             
             try {
               await axios.post("http://localhost:5000/api/upload", data);
             } catch (err) {
                 console.log(err)
             }
-            
             setCoverPic1(fileName)
           }
         }
@@ -146,7 +139,6 @@ export default function Profile() {
             <Navbar />
             <Modal
                 isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 contentLabel="Example Modal"
                 ariaHideApp={false}
@@ -159,7 +151,7 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} width="100px"/>
+                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} className="profileimage" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
@@ -205,7 +197,7 @@ export default function Profile() {
                     <h1>{user.username}</h1>
                 </div>
                 <div className="profile-desc">
-                    {user.desc
+                    {user.desc 
                         ? <div className="edit-desc">
                             <p>{user.desc}</p>
                           </div>

@@ -10,14 +10,14 @@ export default function Searching(props) {
 
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].username)
             }
         }
     }
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].picture)
             }
         }
@@ -37,8 +37,8 @@ export default function Searching(props) {
     }, []);
 
     const searchedUsers = users.map(x=>{
-        return(x.username.includes(props.userId)?
-            <SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
+        return(x.username.toLowerCase().includes(props.userId.toLowerCase())
+            ?<SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
             :null )
         }
     )

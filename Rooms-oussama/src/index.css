@@ -11,6 +11,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #B2FFDA;
+  max-height: 400px;
 }
 
 code {
@@ -438,7 +439,7 @@ code {
   border: 1px solid;
 }
 .flex-row{
-  display: flex;
+  display: flex; 
   flex-direction: row;
   justify-content: space-around;
   align-items: center;

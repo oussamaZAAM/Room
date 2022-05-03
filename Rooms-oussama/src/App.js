@@ -37,7 +37,6 @@ export default function App() {
           <Route path="/register" element={user ? <Feed /> : <Register />} />
           <Route path="/" element={user ? <Feed /> : <Login />} />
           <Route path="/profile" element={user ? <Profile /> : <Login />} />
-          <Route path="/test" element={<Searching />} />
           <Route path="/:id" element={user 
               ? <HandleProfile />
               : <Login />} />

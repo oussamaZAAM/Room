@@ -315,10 +315,12 @@ code {
   border: none;
   width: 85%;
   height: 30px;
+  margin: 10px 0;
 }
 .edit-desc{
   display: flex;
   align-items: center;
+  margin: 0 5px;
 }
 .comment-grid{
   display: grid;

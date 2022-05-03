@@ -11,6 +11,8 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 export default function Post(props) {
+    const showStyle = {display: "flex"}
+    const hideStyle = {display: "none"}
     const [users, setUsers] = useState([]);
     const [vote, setVote] = useState(props.vote);
     const [isLiked, setIsLike] = useState(false);
@@ -19,7 +21,7 @@ export default function Post(props) {
     const [comment, setComment] = useState(false);
     const [editClicked, setEditClicked] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
-    const [style, setStyle] = useState({display: "none"});
+    const [style, setStyle] = useState(hideStyle);
     const [descValue,setDescValue] = useState(props.desc);
     const [description,setDescription] = useState(props.desc);
     const {user} = useContext(AuthContext);
@@ -138,13 +140,14 @@ export default function Post(props) {
     function handleDropwdown() {
         setEditClicked(prev=>!prev);
         if(editClicked){
-            setStyle({display: "flex"})
+            setStyle(showStyle)
         }else{
-            setStyle({display: "none"})
+            setStyle(hideStyle)
         }
     }
     function handleEditTrue() {
         setIsEdit(true)
+        setStyle(hideStyle)
     }
     function handleEditFalse() {
         setIsEdit(false)
@@ -157,6 +160,9 @@ export default function Post(props) {
         setIsEdit(false)
     }
 
+    function handleDeletePost(){
+
+    }
     
     return(
         <>
@@ -174,7 +180,7 @@ export default function Post(props) {
                     <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
                     <div style={style} className="post-edit-buttons">
                         <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
-                        <AiFillDelete style={{cursor: "pointer"}} />
+                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
                     </div>
                 </div>
             </div>

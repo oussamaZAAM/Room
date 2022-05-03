@@ -111,6 +111,7 @@ export default function Profile() {
             } catch (err) {
                 console.log(err)
             }
+            
             setCoverPic1(fileName)
           }
         }

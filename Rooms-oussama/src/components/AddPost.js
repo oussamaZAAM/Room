@@ -15,6 +15,8 @@ export default function AddPost() {
         if (file) {
             const data = new FormData();
             const fileName = Date.now() + file.name;
+            console.log(file.name)
+            console.log(user.picture)
             data.append("name", fileName);
             data.append("file", file);
             post.photo = fileName;

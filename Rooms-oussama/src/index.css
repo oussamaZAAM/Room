@@ -36,7 +36,12 @@ code {
   margin: 10rem; 
   padding: 20px;
 }
-
+.addpost-minipic{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .rooms{
   display: flex;
   justify-content: center;

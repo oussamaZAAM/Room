@@ -36,7 +36,7 @@ export default function Searching(props) {
         fetchUsers();
     }, []);
 
-    const allUsers = users.map(x=>{
+    const searchedUsers = users.map(x=>{
         return(x.username.includes(props.userId)?
             <SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
             :null )
@@ -49,11 +49,11 @@ export default function Searching(props) {
             <div className="post">
                 <h2 className="search-title">People</h2>
                 <div className="search-div">
-                    {allUsers}
+                    {searchedUsers}
                 </div>
                 {/* <h2 className="search-title">Rooms</h2>
                 <div className="search-div">
-                    {allUsers}
+                    {searchedUsers}
                 </div> */}
             </div>
         </>

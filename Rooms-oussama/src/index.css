@@ -448,6 +448,7 @@ code {
   padding: 10px;
   margin-left: 10px;
   border-radius: 9px;
+  margin: 0 35px;
 }
 .upload-image:hover{
   cursor: pointer;

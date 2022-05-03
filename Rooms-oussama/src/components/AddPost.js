@@ -56,15 +56,15 @@ export default function AddPost() {
             </div>
             <form>
             <div className="add-post">
-                <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" />
+                <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" style={{marginRight: "10px"}}/>
 
                 <input className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
-                <div className="addpost-minipic">
+                <div>
                     <label>
                     <BsCardImage className="upload-image"/>
                     <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => handleUpload(e)}/>
                     </label>
-                    {picture!=='' && <img src={"http://localhost:5000/images/" + picture} width="100px" />} 
+                    {picture!=='' && <img src={"http://localhost:5000/images/" + picture} />} 
                 </div>
                 
             </div>

@@ -15,7 +15,9 @@ export default function App() {
   function HandleProfile() {
     let { id } = useParams();
     return (
-      <OtherProfile userId={id} /> 
+      id === user._id 
+        ? <Profile />
+        : <OtherProfile userId={id} /> 
     )
   }
   function HandleSearch() {
@@ -42,7 +44,6 @@ export default function App() {
           <Route path="/search/:id" element={user 
               ? <HandleSearch />
               : <Login />} />
-
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

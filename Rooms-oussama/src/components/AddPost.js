@@ -17,37 +17,27 @@ export default function AddPost() {
         const fileName = Date.now() + pic.name;
         data.append("name", fileName);
         data.append("file", pic);
-        setPicture(fileName)
-        console.log(fileName)
+        
         try {
             await axios.post("http://localhost:5000/api/upload", data);
           } catch (err) {}
+          setPicture(fileName)
+          console.log(fileName)
     }
 
     const handlePost = async (e) => {
-         e.preventDefault();
+        // e.preventDefault();
         const post = {desc:desc.current.value, userId:user._id}
-        if (file) {
-            const data = new FormData();
-            const fileName = Date.now() + file.name;
-            console.log(file.name)
-            console.log(user.picture)
-            data.append("name", fileName);
-            data.append("file", file);
-            post.photo = fileName;
-            try {
-              await axios.post("http://localhost:5000/api/upload", data);
-            } catch (err) {}
-            
+        if (picture!=="") {
             post.photo = picture;
             
-          }
-            try{
-                await axios.post("http://localhost:5000/api/posts",post);
+        }
+        try{
+            await axios.post("http://localhost:5000/api/posts",post);
 
-            }catch(err){
+        }catch(err){
                  console.log(err)        
-            }
+        }
     }
     return(
         <div className="post-add">
@@ -64,7 +54,7 @@ export default function AddPost() {
                     <BsCardImage className="upload-image"/>
                     <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => handleUpload(e)}/>
                     </label>
-                    {picture!=='' && <img src={"http://localhost:5000/images/" + picture} width="100px" />} 
+                    {picture!=='' && <img src={"http://localhost:5000/images/" + picture} width="100px"/>} 
                 </div>
                 
             </div>

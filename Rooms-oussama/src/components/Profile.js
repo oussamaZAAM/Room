@@ -85,9 +85,6 @@ export default function Profile() {
             } catch (err) {
                 console.log(err)
             }
-            // dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:fileName}});
-            // localStorage.setItem("user", JSON.stringify({...user,picture:fileName}));
-            // await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:fileName})
             setProfPic1(fileName)
           }
         }

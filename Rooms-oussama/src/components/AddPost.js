@@ -49,7 +49,7 @@ export default function AddPost() {
                 <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" style={{marginRight: "10px"}}/>
 
                 <input className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
-                <div>
+                <div className="uploadimage">
                     <label>
                     <BsCardImage className="upload-image"/>
                     <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => handleUpload(e)}/>

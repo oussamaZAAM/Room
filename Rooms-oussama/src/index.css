@@ -448,11 +448,15 @@ code {
   padding: 10px;
   margin-left: 10px;
   border-radius: 9px;
-  margin: 0 35px;
+  width: 70px;
 }
 .upload-image:hover{
   cursor: pointer;
   background-color: #B2FFDA;
+}
+.uploadimage{
+  width: 100px;
+  margin-left: 10px;
 }
 .modal-form{
   display: flex;

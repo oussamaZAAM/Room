@@ -223,9 +223,10 @@ code {
   background-color: #FFFFFF;
   border: 1px solid;
 }
-.text-button{
+.dots-button{
   border: none;
-  background:none; 
+  background:none;
+  cursor: pointer;
 }
 .post{
   background: rgba(255, 255, 255, 0.37);
@@ -290,6 +291,34 @@ code {
 }
 .post-desc{
   margin-left: 15px;
+}
+.post-edit{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.post-edit-buttons{
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #B2FFDA;
+  margin-bottom: -72px;
+  z-index: 1;
+}
+.edit-description{
+  border-radius: 5px;
+  border: none;
+  width: 85%;
+  height: 30px;
+}
+.edit-desc{
+  display: flex;
+  align-items: center;
 }
 .comment-grid{
   display: grid;

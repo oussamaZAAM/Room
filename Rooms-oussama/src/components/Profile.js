@@ -15,6 +15,9 @@ export default function Profile() {
     const { user, dispatch } = useContext(AuthContext);
     const [profPic, setProfPic] = useState(null);
     const [coverPic, setCoverPic] = useState(null);
+    const userName = useRef();
+    const email = useRef();
+    const password = useRef();
     const desc = useRef();
 
     
@@ -66,6 +69,11 @@ export default function Profile() {
         }
     })
     
+    const handleChange = async () => {
+        dispatch({ type: "LOGIN_SUCCESS", payload: {...user, username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}});
+        localStorage.setItem("user", JSON.stringify({...user,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}));
+        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
+    }
     useEffect(() => {
         const changeProfPic = async () => {
         if (profPic) {
@@ -166,21 +174,21 @@ export default function Profile() {
                     <form className="modal-form">
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Username :</h3>
-                            <input className="login-input" placeholder={user.username} />
+                            <input className="login-input" placeholder={user.username} ref={userName} />
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Email :</h3>
-                            <input className="login-input" placeholder={user.email} />
+                            <input className="login-input" placeholder={user.email} ref={email} />
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Password :</h3>
-                            <input className="login-input" placeholder="Password" />
+                            <input className="login-input" placeholder="Password" ref={password} />
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "250px"}}>Description :</h3>
                             <input className="login-textarea" type="textarea" placeholder="Description" ref={desc}/>
                         </div>
-                        <input type="submit" className="add-submit" />
+                        <input type="submit" className="add-submit" onClick={handleChange}/>
                     </form>
                 </div>
             </Modal>

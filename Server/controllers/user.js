@@ -9,6 +9,7 @@ export const register = async (req, res) => {
      const newUser = new  User({
          username:user.username,
          email:user.email,
+         desc:user.desc,
          password:hashedPassword,
          picture:user.picture,
          cover:user.cover,
@@ -56,10 +57,12 @@ export const allUsers = async (req, res) => {
   };
 
    export const update = async (req, res) => {
-       
+    const salt = await bcrypt.genSalt(10);
+    const user1 = req.body;
+    const hashedPassword = await bcrypt.hash(user1.password, salt);
       try {
         const user = await User.findByIdAndUpdate(req.params.id, {
-          $set: req.body,
+          $set: {...req.body, password:hashedPassword},
         });
         res.status(200).json("Account has been updated");
       } catch (err) {

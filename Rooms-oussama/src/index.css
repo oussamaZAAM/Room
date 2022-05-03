@@ -394,7 +394,7 @@ code {
   align-content: center;
 }
 .profile-rooms{
-  max-width: 600px;
+  width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -451,7 +451,7 @@ code {
 }
 .rooms-title{
   border-bottom: 1px solid;
-  padding: 5% 35%;
+  padding: 5% 30%;
 }
 .room-card{
   display: flex;
@@ -481,7 +481,6 @@ code {
   align-items: center;
 }
 .how-empty{
-  width: 600px;
   text-align: center;
 } 
 .post-add{
@@ -618,6 +617,12 @@ code {
   }
   .add-post-textarea{
     width: 200px;
+  }
+  .profile-rooms{
+    width: 300px;
+  }
+  .profile-card{
+    width: 300px;
   }
 }
 @media only screen and (max-width: 430px) {

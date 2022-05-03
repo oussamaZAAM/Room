@@ -25,7 +25,7 @@ export default function Profile() {
 
     
     let subtitle;
-    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
 
 
     function openModal() {
@@ -33,7 +33,6 @@ export default function Profile() {
     }
 
     function afterOpenModal() {
-        // references are now sync'd and can be accessed.
         subtitle.style.color = '#f00';
     }
 
@@ -75,7 +74,7 @@ export default function Profile() {
     const handleChange = async () => {
         dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}});
         localStorage.setItem("user", JSON.stringify({...user, picture:profPic1!==""?profPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc}));
-        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:profPic1!==""?coverPic1:user.picture,cover:coverPic1!==""?profCov1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
+        await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:profPic1!==""?coverPic1:user.picture,cover:coverPic1!==""?coverPic1:user.cover,username:userName.current.value!==""?userName.current.value:user.username, email:email.current.value!==""?email.current.value:user.email, password:password.current.value!==""?password.current.value:user.password, desc:desc.current.value!==""?desc.current.value:user.desc})
     }
     useEffect(() => {
         const changeProfPic = async () => {
@@ -160,7 +159,7 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +profPic1!==""?profPic1:user.picture} width="100px"/>
+                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} width="100px"/>
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
@@ -168,7 +167,7 @@ export default function Profile() {
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Cover :</h3>
-                            <img src={"http://localhost:5000/images/" +coverPic1!==""?coverPic1:user.cover} width="100px" />
+                            <img src={"http://localhost:5000/images/" +(coverPic1!==""?coverPic1:user.cover)} width="100px" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
@@ -187,7 +186,7 @@ export default function Profile() {
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Password :</h3>
-                            <input className="login-input" placeholder="Password" ref={password} />
+                            <input className="login-input" type="password" placeholder="Password" ref={password} />
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "250px"}}>Description :</h3>
@@ -206,13 +205,12 @@ export default function Profile() {
                     <h1>{user.username}</h1>
                 </div>
                 <div className="profile-desc">
-                    {user.desc 
+                    {user.desc
                         ? <div className="edit-desc">
                             <p>{user.desc}</p>
-                            <AiFillEdit className="profile-pic-edit"/>
                           </div>
                         : <div className="div-submit" style={{marginBottom: "10px"}}>
-                            <button className="add-submit"><b>Add Description</b></button>
+                            <button onClick={openModal} className="add-submit"><b>Add Description</b></button>
                           </div> 
                     }
                 </div>

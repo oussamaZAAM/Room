@@ -8,6 +8,21 @@ export default function AddPost() {
     const desc = useRef()
     const {user} = useContext(AuthContext)
     const [file, setFile] = useState(null);
+    const [picture, setPicture] = useState('');
+
+    const handleUpload = async (e) => {
+        const pic=e.target.files[0];
+        setFile(e.target.files[0])
+        const data = new FormData();
+        const fileName = Date.now() + pic.name;
+        data.append("name", fileName);
+        data.append("file", pic);
+        setPicture(fileName)
+        console.log(fileName)
+        try {
+            await axios.post("http://localhost:5000/api/upload", data);
+          } catch (err) {}
+    }
 
     const handlePost = async (e) => {
          e.preventDefault();
@@ -23,6 +38,9 @@ export default function AddPost() {
             try {
               await axios.post("http://localhost:5000/api/upload", data);
             } catch (err) {}
+            
+            post.photo = picture;
+            
           }
             try{
                 await axios.post("http://localhost:5000/api/posts",post);
@@ -44,9 +62,9 @@ export default function AddPost() {
                 <div>
                     <label>
                     <BsCardImage className="upload-image"/>
-                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setFile(e.target.files[0])}/>
+                    <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => handleUpload(e)}/>
                     </label>
-                    {file && <img src={"http://localhost:5000/images/" + file.name} />} 
+                    {picture!=='' && <img src={"http://localhost:5000/images/" + picture} width="100px" />} 
                 </div>
                 
             </div>

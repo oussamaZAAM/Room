@@ -22,8 +22,8 @@ export default function Post(props) {
     const [style, setStyle] = useState(hideStyle);
     const [descValue,setDescValue] = useState(props.desc);
     const [description,setDescription] = useState(props.desc);
-    const [likeState, setLikeState] = useState(props.post.likes)
-    const [dislikeState, setDislikeState] = useState(props.post.likes)
+    const [likeState, setLikeState] = useState(props.post.likes);
+    const [dislikeState, setDislikeState] = useState(props.post.likes);
     const {user} = useContext(AuthContext);
 
 
@@ -98,21 +98,21 @@ export default function Post(props) {
         fetchUsers();
     }, []);
 
-    const isLiked = likeState.includes(user.username)?true:false;
-    const isDisliked = dislikeState.includes(user.username)?true:false;
+    const isLiked = (likeState.includes(user.username)?true:false);
+    const isDisliked = (dislikeState.includes(user.username)?true:false);
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer+1);
-                const likes=likeState
+                const likes=likeState;
                 setLikeState(prev=>{
                     prev.push(user.username)
                     return prev
                 })
                 likes.push(user.username)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
-                
+
             }else{
                 setVote(prevVote=>prevVote-1);
                 setRoomers(prevRoomer=>prevRoomer-1);
@@ -148,7 +148,7 @@ export default function Post(props) {
                     return item !== user.username
                 })
             await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
-
+          
         }
     }
     const downvote = async () => {
@@ -182,22 +182,22 @@ export default function Post(props) {
         }else{
             setVote(prevVote=>prevVote-2)
             const dislikes=dislikeState
-                setDislikeState(prev=>{
-                    prev.push(user.username)
-                    return prev
-                })
-                dislikes.push(user.username)
-            const likes=likeState;
-                setLikeState(prev=>{
-                    const list = prev.filter(function(item) {
-                        return item !== user.username
-                    })
-                    return list
-                })
-                dislikes.filter(function(item) {
+            setDislikeState(prev=>{
+                prev.push(user.username)
+                return prev
+            })
+            dislikes.push(user.username)
+        const likes=likeState;
+            setLikeState(prev=>{
+                const list = prev.filter(function(item) {
                     return item !== user.username
                 })
-            await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+                return list
+            })
+            dislikes.filter(function(item) {
+                return item !== user.username
+            })
+        await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
         }
     }
     function handlecomment() {
@@ -223,13 +223,19 @@ export default function Post(props) {
     function handleChange(event) {
         setDescValue(event.target.value)
     }
-    function handleCheck() {
+    const handleCheck = async () => {
         setDescription(descValue)
         setIsEdit(false)
+        await axios.put(
+            `http://localhost:5000/api/posts/${props.id}`,
+            {...props.post, desc: descValue}
+        );
     }
 
-    function handleDeletePost(){
-
+    const handleDeletePost = async () => {
+        await axios.put(
+            `http://localhost:5000/api/posts/${props.id}`,{...props.post, desc: "", photo: ""}
+        )
     }
     
     return(

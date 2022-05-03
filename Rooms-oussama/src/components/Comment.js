@@ -19,7 +19,7 @@ export default function Comment(props) {
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
-                return(users[i].profilePicture)
+                return(users[i].picture)
             }
         }
     }

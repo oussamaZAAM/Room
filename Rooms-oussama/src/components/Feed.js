@@ -26,22 +26,23 @@ export default function Feed() {
         return(
            <Post 
                 key={x._id}
-                // post={x}
+                id={x._id}
                 desc={x.desc}
                 img={x.photo}
                 date={x.createdAt}
                 userId={x.userId}
                 room={x.room}
-                roomers={x.roomers}
-                vote={x.likeCount}
+                like={x.likes}
+                disLike={x.dislikes}
                 comments={x.comments}
+                post={x}
                 />
     )})
     return(
         <>
             <Navbar />
             <div className="feed">
-                <AddPost /> {/* Khasna ngadouha bach machi kola mra nzido post f db */} 
+                <AddPost /> 
                 {myPosts.length!=0 && myPosts }
             </div>
         </>

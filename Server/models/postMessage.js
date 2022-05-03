@@ -6,11 +6,16 @@ const postSchema = new mongoose.Schema({
     userId: String,
     photo: {
         type: String,
+        default:'',
       },
-    selectedFile: String,
-    likeCount: {
-        type: Number,
-        default: 0
+    // selectedFile: String,
+    likes: {
+        type: Array,
+        default: []
+    },
+    dislikes: {
+        type: Array,
+        default: []
     },
     createdAt: {
         type: Date,
@@ -22,7 +27,7 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    vote: Number,
+    // vote: Number,
 });
 
 const PostMessage = mongoose.model('PostMessage', postSchema);

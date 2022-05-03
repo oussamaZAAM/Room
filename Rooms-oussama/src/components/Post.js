@@ -11,11 +11,11 @@ import axios from "axios";
 
 export default function Post(props) {
     const [users, setUsers] = useState([]);
-    const [vote, setVote] = useState(props.vote);
-    const [isLiked, setIsLike] = useState(false);
-    const [isDisliked, setIsDisliked] = useState(false);
-    const [roomers, setRoomers] = useState(props.roomers);
+    const [vote, setVote] = useState(props.like.length-props.disLike.length);
+    const [roomers, setRoomers] = useState(props.like.length+props.disLike.length);
     const [comment, setComment] = useState(false);
+    const [likeState, setLikeState] = useState(props.post.likes)
+    const [dislikeState, setDislikeState] = useState(props.post.likes)
     const {user} = useContext(AuthContext)
 
 
@@ -90,38 +90,106 @@ export default function Post(props) {
         fetchUsers();
     }, []);
 
-    function upvote() {
+    const isLiked = likeState.includes(user.username)?true:false;
+    const isDisliked = dislikeState.includes(user.username)?true:false;
+    const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer+1);
-                setIsLike(prevClick=>!prevClick);
+                const likes=likeState
+                setLikeState(prev=>{
+                    prev.push(user.username)
+                    return prev
+                })
+                likes.push(user.username)
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
+                
             }else{
                 setVote(prevVote=>prevVote-1);
                 setRoomers(prevRoomer=>prevRoomer-1);
-                setIsLike(prevClick=>!prevClick);
+                const likes=likeState;
+                setLikeState(prev=>{
+                    const list = prev.filter(function(item) {
+                        return item !== user.username
+                    })
+                    return list
+                })
+                likes.filter(function(item) {
+                    return item !== user.username
+                })
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
+
             }
         }else{
             setVote(prevVote=>prevVote+2)
-            setIsLike(prevClick=>!prevClick)
-            setIsDisliked(prevClick=>!prevClick);
+            const likes=likeState
+                setLikeState(prev=>{
+                    prev.push(user.username)
+                    return prev
+                })
+                likes.push(user.username)
+            const dislikes=dislikeState;
+                setDislikeState(prev=>{
+                    const list = prev.filter(function(item) {
+                        return item !== user.username
+                    })
+                    return list
+                })
+                likes.filter(function(item) {
+                    return item !== user.username
+                })
+            await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+
         }
     }
-    function downvote() {
+    const downvote = async () => {
         if(!isLiked){
             if(!isDisliked) {
                 setVote(prevVote=>prevVote-1);
                 setRoomers(prevRoomer=>prevRoomer+1);
-                setIsDisliked(prevClick=>!prevClick);
+                const dislikes=dislikeState
+                setDislikeState(prev=>{
+                    prev.push(user.username)
+                    return prev
+                })
+                dislikes.push(user.username)
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
+
             }else{
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer-1);
-                setIsDisliked(prevClick=>!prevClick);
+                const dislikes=dislikeState;
+                setDislikeState(prev=>{
+                    const list = prev.filter(function(item) {
+                        return item !== user.username
+                    })
+                    return list
+                })
+                dislikes.filter(function(item) {
+                    return item !== user.username
+                })
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
             }
         }else{
             setVote(prevVote=>prevVote-2)
-            setIsLike(prevClick=>!prevClick)
-            setIsDisliked(prevClick=>!prevClick);
+            const dislikes=dislikeState
+                setDislikeState(prev=>{
+                    prev.push(user.username)
+                    return prev
+                })
+                dislikes.push(user.username)
+            const likes=likeState;
+                setLikeState(prev=>{
+                    const list = prev.filter(function(item) {
+                        return item !== user.username
+                    })
+                    return list
+                })
+                dislikes.filter(function(item) {
+                    return item !== user.username
+                })
+            await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
         }
     }
     function handlecomment() {

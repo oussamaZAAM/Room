@@ -41,7 +41,7 @@ export default function Navbar() {
                   </li>
                 </Link>
                 <li className="navbar-li">
-                    <Link to="../test"><BsSearch style={style} className="search-icon"/></Link>
+                    <Link to={"/search/"+thisValue}><BsSearch style={style} className="search-icon"/></Link>
                     <input onChange={(e)=>handleShow(e.target.value)} value={thisValue} className="navbar-search" placeholder="Search Rooms..." />
                     <AiOutlineClose style={style} className="search-icon" onClick={handleClear}/>
                 </li>

@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Profile from "./Profile";
 import SearchedUser from "./SearchedUser";
 
-export default function Searching() {
+export default function Searching(props) {
     const [users, setUsers] = useState([]);
 
 
@@ -36,12 +36,9 @@ export default function Searching() {
         fetchUsers();
     }, []);
 
-    const allUsers = users.map(x=>
-            <SearchedUser 
-                key={x._id}
-                username={x.username}
-                image={x.picture}
-            />
+    const allUsers = users.map(x=>{
+        return(x.username.includes(props.userId)?<SearchedUser key={x._id} username={x.username} image={x.picture} />:null )
+    }
         )
 
     return(

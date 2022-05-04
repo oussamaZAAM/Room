@@ -212,7 +212,8 @@ export default function Post(props) {
         }
     }
     function handlecomment() {
-        setComment(prevComment=>!prevComment)
+        // setComment(prevComment=>!prevComment)
+        setComment(true)
     }
 
 
@@ -249,9 +250,6 @@ export default function Post(props) {
     }
     if(!deleted){
     return(
-        
-        <>
-        {(props.desc!=="" || props.img) && 
           <div className="post">
             <div className="post-grid">
 
@@ -332,8 +330,7 @@ export default function Post(props) {
                 }
               </div>
             }
-        </div>}
-        </>
+        </div>
     )
         } else{
             return null

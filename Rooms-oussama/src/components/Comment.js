@@ -285,7 +285,7 @@ export default function Comment(props) {
             {...props.post, comments:edited}
         );
     }
-    const handleDeletePost = async () => {
+    const handleDeleteComment = async () => {
         const edited = props.comments.filter(x=>{
             return (x !== props.comment)
         })
@@ -295,52 +295,53 @@ export default function Comment(props) {
         );
         setDeleted(!deleted);
     }
-
-    return(
-        <div className="comment-grid">
-            <div className="comment-image">
-                <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
-            </div>
-            <div className="comment-content">
-                <div className="comment-header">
-                    <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
-                    <div className="flex-comment">
-                        {user._id === props.userId && 
-                            <div className="post-edit" style={{marginTop: "10px"}}>
-                                <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
-                                <div style={style} className="post-edit-buttons">
-                                    <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
-                                    <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+    if (!deleted){
+        return(
+            <div className="comment-grid">
+                <div className="comment-image">
+                    <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
+                </div>
+                <div className="comment-content">
+                    <div className="comment-header">
+                        <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
+                        <div className="flex-comment">
+                            {user._id === props.userId && 
+                                <div className="post-edit" style={{marginTop: "10px"}}>
+                                    <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                                    <div style={style} className="post-edit-buttons">
+                                        <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeleteComment}/>
+                                    </div>
                                 </div>
+                            }
+                            <div className="comment-like">
+                                {isLiked 
+                                    ? <AiFillLike className="comment-like" onClick={upvote}/> 
+                                    : <AiOutlineLike className="comment-like" onClick={upvote} /> }
+                                <small style={{margin: "10px"}}>{commentVote}</small>
+                                {isDisliked 
+                                    ? <AiFillDislike className="comment-like" onClick={downvote} /> 
+                                    : <AiOutlineDislike className="comment-like" onClick={downvote} />}
                             </div>
-                        }
-                        <div className="comment-like">
-                            {isLiked 
-                                ? <AiFillLike className="comment-like" onClick={upvote}/> 
-                                : <AiOutlineLike className="comment-like" onClick={upvote} /> }
-                            <small style={{margin: "10px"}}>{commentVote}</small>
-                            {isDisliked 
-                                ? <AiFillDislike className="comment-like" onClick={downvote} /> 
-                                : <AiOutlineDislike className="comment-like" onClick={downvote} />}
                         </div>
                     </div>
+                    <small style={{marginLeft: "10px"}}>{dateStr}</small>
+                    <div className="post-desc">
+                    {isEdit && (
+                        <div className="edit-desc">
+                            <textarea 
+                                className="edit-description" 
+                                value={descValue} 
+                                onChange={(event)=>handleChange(event)}
+                            />
+                            <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
+                            <AiOutlineCheck onClick={handleCheck} className="post-like"/>
+                        </div>
+                    )}
+                    {!isEdit && <p className="description-content">{description}</p>}
                 </div>
-                <small style={{marginLeft: "10px"}}>{dateStr}</small>
-                <div className="post-desc">
-                {isEdit && (
-                    <div className="edit-desc">
-                        <textarea 
-                            className="edit-description" 
-                            value={descValue} 
-                            onChange={(event)=>handleChange(event)}
-                        />
-                        <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
-                        <AiOutlineCheck onClick={handleCheck} className="post-like"/>
-                    </div>
-                )}
-                {!isEdit && <p className="description-content">{description}</p>}
+                </div>
             </div>
-            </div>
-        </div>
-    )
+        )
+    }
 }

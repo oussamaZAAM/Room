@@ -81,18 +81,19 @@ export default function Comment(props) {
     }, []);
     const isLiked = likeState.includes(user.username)
     const isDisliked = dislikeState.includes(user.username)
+    const [commentState, setCommentState] = useState(props.comments)
+    const [commentsState, setCommentsState] = useState(props.comments)
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
                 let likes=likeState;
                 setCommentVote(prevVote=>prevVote+1);
                 setLikeState(prev=>{
-                    prev.push(user.username)
+                    if (!prev.includes(user.username)) prev.push(user.username)
                     return prev
                 })
-                likes.push(user.username)
+                if (!likes.includes(user.username)) likes.push(user.username)
                 const edited = props.comments.map(x=>{
-                    console.log(x)
                     if (x === props.comment){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
@@ -122,11 +123,26 @@ export default function Comment(props) {
                     if (x === props.comment){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
-                        )
-                    } else {
-                        return x
-                    }
+                            )
+                        } else {
+                            return x
+                        }
                 })
+                // setCommentState(prev=>{
+                //     return {...prev, likes: likes}
+                // })
+                // setCommentsState(prev=>{
+                //     const edited = prev.map(x=>{
+                //         if (x === commentState){
+                //             return (
+                //                 {...x, likes: likes, dislikes:dislikeState}
+                //                 )
+                //             } else {
+                //                 return x
+                //             }
+                //     })
+                //     return(edited)
+                // })
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
@@ -136,10 +152,10 @@ export default function Comment(props) {
                 setCommentVote(prevVote=>prevVote+2);
                 const likes=likeState
                 setLikeState(prev=>{
-                    prev.push(user.username)
+                    if (!prev.includes(user.username)) prev.push(user.username)
                     return prev
                 })
-                likes.push(user.username)
+                !likes.includes(user.username) && likes.push(user.username)
                 let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
@@ -172,10 +188,10 @@ export default function Comment(props) {
                 setCommentVote(prevVote=>prevVote-1);
                 const dislikes=dislikeState
                 setDislikeState(prev=>{
-                    prev.push(user.username)
+                    if (!prev.includes(user.username)) prev.push(user.username)
                     return prev
                 })
-                dislikes.push(user.username)
+                !dislikes.includes(user.username) && dislikes.push(user.username)
                 const edited = props.comments.map(x=>{
                     if (x === props.comment){
                         return (
@@ -192,13 +208,13 @@ export default function Comment(props) {
 
             }else{
                 setCommentVote(prevVote=>prevVote+1);
-                let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
                         return item !== user.username
                     })
                     return list
                 })
+                let dislikes=dislikeState;
                 dislikes=dislikes.filter(function(item) {
                     return item !== user.username
                 })
@@ -217,13 +233,13 @@ export default function Comment(props) {
                 );
             }
         }else{
-                setCommentVote(prevVote=>prevVote-2);
-                let dislikes=dislikeState
+            setCommentVote(prevVote=>prevVote-2);
+            let dislikes=dislikeState
             setDislikeState(prev=>{
-                prev.push(user.username)
+                if (!prev.includes(user.username)) prev.push(user.username)
                 return prev
             })
-            dislikes.push(user.username)
+            !dislikes.includes(user.username) && dislikes.push(user.username)
             let likes=likeState;
             setLikeState(prev=>{
                 const list = prev.filter(function(item) {

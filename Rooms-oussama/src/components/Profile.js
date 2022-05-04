@@ -152,7 +152,7 @@ export default function Profile() {
                 ariaHideApp={false}
 
             >
-              <StyledModal onClick={() => setModalIsOpen(false)}>
+              <StyledModal onClick={() => setIsOpen(false)}>
 
                 <ModalContent
             className="modalContent"

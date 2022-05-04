@@ -17,7 +17,7 @@ export default function Post(props) {
     const [vote, setVote] = useState(props.like.length-props.disLike.length);
     const [roomers, setRoomers] = useState(props.like.length+props.disLike.length);
     const [comment, setComment] = useState(false);
-    const [editClicked, setEditClicked] = useState(false);
+    const [editClicked, setEditClicked] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [style, setStyle] = useState(hideStyle);
     const [descValue,setDescValue] = useState(props.desc);

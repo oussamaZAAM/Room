@@ -9,6 +9,8 @@ import { AuthContext } from "../Context/authContext"
 import AddPost from "./AddPost"
 import Modal from 'react-modal';
 import { BsCardImage } from "react-icons/bs"
+import { CSSTransition } from 'react-transition-group';
+import styled from "styled-components";
 
 export default function Profile() {
     const [posts, setPosts] = useState([]);
@@ -137,6 +139,12 @@ export default function Profile() {
     return(
         <div className="profile">
             <Navbar />
+            <CSSTransition
+        in={modalIsOpen}
+        timeout={200}
+        classNames="modal"
+        unmountOnExit
+      >
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -144,6 +152,12 @@ export default function Profile() {
                 ariaHideApp={false}
 
             >
+              <StyledModal onClick={() => setModalIsOpen(false)}>
+
+                <ModalContent
+            className="modalContent"
+            onClick={(e) => e.stopPropagation()}
+          >
                 <div className="profile-modal">
                     <div className="modal-close">
                         <AiOutlineClose onClick={closeModal} className="modal-close-btn" />
@@ -187,7 +201,10 @@ export default function Profile() {
                         <input type="submit" className="add-submit" onClick={handleChange}/>
                     </form>
                 </div>
+                </ModalContent>
+                </StyledModal>
             </Modal>
+            </CSSTransition>
             <div className="profile-card">
                 <div className="profile-images">
                     <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} />
@@ -228,3 +245,29 @@ export default function Profile() {
         </div>
     )
 } 
+const StyledModal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  backdrop-filter: blur(6px);
+`;
+const ModalContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background-color: #fff;
+  width: 60%;
+  min-height: 50vh;
+  padding: 30px;
+  box-shadow: 0px 3px 6px #00000029;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+`;

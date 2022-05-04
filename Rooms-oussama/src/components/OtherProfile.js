@@ -89,7 +89,7 @@ export default function OtherProfile(props) {
         const res = await axios.get("http://localhost:5000/api/posts/timeline/" + props.userId);
         setPosts(
             res.data.sort((p1, p2) => {
-              return new Date(p2.createdAt) - new Date(p1.createdAt);
+              return new Date(p2.date) - new Date(p1.date);
             })
         );
         };

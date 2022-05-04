@@ -106,6 +106,7 @@ export default function Post(props) {
                 setIsLiked(true);
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer+1);
+                console.log(likes)
                 setLikeState(prev=>{
                     if(!prev.includes(user._id)){
                         prev.push(user._id)
@@ -132,6 +133,7 @@ export default function Post(props) {
                 })
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:filtered} );
 
+
             }
         }else{
             setIsLiked(true);
@@ -156,6 +158,7 @@ export default function Post(props) {
                     return item !== user._id
                 })
             await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:filtered} );
+
           
         }
     }

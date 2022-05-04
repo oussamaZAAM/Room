@@ -113,7 +113,7 @@ export default function Post(props) {
                 })
                 likes.push(user.username)
                 console.log(likes)
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
 
             }else{
                 setVote(prevVote=>prevVote-1);
@@ -130,7 +130,7 @@ export default function Post(props) {
                     return item !== user.username
                 })
                 console.log(likes)
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
 
             }
         }else{
@@ -141,16 +141,16 @@ export default function Post(props) {
                     return prev
                 })
                 likes.push(user.username)
-            const dislikes=dislikeState;
+            let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
                         return item !== user.username
                     })
                     return list
                 })
-                // likes.filter(function(item) {
-                //     return item !== user.username
-                // })
+                dislikes= dislikes.filter(function(item) {
+                    return item !== user.username
+                })
             await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
           
         }
@@ -166,7 +166,7 @@ export default function Post(props) {
                     return prev
                 })
                 dislikes.push(user.username)
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
 
             }else{
                 setVote(prevVote=>prevVote+1);
@@ -181,7 +181,7 @@ export default function Post(props) {
                 dislikes=dislikes.filter(function(item) {
                     return item !== user.username
                 })
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
             }
         }else{
             setVote(prevVote=>prevVote-2)
@@ -191,7 +191,7 @@ export default function Post(props) {
                 return prev
             })
             dislikes.push(user.username)
-        const likes=likeState;
+        let likes=likeState;
             setLikeState(prev=>{
                 const list = prev.filter(function(item) {
                     return item !== user.username

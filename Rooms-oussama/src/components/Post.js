@@ -23,7 +23,7 @@ export default function Post(props) {
     const [descValue,setDescValue] = useState(props.desc);
     const [description,setDescription] = useState(props.desc);
     const [likeState, setLikeState] = useState(props.post.likes);
-    const [dislikeState, setDislikeState] = useState(props.post.likes);
+    const [dislikeState, setDislikeState] = useState(props.disLike);
     const {user} = useContext(AuthContext);
 
 
@@ -98,106 +98,122 @@ export default function Post(props) {
         fetchUsers();
     }, []);
 
-    const isLiked = (likeState.includes(user.username)?true:false);
-    const isDisliked = (dislikeState.includes(user.username)?true:false);
+    const [isLiked, setIsLiked] = useState(likeState.includes(user._id)?true:false);
+    const [isDisliked, setIsDisliked] = useState(dislikeState.includes(user._id)?true:false);
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
+                setIsLiked(true);
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer+1);
-                const likes=likeState;
                 setLikeState(prev=>{
-                    prev.push(user.username)
+                    if(!prev.includes(user._id)){
+                        prev.push(user._id)
+                    }
                     return prev
                 })
-                likes.push(user.username)
+                const likes=likeState;
+                if(!likes.includes(user._id)) likes.push(user._id)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
 
             }else{
+                setIsLiked(false);
                 setVote(prevVote=>prevVote-1);
                 setRoomers(prevRoomer=>prevRoomer-1);
-                const likes=likeState;
                 setLikeState(prev=>{
                     const list = prev.filter(function(item) {
-                        return item !== user.username
+                        return item !== user._id
                     })
                     return list
                 })
-                likes.filter(function(item) {
-                    return item !== user.username
+                const likes=likeState;
+                const filtered = likes.filter(function(item) {
+                    return item !== user._id
                 })
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:filtered} );
 
             }
         }else{
+            setIsLiked(true);
+            setIsDisliked(false);
             setVote(prevVote=>prevVote+2)
+            setLikeState(prev=>{
+                if(!prev.includes(user._id)){
+                    prev.push(user._id)
+                }
+                return prev
+            })
             const likes=likeState
-                setLikeState(prev=>{
-                    prev.push(user.username)
-                    return prev
+            if(!likes.includes(user._id)) likes.push(user._id)
+            setDislikeState(prev=>{
+                const list = prev.filter(function(item) {
+                    return item !== user._id
                 })
-                likes.push(user.username)
+                return list
+            })
             const dislikes=dislikeState;
-                setDislikeState(prev=>{
-                    const list = prev.filter(function(item) {
-                        return item !== user.username
-                    })
-                    return list
+                const filtered = dislikes.filter(function(item) {
+                    return item !== user._id
                 })
-                likes.filter(function(item) {
-                    return item !== user.username
-                })
-            await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+            await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:filtered} );
           
         }
     }
     const downvote = async () => {
         if(!isLiked){
             if(!isDisliked) {
+                setIsDisliked(true);
                 setVote(prevVote=>prevVote-1);
                 setRoomers(prevRoomer=>prevRoomer+1);
-                const dislikes=dislikeState
                 setDislikeState(prev=>{
-                    prev.push(user.username)
+                    if(!prev.includes(user._id)) {
+                        prev.push(user._id)
+                    }
                     return prev
                 })
-                dislikes.push(user.username)
+                const dislikes=dislikeState
+                if(!dislikes.includes(user._id)) dislikes.push(user._id)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
 
             }else{
+                setIsDisliked(false);
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer-1);
-                const dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
-                        return item !== user.username
+                        return item !== user._id
                     })
                     return list
                 })
-                dislikes.filter(function(item) {
-                    return item !== user.username
+                const dislikes=dislikeState;
+                const filtered = dislikes.filter(function(item) {
+                    return item !== user._id
                 })
-                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes} );
+                await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:filtered} );
             }
         }else{
+            setIsDisliked(true);
+            setIsLiked(false);
             setVote(prevVote=>prevVote-2)
-            const dislikes=dislikeState
             setDislikeState(prev=>{
-                prev.push(user.username)
+                if(!prev.includes(user._id)) {
+                    prev.push(user._id)
+                }
                 return prev
             })
-            dislikes.push(user.username)
-        const likes=likeState;
+            const dislikes=dislikeState
+            if(!dislikes.includes(user._id)) dislikes.push(user._id)
             setLikeState(prev=>{
                 const list = prev.filter(function(item) {
-                    return item !== user.username
+                    return item !== user._id
                 })
                 return list
             })
-            dislikes.filter(function(item) {
-                return item !== user.username
+            const likes=likeState;
+            const filtered = likes.filter(function(item) {
+                return item !== user._id
             })
-        await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+        await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:filtered,dislikes:dislikes} );
         }
     }
     function handlecomment() {
@@ -250,13 +266,15 @@ export default function Post(props) {
                     <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
                     <p><small>{dateStr}</small></p>
                 </div>
-                <div className="post-edit">
-                    <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
-                    <div style={style} className="post-edit-buttons">
-                        <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
-                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                {props.id === user._id &&
+                    <div className="post-edit">
+                        <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                        <div style={style} className="post-edit-buttons">
+                            <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                            <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div className="post-desc">
                 {isEdit && (
@@ -287,13 +305,13 @@ export default function Post(props) {
                 <div className="post-rate">
                     <div>
                         {isLiked
-                            ? <AiFillLike onClick={()=>upvote()} className="post-like"/>
-                            : <AiOutlineLike onClick={()=>upvote()} className="post-like"/>
+                            ? <AiFillLike onClick={upvote} className="post-like"/>
+                            : <AiOutlineLike onClick={upvote} className="post-like"/>
                         }
                         <small>{vote}</small>
                         {isDisliked
-                            ? <AiFillDislike onClick={()=>downvote()} className="post-like"/>
-                            : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
+                            ? <AiFillDislike onClick={downvote} className="post-like"/>
+                            : <AiOutlineDislike onClick={downvote} className="post-like"/>
                         }
                     </div>
                     <div onClick={handlecomment}>

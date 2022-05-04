@@ -24,6 +24,7 @@ export default function Post(props) {
     const [description,setDescription] = useState(props.desc);
     const [likeState, setLikeState] = useState(props.post.likes)
     const [dislikeState, setDislikeState] = useState(props.post.dislikes)
+    const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
 
 
@@ -238,9 +239,11 @@ export default function Post(props) {
 
     const handleDeletePost = async () => {
         await axios.delete(`http://localhost:5000/api/posts/${props.id}`, {data:{userId:user._id}})
+        setDeleted(!deleted);
     }
-    
+    if(!deleted){
     return(
+        
         <>
         {(props.desc!=="" || props.img) && 
           <div className="post">
@@ -326,4 +329,7 @@ export default function Post(props) {
         </div>}
         </>
     )
+        } else{
+            return null
+        }
 }   

@@ -4,11 +4,13 @@ import { AiFillPropertySafety } from "react-icons/ai";
 import {BsCardImage} from "react-icons/bs"
 import { AuthContext } from "../Context/authContext";
 
-export default function AddComment() {
+export default function AddComment(props) {
     const content = useRef()
     const { user } = useContext(AuthContext)
-    const handleComment = async ()=>{
-        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...post, comments:[...props.post.comments,{userId:user._id,content:content.current.value,date:new Date()}]})
+    const handleComment = async (e)=>{
+        //e.preventDefault()
+        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...props.post.comments,{userId:user._id,content:content.current.value,date:new Date()}]})
+        console.log(props.post.comments)
     }
     return(
         <form className="comment-add">

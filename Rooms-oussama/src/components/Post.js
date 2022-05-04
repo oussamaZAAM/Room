@@ -237,9 +237,7 @@ export default function Post(props) {
     }
 
     const handleDeletePost = async () => {
-        await axios.put(
-            `http://localhost:5000/api/posts/${props.id}`,{...props.post, desc: "", photo: ""}
-        )
+        await axios.delete(`http://localhost:5000/api/posts/${props.id}`, {data:{userId:user._id}})
     }
     
     return(

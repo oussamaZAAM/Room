@@ -65,6 +65,7 @@ export const allPosts = async (req, res) => {
     try {
       const post = await PostMessage.findById(req.params.id);
       if (post.userId === req.body.userId) {
+        console.log("after")
         await post.deleteOne();
         res.status(200).json("the post has been deleted");
       } else {

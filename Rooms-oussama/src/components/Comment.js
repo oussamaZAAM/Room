@@ -289,9 +289,8 @@ export default function Comment(props) {
         const edited = props.comments.filter(x=>{
             return (x !== props.comment)
         })
-        await axios.put(
-            `http://localhost:5000/api/posts/${props.id}`,
-            {...props.post, comments:edited}
+        await axios.delete(
+            `http://localhost:5000/api/posts/${props.id}`,{data:{userId:user._id}}
         );
         setDeleted(!deleted);
     }

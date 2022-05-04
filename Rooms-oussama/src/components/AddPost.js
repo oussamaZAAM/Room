@@ -27,7 +27,7 @@ export default function AddPost() {
 
     const handlePost = async (e) => {
         // e.preventDefault();
-        const post = {desc:desc.current.value, userId:user._id}
+        const post = {desc:desc.current.value, userId:user._id, date: new Date()}
         if (picture!=="") {
             post.photo = picture;
             

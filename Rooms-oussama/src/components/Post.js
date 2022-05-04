@@ -65,10 +65,16 @@ export default function Post(props) {
     const comments = props.comments.map(x=>
         <Comment 
             key={x.id}
+            id={props.id}
             userId={x.userId}
             content={x.content}
             vote={x.vote}
             date={x.date}
+            likes={x.likes}
+            dislikes={x.dislikes}
+            comments={props.comments}
+            comment={x}
+            post={props.post}
         />
     )
     

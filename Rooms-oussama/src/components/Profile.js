@@ -119,15 +119,18 @@ export default function Profile() {
         return(
            <Post 
                 key={x._id}
-                // post={x}
+                id={x._id}
                 desc={x.desc}
                 img={x.photo}
                 date={x.createdAt}
                 userId={x.userId}
                 room={x.room}
+                like={x.likes}
+                disLike={x.dislikes}
                 roomers={x.roomers}
                 vote={x.likeCount}
                 comments={x.comments}
+                post={x}
                 />
     )})
 

@@ -292,6 +292,11 @@ code {
 .post-desc{
   margin-left: 15px;
 }
+.description-content{
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 .post-edit{
   display: flex;
   flex-direction: column;
@@ -312,10 +317,12 @@ code {
 }
 .edit-description{
   border-radius: 5px;
+  word-wrap: break-word;
   border: none;
   width: 85%;
   height: 30px;
   margin: 10px 0;
+  resize: none;
 }
 .edit-desc{
   display: flex;
@@ -647,6 +654,12 @@ code {
   font-size: 20px;
   resize: none;
 }
+.flex-comment{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 .searchimage{
   width: 100px;
   height: 100px;
@@ -716,6 +729,15 @@ code {
     font-size: 6px;
   }
   .hidable{
+    display: none;
+  }
+  .comment-image{
+    display: none;
+  }
+  .comment-content{
+    padding: 0;
+  }
+  .add-comment img{
     display: none;
   }
 }

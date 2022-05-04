@@ -212,7 +212,8 @@ export default function Post(props) {
         }
     }
     function handlecomment() {
-        setComment(prevComment=>!prevComment)
+        // setComment(prevComment=>!prevComment)
+        setComment(true)
     }
 
 
@@ -249,9 +250,6 @@ export default function Post(props) {
     }
     if(!deleted){
     return(
-        
-        <>
-        {(props.desc!=="" || props.img) && 
           <div className="post">
             <div className="post-grid">
 
@@ -274,7 +272,7 @@ export default function Post(props) {
             <div className="post-desc">
                 {isEdit && (
                     <div className="edit-desc">
-                        <input 
+                        <textarea
                             className="edit-description" 
                             value={descValue} 
                             onChange={(event)=>handleChange(event)}
@@ -283,7 +281,7 @@ export default function Post(props) {
                         <AiOutlineCheck onClick={handleCheck} className="post-like"/>
                     </div>
                 )}
-                {!isEdit && <p>{description}</p>}
+                {!isEdit && <p className="description-content">{description}</p>}
             </div>
             <div>
                 {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
@@ -332,8 +330,7 @@ export default function Post(props) {
                 }
               </div>
             }
-        </div>}
-        </>
+        </div>
     )
         } else{
             return null

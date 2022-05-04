@@ -1,14 +1,23 @@
 import React, { useContext, useEffect, useState } from "react"
-import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike} from "react-icons/ai"
+import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiFillEdit, AiFillDelete, AiOutlineClose, AiOutlineCheck} from "react-icons/ai"
 import axios from "axios"
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/authContext";
+import { BsThreeDots } from "react-icons/bs";
 
 export default function Comment(props) {
+    const showStyle = {display: "flex"}
+    const hideStyle = {display: "none"}
+    const [style, setStyle] = useState(hideStyle);
+    const [editClicked, setEditClicked] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
     const [users, setUsers] = useState([]);
     const [commentVote, setCommentVote] = useState(props.likes.length-props.dislikes.length);
     const [likeState, setLikeState] = useState(props.likes);
     const [dislikeState, setDislikeState] = useState(props.dislikes);
+    const [descValue,setDescValue] = useState(props.content);
+    const [description,setDescription] = useState(props.content);
+    const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
     
     const d1 = Date.now();
@@ -89,9 +98,7 @@ export default function Comment(props) {
                             {...x, likes: likes, dislikes:dislikeState}
                         )
                     } else {
-                        return(
-                            {...x}
-                        )
+                        return x
                     }
                 })
                 await axios.put(
@@ -117,9 +124,7 @@ export default function Comment(props) {
                             {...x, likes: likes, dislikes:dislikeState}
                         )
                     } else {
-                        return(
-                            {...x}
-                        )
+                        return x
                     }
                 })
                 await axios.put(
@@ -151,9 +156,7 @@ export default function Comment(props) {
                             {...x, likes: likes, dislikes:dislikes}
                         )
                     } else {
-                        return(
-                            {...x}
-                        )
+                        return x
                     }
                 })
                 await axios.put(
@@ -179,9 +182,7 @@ export default function Comment(props) {
                             {...x, likes: likeState, dislikes:dislikes}
                         )
                     } else {
-                        return(
-                            {...x}
-                        )
+                        return x
                     }
                 })
                 await axios.put(
@@ -207,9 +208,7 @@ export default function Comment(props) {
                             {...x, likes: likeState, dislikes:dislikes}
                         )
                     } else {
-                        return(
-                            {...x}
-                        )
+                        return x
                     }
                 })
                 await axios.put(
@@ -241,9 +240,7 @@ export default function Comment(props) {
                         {...x, likes: likes, dislikes:dislikes}
                     )
                 } else {
-                    return(
-                        {...x}
-                    )
+                    return x
                 }
             })
             await axios.put(
@@ -252,27 +249,99 @@ export default function Comment(props) {
             );
         }
     }
-    return(
-        <div className="comment-grid">
-            <div>
-                <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
-            </div>
-            <div className="comment-content">
-                <div className="comment-header">
-                    <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
-                    <div className="comment-like">
-                        {isLiked 
-                            ? <AiFillLike className="comment-like" onClick={upvote}/> 
-                            : <AiOutlineLike className="comment-like" onClick={upvote} /> }
-                        <small style={{margin: "10px"}}>{commentVote}</small>
-                        {isDisliked 
-                            ? <AiFillDislike className="comment-like" onClick={downvote} /> 
-                            : <AiOutlineDislike className="comment-like" onClick={downvote} />}
-                    </div>
+
+    function handleDropwdown() {
+        setEditClicked(prev=>!prev);
+        if(editClicked){
+            setStyle(showStyle)
+        }else{
+            setStyle(hideStyle)
+        }
+    }
+    function handleEditTrue() {
+        setIsEdit(true)
+        setStyle(hideStyle)
+    }
+    function handleEditFalse() {
+        setIsEdit(false)
+    }
+    function handleChange(event) {
+        setDescValue(event.target.value)
+    }
+    const handleCheck = async () => {
+        setDescription(descValue);
+        setIsEdit(false);
+        const edited = props.comments.map(x=>{
+            if (x === props.comment){
+                return (
+                    {...x, content: descValue}
+                )
+            } else {
+                return x
+            }
+        })
+        await axios.put(
+            `http://localhost:5000/api/posts/${props.id}`,
+            {...props.post, comments:edited}
+        );
+    }
+    const handleDeleteComment = async () => {
+        const edited = props.comments.filter(x=>{
+            return (x !== props.comment)
+        })
+        await axios.put(
+            `http://localhost:5000/api/posts/${props.id}`,
+            {...props.post, comments:edited}
+        );
+        setDeleted(!deleted);
+    }
+    if (!deleted){
+        return(
+            <div className="comment-grid">
+                <div className="comment-image">
+                    <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
                 </div>
-                <small style={{marginLeft: "10px"}}>{dateStr}</small>
-                <p>{props.content}</p>
+                <div className="comment-content">
+                    <div className="comment-header">
+                        <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
+                        <div className="flex-comment">
+                            {user._id === props.userId && 
+                                <div className="post-edit" style={{marginTop: "10px"}}>
+                                    <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                                    <div style={style} className="post-edit-buttons">
+                                        <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeleteComment}/>
+                                    </div>
+                                </div>
+                            }
+                            <div className="comment-like">
+                                {isLiked 
+                                    ? <AiFillLike className="comment-like" onClick={upvote}/> 
+                                    : <AiOutlineLike className="comment-like" onClick={upvote} /> }
+                                <small style={{margin: "10px"}}>{commentVote}</small>
+                                {isDisliked 
+                                    ? <AiFillDislike className="comment-like" onClick={downvote} /> 
+                                    : <AiOutlineDislike className="comment-like" onClick={downvote} />}
+                            </div>
+                        </div>
+                    </div>
+                    <small style={{marginLeft: "10px"}}>{dateStr}</small>
+                    <div className="post-desc">
+                    {isEdit && (
+                        <div className="edit-desc">
+                            <textarea 
+                                className="edit-description" 
+                                value={descValue} 
+                                onChange={(event)=>handleChange(event)}
+                            />
+                            <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
+                            <AiOutlineCheck onClick={handleCheck} className="post-like"/>
+                        </div>
+                    )}
+                    {!isEdit && <p className="description-content">{description}</p>}
+                </div>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }

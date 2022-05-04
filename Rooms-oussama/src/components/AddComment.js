@@ -21,7 +21,7 @@ export default function AddComment(props) {
             <div className="add-comment">
                 <img src={"http://localhost:5000/images/" + user.picture} className="profileimage"/>
                 <div className="add-comment-text">
-                    <input type='textarea' className="add-comment-textarea" placeholder="New Comment" ref={content} />
+                    <textarea type='textarea' className="add-comment-textarea" placeholder="New Comment" ref={content} />
                 </div> 
             </div>
             <div className="div-submit">

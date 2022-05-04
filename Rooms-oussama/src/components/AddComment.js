@@ -9,7 +9,7 @@ export default function AddComment(props) {
     const { user } = useContext(AuthContext)
     const handleComment = async (e)=>{
         //e.preventDefault()
-        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...props.post.comments,{userId:user._id,content:content.current.value,date:new Date()}]})
+        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...props.post.comments,{userId:user._id,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
         console.log(props.post.comments)
     }
     return(

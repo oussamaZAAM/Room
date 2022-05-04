@@ -29,7 +29,7 @@ export default function Feed() {
                 id={x._id}
                 desc={x.desc}
                 img={x.photo}
-                date={x.createdAt}
+                date={x.date}
                 userId={x.userId}
                 room={x.room}
                 like={x.likes}

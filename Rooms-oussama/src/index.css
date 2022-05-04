@@ -355,6 +355,11 @@ code {
   align-self: flex-end;
   padding: 0px 10px;
 }
+.comment-username{
+  text-decoration: none;
+  color: #000000;
+  padding: 10px;
+}
 .profile{
   display: flex;
   flex-direction: column;

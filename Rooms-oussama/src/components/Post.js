@@ -23,7 +23,7 @@ export default function Post(props) {
     const [descValue,setDescValue] = useState(props.desc);
     const [description,setDescription] = useState(props.desc);
     const [likeState, setLikeState] = useState(props.post.likes)
-    const [dislikeState, setDislikeState] = useState(props.post.likes)
+    const [dislikeState, setDislikeState] = useState(props.post.dislikes)
     const {user} = useContext(AuthContext);
 
 
@@ -98,8 +98,9 @@ export default function Post(props) {
         fetchUsers();
     }, []);
 
-    const isLiked = likeState.includes(user.username)?true:false;
-    const isDisliked = dislikeState.includes(user.username)?true:false;
+    const isLiked = likeState.includes(user.username)
+    const isDisliked = dislikeState.includes(user.username)
+    console.log(isLiked+ '' +isDisliked+ likeState+ dislikeState)
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {

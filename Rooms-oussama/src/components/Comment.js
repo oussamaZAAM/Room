@@ -9,7 +9,7 @@ export default function Comment(props) {
     const showStyle = {display: "flex"}
     const hideStyle = {display: "none"}
     const [style, setStyle] = useState(hideStyle);
-    const [editClicked, setEditClicked] = useState(false);
+    const [editClicked, setEditClicked] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [users, setUsers] = useState([]);
     const [commentVote, setCommentVote] = useState(props.likes.length-props.dislikes.length);
@@ -298,7 +298,7 @@ export default function Comment(props) {
 
     return(
         <div className="comment-grid">
-            <div>
+            <div className="comment-image">
                 <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
             </div>
             <div className="comment-content">
@@ -329,7 +329,7 @@ export default function Comment(props) {
                 <div className="post-desc">
                 {isEdit && (
                     <div className="edit-desc">
-                        <input 
+                        <textarea 
                             className="edit-description" 
                             value={descValue} 
                             onChange={(event)=>handleChange(event)}
@@ -338,7 +338,7 @@ export default function Comment(props) {
                         <AiOutlineCheck onClick={handleCheck} className="post-like"/>
                     </div>
                 )}
-                {!isEdit && <p>{description}</p>}
+                {!isEdit && <p className="description-content">{description}</p>}
             </div>
             </div>
         </div>

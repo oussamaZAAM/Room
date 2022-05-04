@@ -254,13 +254,15 @@ export default function Post(props) {
                     <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
                     <p><small>{dateStr}</small></p>
                 </div>
-                <div className="post-edit">
-                    <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
-                    <div style={style} className="post-edit-buttons">
-                        <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
-                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                {user._id === props.userId && 
+                    <div className="post-edit">
+                        <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                        <div style={style} className="post-edit-buttons">
+                            <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                            <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             <div className="post-desc">
                 {isEdit && (

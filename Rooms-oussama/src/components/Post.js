@@ -212,8 +212,8 @@ export default function Post(props) {
         }
     }
     function handlecomment() {
-        // setComment(prevComment=>!prevComment)
-        setComment(true)
+        setComment(prevComment=>!prevComment)
+        // setComment(true)
     }
 
 

@@ -314,10 +314,12 @@ export default function Comment(props) {
         setDescValue(event.target.value)
     }
     const handleCheck = async () => {
+        const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
         setDescription(descValue);
         setIsEdit(false);
-        const edited = props.comments.map(x=>{
-            if (x === props.comment){
+        const edited = res.data.comments.map(x=>{
+            if (x.date === props.comment.date){
                 return (
                     {...x, content: descValue}
                 )

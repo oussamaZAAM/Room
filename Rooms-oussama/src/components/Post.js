@@ -324,7 +324,7 @@ export default function Post(props) {
             {comment && 
               <div className="comment">
                 <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
-                <AddComment post={props.post}/>
+                <AddComment post={props.post} comments={props.comments}/>
                 {props.comments.length!=0 && 
                     comments
                 }

@@ -1,16 +1,25 @@
 import axios from "axios";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { AiFillPropertySafety } from "react-icons/ai";
 import {BsCardImage} from "react-icons/bs"
 import { AuthContext } from "../Context/authContext";
 
 export default function AddComment(props) {
     const content = useRef()
+    const [posts, setPosts] = useState([])
     const { user } = useContext(AuthContext)
+    useEffect(() => {
+        const fetchPosts = async () => {
+          const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+        //   console.log(res.data.comments)
+        //   const post = res.data.comments.filter(comment=>comment.date===props.comments.userId)
+          setPosts(res.data)
+        };
+        fetchPosts();
+      }, [user._id, props.post.comments]);
     const handleComment = async (e)=>{
         //e.preventDefault()
-        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...props.post.comments,{userId:user._id,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
-        console.log(props.post.comments)
+        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...posts.comments,{userId:user._id,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
     }
     return(
         <form className="comment-add">

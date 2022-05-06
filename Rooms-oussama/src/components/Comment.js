@@ -11,6 +11,7 @@ export default function Comment(props) {
     const [style, setStyle] = useState(hideStyle);
     const [editClicked, setEditClicked] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
+    const [posts, setPosts] = useState([props.post.comments]);
     const [users, setUsers] = useState([]);
     const [commentVote, setCommentVote] = useState(props.likes.length-props.dislikes.length);
     const [likeState, setLikeState] = useState(props.likes);
@@ -20,6 +21,18 @@ export default function Comment(props) {
     const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
     
+    useEffect(() => {
+        const fetchPosts = async () => {
+          const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+          console.log("db")
+          console.log(res.data.comments)
+          //   const post = res.data.comments.filter(comment=>comment.date===props.comments.userId)
+          setPosts(res.data)
+        };
+        fetchPosts();
+      }, [user._id, deleted, editClicked, style]);
+    console.log("posts")
+    console.log(posts.comments)
     const d1 = Date.now();
     const d2 = new Date(props.date);
     var diff= Math.abs(d1-d2);
@@ -92,7 +105,7 @@ export default function Comment(props) {
                 })
                 likes.push(user.username)
                 const edited = props.comments.map(x=>{
-                    console.log(x)
+                    // console.log(x)
                     if (x === props.comment){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
@@ -285,13 +298,20 @@ export default function Comment(props) {
             {...props.post, comments:edited}
         );
     }
-    const handleDeleteComment = async () => {
-        const edited = props.comments.filter(x=>{
-            return (x !== props.comment)
+    const handleDeleteComment = async (e) => {
+        e.preventDefault()
+        // console.log(posts.comments)
+        const edited = posts.comments.filter(x=>{
+            return (x.date !== props.comment.date)
         })
-        await axios.delete(
-            `http://localhost:5000/api/posts/${props.id}`,{data:{userId:user._id}}
+        // console.log(props.comment)
+        // console.log(edited)
+        await axios.put(
+            `http://localhost:5000/api/posts/${props.id}`,
+            {...props.post, comments:edited}
         );
+        console.log("handleDellete")
+        console.log(edited)
         setDeleted(!deleted);
     }
     if (!deleted){

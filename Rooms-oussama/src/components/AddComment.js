@@ -18,8 +18,13 @@ export default function AddComment(props) {
         fetchPosts();
       }, [user._id, props.post.comments]);
     const handleComment = async (e)=>{
-        //e.preventDefault()
-        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...posts.comments,{userId:user._id,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
+        e.preventDefault()
+        const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+        // console.log(res.data)
+        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...res.data.comments,{userId:user._id,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
+        // const res1 = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+        // console.log(res1.data)
+
     }
     return(
         <form className="comment-add">

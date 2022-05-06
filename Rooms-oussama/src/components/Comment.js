@@ -30,7 +30,7 @@ export default function Comment(props) {
           setPosts(res.data)
         };
         fetchPosts();
-      }, [user._id, deleted, editClicked, style]);
+      }, [user._id, deleted, editClicked, style, commentVote]);
     console.log("posts")
     console.log(posts.comments)
     const d1 = Date.now();
@@ -99,15 +99,16 @@ export default function Comment(props) {
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
+                const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
                 let likes=likeState;
-                setCommentVote(prevVote=>prevVote+1);
                 setLikeState(prev=>{
                     if (!prev.includes(user.username)) prev.push(user.username)
                     return prev
                 })
                 if (!likes.includes(user.username)) likes.push(user.username)
-                const edited = props.comments.map(x=>{
-                    if (x === props.comment){
+                const edited = res.data.comments.map(x=>{
+                    if (x.date === props.comment.date){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
                         )
@@ -119,9 +120,11 @@ export default function Comment(props) {
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
                 );
+                setCommentVote(prevVote=>prevVote+1);
 
             }else{
-                setCommentVote(prevVote=>prevVote-1);
+                const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
                 let likes=likeState;
                 setLikeState(prev=>{
                     const list = prev.filter((item)=> {
@@ -132,8 +135,8 @@ export default function Comment(props) {
                 likes=likes.filter((item) =>{
                     return item !== user.username
                 })
-                const edited = props.comments.map(x=>{
-                    if (x === props.comment){
+                const edited = res.data.comments.map(x=>{
+                    if (x.date === props.comment.date){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
                             )
@@ -160,9 +163,12 @@ export default function Comment(props) {
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
                 )
+                setCommentVote(prevVote=>prevVote-1);
+
             }
         }else{
-                setCommentVote(prevVote=>prevVote+2);
+            const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
                 const likes=likeState
                 setLikeState(prev=>{
                     if (!prev.includes(user.username)) prev.push(user.username)
@@ -179,8 +185,8 @@ export default function Comment(props) {
                 dislikes = dislikes.filter(function(item) {
                     return item !== user.username
                 })
-                const edited = props.comments.map(x=>{
-                    if (x === props.comment){
+                const edited = res.data.comments.map(x=>{
+                    if (x.date === props.comment.date){
                         return (
                             {...x, likes: likes, dislikes:dislikes}
                         )
@@ -192,21 +198,24 @@ export default function Comment(props) {
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
                 );
+                setCommentVote(prevVote=>prevVote+2);
+         
           
         }
     }
     const downvote = async () => {
         if(!isLiked){
             if(!isDisliked) {
-                setCommentVote(prevVote=>prevVote-1);
+                const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
                 const dislikes=dislikeState
                 setDislikeState(prev=>{
                     if (!prev.includes(user.username)) prev.push(user.username)
                     return prev
                 })
                 !dislikes.includes(user.username) && dislikes.push(user.username)
-                const edited = props.comments.map(x=>{
-                    if (x === props.comment){
+                const edited = res.data.comments.map(x=>{
+                    if (x.date === props.comment.date){
                         return (
                             {...x, likes: likeState, dislikes:dislikes}
                         )
@@ -218,9 +227,11 @@ export default function Comment(props) {
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
                 );
+                setCommentVote(prevVote=>prevVote-1);
 
             }else{
-                setCommentVote(prevVote=>prevVote+1);
+                const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
                         return item !== user.username
@@ -231,7 +242,7 @@ export default function Comment(props) {
                 dislikes=dislikes.filter(function(item) {
                     return item !== user.username
                 })
-                const edited = props.comments.map(x=>{
+                const edited = res.data.comments.map(x=>{
                     if (x === props.comment){
                         return (
                             {...x, likes: likeState, dislikes:dislikes}
@@ -244,9 +255,12 @@ export default function Comment(props) {
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
                 );
+                setCommentVote(prevVote=>prevVote+1);
+
             }
         }else{
-            setCommentVote(prevVote=>prevVote-2);
+            const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
+
             let dislikes=dislikeState
             setDislikeState(prev=>{
                 if (!prev.includes(user.username)) prev.push(user.username)
@@ -263,8 +277,8 @@ export default function Comment(props) {
             likes=likes.filter(function(item) {
                 return item !== user.username
             })
-            const edited = props.comments.map(x=>{
-                if (x === props.comment){
+            const edited = res.data.comments.map(x=>{
+                if (x.date === props.comment.date){
                     return (
                         {...x, likes: likes, dislikes:dislikes}
                     )
@@ -276,6 +290,8 @@ export default function Comment(props) {
                 "http://localhost:5000/api/posts/" + props.id,
                 {...props.post, comments: edited}
             );
+            setCommentVote(prevVote=>prevVote-2);
+
         }
     }
 
@@ -316,18 +332,13 @@ export default function Comment(props) {
     }
     const handleDeleteComment = async (e) => {
         e.preventDefault()
-        // console.log(posts.comments)
         const edited = posts.comments.filter(x=>{
             return (x.date !== props.comment.date)
         })
-        // console.log(props.comment)
-        // console.log(edited)
         await axios.put(
             `http://localhost:5000/api/posts/${props.id}`,
             {...props.post, comments:edited}
         );
-        console.log("handleDellete")
-        console.log(edited)
         setDeleted(!deleted);
     }
     if (!deleted){

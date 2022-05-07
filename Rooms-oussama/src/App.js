@@ -32,7 +32,6 @@ export default function App() {
 
     return(
     <BrowserRouter>
-      <ToastContainer position='bottom-center' limit={1}/>
       <Routes>
         {/* <Route path="/" element={<Layout />}> */}
           <Route path="/login" element={user ? <Feed /> : <Login />} />
@@ -47,6 +46,7 @@ export default function App() {
               : <Login />} />
         {/* </Route> */}
       </Routes>
+      <ToastContainer className="toast-body" autoClose={2} position='bottom-center' limit={1}/>
     </BrowserRouter>
         
     )

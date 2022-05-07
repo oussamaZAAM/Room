@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/authContext";
 import OtherProfile from "./components/OtherProfile"
 import Searching from "./components/Searching"
+import { ToastContainer } from "react-toastify"
 
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
 
     return(
     <BrowserRouter>
+      <ToastContainer position='bottom-center' limit={1}/>
       <Routes>
         {/* <Route path="/" element={<Layout />}> */}
           <Route path="/login" element={user ? <Feed /> : <Login />} />

@@ -15,11 +15,16 @@ export const register = async (req, res) => {
          cover:user.cover,
      });  
     try{
-        const cuser = await newUser.save();  
-        console.log(user.picture);
-        res.status(201).json(cuser);
+        const currentUser = await User.findOne({email: newUser.email} ) 
+        if(!currentUser) {
+          const cuser = await newUser.save();  
+          console.log(user.picture);
+          res.status(201).json(cuser);
+        } else {
+          res.status(404).send("Email exists already")
+        }
     } catch (error) {
-         res.status(404).json({ message: error.message });
+         res.status(404).send({ message: error.message });
     }
 }
 
@@ -33,7 +38,7 @@ export const login = async (req, res) => {
         } else{   
         const validPassword = await bcrypt.compare(user.password, currentUser.password)
         if(!validPassword)
-        { res.status(400).json("wrong password")}
+        { res.status(400).send("wrong password")}
         else{
         res.status(200).json(currentUser);
         }

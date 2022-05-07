@@ -2,6 +2,8 @@ import React, { useRef, useContext } from "react";
 import { AuthContext } from "../Context/authContext";
 import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
+import { toast } from "react-toastify";
+import { getError } from "../utils";
 
 export default function Register() {
     const username = useRef();
@@ -20,8 +22,8 @@ export default function Register() {
                 await axios.post("http://localhost:5000/api/user/register",user);
                 navigate("/login");
 
-            }catch(err){
-                 console.log(err)        
+            }catch(err){  
+                toast.success(getError(err))
             }
         } else {
             rePassword.current.setCustomValidity("Passwords don't match!");

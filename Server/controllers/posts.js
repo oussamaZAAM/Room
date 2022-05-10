@@ -1,6 +1,6 @@
 import PostMessage from '../models/postMessage.js'
 import User from '../models/user.js'
-
+//Les fonctions qu'on executera lorsqu'on accedera a un url dans le fichier ./routes/posts.js
 export const getPost = async (req, res) => {
     try {
         const post = await PostMessage.findById(req.params.id);

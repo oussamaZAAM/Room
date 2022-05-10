@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+//Creation du tableau de User
 const userSchema = new mongoose.Schema({
     username: String,
     email: String,

@@ -15,13 +15,14 @@ export const register = async (req, res) => {
          cover:user.cover,
      });  
     try{
-        const currentUser = await User.findOne({email: newUser.email} ) 
-        if(!currentUser) {
+        const currentUserEmail = await User.findOne({email: newUser.email} ) 
+        const currentUserName = await User.findOne({username: newUser.username} ) 
+        if(!currentUserEmail && !currentUserName) {
           const cuser = await newUser.save();  
           console.log(user.picture);
           res.status(201).json(cuser);
         } else {
-          res.status(404).send("Email exists already")
+          res.status(404).json({status:false})
         }
     } catch (error) {
          res.status(404).send({ message: error.message });
@@ -88,3 +89,8 @@ export const allUsers = async (req, res) => {
       }
     } 
   ;
+  export const checkPsw = async (req, res) => {
+    const valid = await bcrypt.compare(req.body.pw1, req.body.pw2)
+    res.status(200).json({status:valid})
+
+  }

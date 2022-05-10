@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/authContext";
 import OtherProfile from "./components/OtherProfile"
 import Searching from "./components/Searching"
-import { ToastContainer } from "react-toastify"
 
 
 export default function App() {
@@ -46,7 +45,6 @@ export default function App() {
               : <Login />} />
         {/* </Route> */}
       </Routes>
-      <ToastContainer className="toast-body" autoClose={2} position='bottom-center' limit={1}/>
     </BrowserRouter>
         
     )

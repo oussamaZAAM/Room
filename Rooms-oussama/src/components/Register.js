@@ -1,11 +1,11 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import { AuthContext } from "../Context/authContext";
 import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
-import { toast } from "react-toastify";
-import { getError } from "../utils";
 
 export default function Register() {
+    const [samePassword, setSamePassword] = useState(true)
+    const [newUser, setNewUser] = useState(true)
     const username = useRef();
     const email = useRef();
     const password = useRef();
@@ -23,10 +23,11 @@ export default function Register() {
                 navigate("/login");
 
             }catch(err){  
-                toast.success(getError(err))
+                setNewUser(false)
             }
         } else {
             rePassword.current.setCustomValidity("Passwords don't match!");
+            setSamePassword(false);
         }
     }
     return(
@@ -35,9 +36,11 @@ export default function Register() {
                 <div className="rooms"><h1>Rooms</h1></div>
                 <div> 
                     <form className="login-form">
+                    {!newUser && <div style={{color: "red"}}>User already exists</div>}
                         <input className="login-input" placeholder="nickname" ref={username}/>
                         <input className="login-input" placeholder="Email Adress" ref={email} />
                         <input className="login-input" type="password" placeholder="Password" ref={password} />
+                        {!samePassword && <div style={{color: "red"}}>Need to have the same password</div>}
                         <input className="login-input" type="password" placeholder="Verify Password" ref={rePassword} />
                         <input className="login-submit" value="Register" type="submit" onClick={userRegister} />
                     </form>

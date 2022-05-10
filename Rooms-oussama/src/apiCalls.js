@@ -1,6 +1,4 @@
 import axios from "axios"
-import { toast } from "react-toastify";
-import { getError } from "./utils";
 
 export const loginCall = async (userCred, dispatch) => {
     dispatch({ type: "LOGIN_START"});
@@ -11,7 +9,6 @@ export const loginCall = async (userCred, dispatch) => {
         
     }catch(err){
         dispatch({ type: "LOGIN_FAILURE", payload: err});
-        toast.error(getError(err))
     }
 }
 

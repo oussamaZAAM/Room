@@ -3,6 +3,7 @@ import { MdAdd, MdRemove } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 export default function SearchedUser(props) {
+    //Affiche les utlisateurs trouve avec le meme nom recherche
     return(
         <div >
             <div className="searched-user">

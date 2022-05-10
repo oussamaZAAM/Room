@@ -12,6 +12,8 @@ import { BsCardImage } from "react-icons/bs"
 import { CSSTransition } from 'react-transition-group';
 import styled from "styled-components";
 
+//Presque le meme que "Feed.js"
+
 export default function Profile() {
     const [posts, setPosts] = useState([]);
     const { user, dispatch } = useContext(AuthContext);
@@ -27,15 +29,15 @@ export default function Profile() {
 
     
     let subtitle;
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
 
 
     function openModal() {
-        setIsOpen(true);
+        setIsOpen(true); //Ouvrir le Modal
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setIsOpen(false); //Fermer le Modal
     }
        
            
@@ -73,7 +75,9 @@ export default function Profile() {
         dispatch({ type: "LOGIN_SUCCESS", payload: {...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)}});
         localStorage.setItem("user", JSON.stringify({...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)}));
         await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, picture:(profPic1!==""?profPic1:user.picture),cover:(coverPic1!==""?coverPic1:user.cover),username:(userName.current.value!==""?userName.current.value:user.username), email:(email.current.value!==""?email.current.value:user.email), password:(password.current.value!==""?password.current.value:user.password), desc:(desc.current.value!==""?desc.current.value:user.desc)})
+        //Modifier les donnees d'utilisateur
     }
+    //Manipuler le changement des photo de profil ou de couverture
     useEffect(() => {
         const changeProfPic = async () => {
         if (profPic) {

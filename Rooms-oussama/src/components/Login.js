@@ -12,16 +12,19 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const allUsers = await axios.get("http://localhost:5000/api/user/allusers")
-        const email1 = allUsers.data.filter(user=>user.email===email.current.value)
+        const allUsers = await axios.get("http://localhost:5000/api/user/allusers") //Amener tous les utilisateurs
+        const email1 = allUsers.data.filter(user=>user.email===email.current.value) //Verifier les utilisateurs ayant le meme email tappe
         if(email1.length === 0) {
-        setWrongEmail(true)
+            //Si il n'y a pas de correspondance, Afficher une erreur.
+            setWrongEmail(true)
         } else {
             const valid = await axios.post("http://localhost:5000/api/user/check", {pw1:password.current.value, pw2:email1[0].password})
-
+            //Verifier dans le backend si le mot de passe donne est celui avec lequel l'email est enregistre
             if(!valid.data.status){
+                //Si il n'y a pas de correspondance, Afficher une erreur.
                 setWrongPassword(true)
             } else{
+                //Si tous marche bien, Effectuer l'authentification'
                 loginCall({email: email.current.value, password: password.current.value}, dispatch);
             }
         }

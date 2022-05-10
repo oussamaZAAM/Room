@@ -11,6 +11,7 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
 
+  //Amener tous les publications du "backend"
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get("http://localhost:5000/api/posts/timeline/" + user._id);
@@ -22,6 +23,7 @@ export default function Feed() {
     };
     fetchPosts();
   }, [user._id]);
+    //Envoyer les publications chacune a sa composante avec ses "props"
     const myPosts = posts.map(x=>{
         return(
            <Post 

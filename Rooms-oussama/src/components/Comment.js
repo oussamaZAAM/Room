@@ -8,7 +8,7 @@ import { BsThreeDots } from "react-icons/bs";
 export default function Comment(props) {
     const showStyle = {display: "flex"}
     const hideStyle = {display: "none"}
-    const [style, setStyle] = useState(hideStyle);
+    const [style, setStyle] = useState(hideStyle); //state initialiser avec un style de non affichage
     const [editClicked, setEditClicked] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [posts, setPosts] = useState([props.post.comments]);
@@ -21,18 +21,16 @@ export default function Comment(props) {
     const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
     
+    //Amener les postes depuis le "backend"
     useEffect(() => {
         const fetchPosts = async () => {
           const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
-          console.log("db")
-          console.log(res.data.comments)
-          //   const post = res.data.comments.filter(comment=>comment.date===props.comments.userId)
           setPosts(res.data)
         };
         fetchPosts();
-      }, [user._id, deleted, editClicked, style, commentVote]);
-    console.log("posts")
-    console.log(posts.comments)
+    }, [user._id, deleted, editClicked, style, commentVote]);
+    
+    //34-65 : Determiner le temps qui a passe depuis le moment du publication de poste et le temps actuel
     const d1 = Date.now();
     const d2 = new Date(props.date);
     var diff= Math.abs(d1-d2);
@@ -65,7 +63,7 @@ export default function Comment(props) {
             }
         }
     }
-
+    //Detetmine le nom d'utilisateur depuis son idetifiant 
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -73,6 +71,7 @@ export default function Comment(props) {
             }
         }
     }
+    //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -80,7 +79,7 @@ export default function Comment(props) {
             }
         }
     }
-
+    //Amener tous les utilisateurs pour utiliser "userImg" et "userName"
     useEffect(() => {
         const fetchUsers = async () => {
         const res = await axios.get("http://localhost:5000/api/user/allusers");
@@ -92,10 +91,9 @@ export default function Comment(props) {
         };
         fetchUsers();
     }, []);
-    const isLiked = likeState.includes(user.username)
-    const isDisliked = dislikeState.includes(user.username)
-    const [commentState, setCommentState] = useState(props.comments)
-    const [commentsState, setCommentsState] = useState(props.comments)
+    const isLiked = likeState.includes(user.username) //Etat de boutton de "like"
+    const isDisliked = dislikeState.includes(user.username) //Etat de boutton de "dislike"
+    //Clique sur le button de "like" declenche ce code ci-dessous
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
@@ -108,6 +106,7 @@ export default function Comment(props) {
                 })
                 if (!likes.includes(user.username)) likes.push(user.username)
                 const edited = res.data.comments.map(x=>{
+                    //Chaque commentaire est idenifie par la date dans laquelle est ajoute
                     if (x.date === props.comment.date){
                         return (
                             {...x, likes: likes, dislikes:dislikeState}
@@ -119,6 +118,7 @@ export default function Comment(props) {
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
+                    //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
                 );
                 setCommentVote(prevVote=>prevVote+1);
 
@@ -144,24 +144,10 @@ export default function Comment(props) {
                             return x
                         }
                 })
-                // setCommentState(prev=>{
-                //     return {...prev, likes: likes}
-                // })
-                // setCommentsState(prev=>{
-                //     const edited = prev.map(x=>{
-                //         if (x === commentState){
-                //             return (
-                //                 {...x, likes: likes, dislikes:dislikeState}
-                //                 )
-                //             } else {
-                //                 return x
-                //             }
-                //     })
-                //     return(edited)
-                // })
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
+                    //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
                 )
                 setCommentVote(prevVote=>prevVote-1);
 
@@ -197,12 +183,14 @@ export default function Comment(props) {
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
+                    //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
                 );
                 setCommentVote(prevVote=>prevVote+2);
          
           
         }
     }
+    //Clique sur le button de "like" declenche ce code ci-dessous
     const downvote = async () => {
         if(!isLiked){
             if(!isDisliked) {
@@ -226,6 +214,7 @@ export default function Comment(props) {
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
+                    //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
                 );
                 setCommentVote(prevVote=>prevVote-1);
 
@@ -254,6 +243,7 @@ export default function Comment(props) {
                 await axios.put(
                     "http://localhost:5000/api/posts/" + props.id,
                     {...props.post, comments: edited}
+                    //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
                 );
                 setCommentVote(prevVote=>prevVote+1);
 
@@ -289,6 +279,7 @@ export default function Comment(props) {
             await axios.put(
                 "http://localhost:5000/api/posts/" + props.id,
                 {...props.post, comments: edited}
+                //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
             );
             setCommentVote(prevVote=>prevVote-2);
 
@@ -298,26 +289,27 @@ export default function Comment(props) {
     function handleDropwdown() {
         setEditClicked(prev=>!prev);
         if(editClicked){
-            setStyle(showStyle)
+            setStyle(showStyle) //Changer la valeur de "state" pour afficher le code
         }else{
-            setStyle(hideStyle)
+            setStyle(hideStyle) //Changer la valeur de "state" pour faire disparaitre le code
         }
     }
     function handleEditTrue() {
-        setIsEdit(true)
-        setStyle(hideStyle)
+        setIsEdit(true) //Activer le mode de modification de texte du commentaire
+        setStyle(hideStyle) //Changer la valeur de "state" pour afficher le code
     }
     function handleEditFalse() {
-        setIsEdit(false)
+        setIsEdit(false) //Desactiver le mode de modification du texte du commentaire
     }
     function handleChange(event) {
-        setDescValue(event.target.value)
+        setDescValue(event.target.value) //Rendre la valeur de "input" incontrolle
     }
     const handleCheck = async () => {
         const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
 
         setDescription(descValue);
         setIsEdit(false);
+        //Definir une liste constitues des elements precedents sauf de changement de la valeur de texte du commentaire
         const edited = res.data.comments.map(x=>{
             if (x.date === props.comment.date){
                 return (
@@ -330,8 +322,10 @@ export default function Comment(props) {
         await axios.put(
             `http://localhost:5000/api/posts/${props.id}`,
             {...props.post, comments:edited}
+            //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
         );
     }
+    //Supprimer un commentaire
     const handleDeleteComment = async (e) => {
         e.preventDefault()
         const edited = posts.comments.filter(x=>{

@@ -10,8 +10,9 @@ import Searching from "./components/Searching"
 
 
 export default function App() {
-  const {user} = useContext(AuthContext);
-
+  const {user} = useContext(AuthContext); //Prendre l'utilisateur connecte depuis le "Context"
+  
+  //Rediriger vers le profile si le "id" est egale a celui de l'utilisateur
   function HandleProfile() {
     let { id } = useParams();
     return (
@@ -20,6 +21,7 @@ export default function App() {
         : <OtherProfile userId={id} /> 
     )
   }
+  //Afficher la page de recherche
   function HandleSearch() {
     let { id } = useParams();
     return (

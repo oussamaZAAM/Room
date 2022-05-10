@@ -16,10 +16,12 @@ export default function Navbar() {
     display: "block"
   }
   const [style, setStyle] = useState(hideStyle)
+  //Si on clique sur le boutton de "Logout", on supprime l'utilisateur de localStorage
   function handleLogout() {
     dispatch({ type: "LOGIN_SUCCESS", payload: null});
     localStorage.removeItem("user")
   }
+  //Afficher le button de recherche seulement si il y a de texte dans le barre de recherche
   function handleShow(e){
     setThisValue(e)
     if (e.length!=0){
@@ -28,6 +30,7 @@ export default function Navbar() {
       setStyle(hideStyle)
     }
   }
+  //Supprimer le texte dans la barre de recherche
   function handleClear() {
     setThisValue("")
     setStyle(hideStyle)

@@ -4,8 +4,8 @@ import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
 
 export default function Register() {
-    const [samePassword, setSamePassword] = useState(true)
-    const [newUser, setNewUser] = useState(true)
+    const [samePassword, setSamePassword] = useState(true) //Verifier le meme mot de passe
+    const [newUser, setNewUser] = useState(true) //Verifier que l'utilisatuer est unique
     const username = useRef();
     const email = useRef();
     const password = useRef();
@@ -23,11 +23,11 @@ export default function Register() {
                 navigate("/login");
 
             }catch(err){  
-                setNewUser(false)
+                setNewUser(false) //Cas d'existance d'un utilisateur avec soit le meme username soit le meme email
             }
         } else {
             rePassword.current.setCustomValidity("Passwords don't match!");
-            setSamePassword(false);
+            setSamePassword(false); //Cas de mots de passe differents
         }
     }
     return(

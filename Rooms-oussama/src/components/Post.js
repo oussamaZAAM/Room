@@ -29,6 +29,7 @@ export default function Post(props) {
 
 
 
+    //33-64 : Determiner le temps qui a passe depuis le moment du publication de poste et le temps actuel
     const d1 = Date.now();
     const d2 = new Date(props.date);
     var diff= Math.abs(d1-d2);
@@ -62,6 +63,7 @@ export default function Post(props) {
         }
     }
 
+    //Envoyer les commentaires chacune a sa composante avec ses "props"
     const comments = props.comments.map(x=>
         <Comment 
             key={x.id}
@@ -78,6 +80,7 @@ export default function Post(props) {
         />
     )
     
+    //Detetmine le nom d'utilisateur depuis son idetifiant
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -85,6 +88,7 @@ export default function Post(props) {
             }
         }
     }
+    //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -93,6 +97,7 @@ export default function Post(props) {
         }
     }
 
+    //Amener tous les utilisateurs
     useEffect(() => {
         const fetchUsers = async () => {
         const res = await axios.get("http://localhost:5000/api/user/allusers");
@@ -105,8 +110,9 @@ export default function Post(props) {
         fetchUsers();
     }, []);
 
-    const isLiked = likeState.includes(user.username)
-    const isDisliked = dislikeState.includes(user.username)
+    const isLiked = likeState.includes(user.username) //Etat de boutton de "like"
+    const isDisliked = dislikeState.includes(user.username) //Etat de boutton de "dislike"
+    //Clique sur le button de "like" declenche ce code ci-dessous
     const upvote = async () => {
         if(!isDisliked){
             if(!isLiked) {
@@ -121,6 +127,7 @@ export default function Post(props) {
                 likes.push(user.username)
                 console.log(likes)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
+                //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
             }else{
                 setVote(prevVote=>prevVote-1);
@@ -138,6 +145,7 @@ export default function Post(props) {
                 })
                 console.log(likes)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
+                //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
             }
         }else{
@@ -159,6 +167,7 @@ export default function Post(props) {
                     return item !== user.username
                 })
             await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+            //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
           
         }
     }
@@ -174,6 +183,7 @@ export default function Post(props) {
                 })
                 dislikes.push(user.username)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
+                //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
             }else{
                 setVote(prevVote=>prevVote+1);
@@ -189,6 +199,7 @@ export default function Post(props) {
                     return item !== user.username
                 })
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
+                //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
             }
         }else{
             setVote(prevVote=>prevVote-2)
@@ -209,35 +220,37 @@ export default function Post(props) {
                 return item !== user.username
             })
         await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
+        //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
         }
     }
     function handlecomment() {
-        setComment(prevComment=>!prevComment)
-        // setComment(true)
+        // setComment(prevComment=>!prevComment)
+        setComment(true)
     }
 
 
     function handleDropwdown() {
         setEditClicked(prev=>!prev);
         if(editClicked){
-            setStyle(showStyle)
+            setStyle(showStyle) //Changer la valeur de "state" pour afficher le code
         }else{
-            setStyle(hideStyle)
+            setStyle(hideStyle) //Changer la valeur de "state" pour cacher le code
         }
     }
     function handleEditTrue() {
-        setIsEdit(true)
-        setStyle(hideStyle)
+        setIsEdit(true) //Activer le mode de modification de texte de la pubication
+        setStyle(hideStyle) //Changer la valeur de "state" pour afficher le code
     }
     function handleEditFalse() {
-        setIsEdit(false)
+        setIsEdit(false) //Desactiver le mode de modification de texte de la pubication
     }
     function handleChange(event) {
-        setDescValue(event.target.value)
+        setDescValue(event.target.value) //Rendre la valeur de "input" incontrolle
     }
     const handleCheck = async () => {
         setDescription(descValue)
         setIsEdit(false)
+        //Definir une liste constitues des elements precedents sauf de changement de la valeur de texte du commentaire
         await axios.put(
             `http://localhost:5000/api/posts/${props.id}`,
             {...props.post, desc: descValue}
@@ -246,6 +259,7 @@ export default function Post(props) {
 
     const handleDeletePost = async () => {
         await axios.delete(`http://localhost:5000/api/posts/${props.id}`, {data:{userId:user._id}})
+        //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
         setDeleted(!deleted);
     }
     if(!deleted){

@@ -8,6 +8,7 @@ export default function Searching(props) {
     const [users, setUsers] = useState([]);
 
 
+    //Detetmine le nom d'utilisateur depuis son idetifiant
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id===thisId){
@@ -15,6 +16,7 @@ export default function Searching(props) {
             }
         }
     }
+    //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id===thisId){
@@ -24,6 +26,7 @@ export default function Searching(props) {
     }
 
 
+    //Amener tous les utilisateurs
     useEffect(() => {
         const fetchUsers = async () => {
         const res = await axios.get("http://localhost:5000/api/user/allusers");
@@ -37,7 +40,7 @@ export default function Searching(props) {
     }, []);
 
     const searchedUsers = users.map(x=>{
-        return(x.username.toLowerCase().includes(props.userId.toLowerCase())
+        return(x.username.toLowerCase().includes(props.userId.toLowerCase()) //Rendre le recherche insensible au majuscules et miniscules
             ?<SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
             :null )
         }

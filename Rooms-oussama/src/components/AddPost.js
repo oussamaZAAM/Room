@@ -7,26 +7,27 @@ import { AuthContext } from "../Context/authContext";
 export default function AddPost() {
     const desc = useRef()
     const {user} = useContext(AuthContext)
-    const [file, setFile] = useState(null);
-    const [picture, setPicture] = useState('');
+    const [file, setFile] = useState(null); //Mettre un objet null vide dans le "state"
+    const [picture, setPicture] = useState(''); //Mettre une chaine de charactere vide dans le "state"
 
     const handleUpload = async (e) => {
-        const pic=e.target.files[0];
+        const pic=e.target.files[0]; //Initialiser "pic" avec l'image telecharger depuis la machine
         setFile(e.target.files[0])
-        const data = new FormData();
-        const fileName = Date.now() + pic.name;
+        const data = new FormData(); //Initialiser "data" par une Forme de donnes
+        const fileName = Date.now() + pic.name; //Initialiser "fileName" par le nom de fichier telecharge
         data.append("name", fileName);
         data.append("file", pic);
-        
+        //Ajouter les informations de fichier telecharge a notre "data"
         try {
             await axios.post("http://localhost:5000/api/upload", data);
+            //envoyer la donnee vers le "backend" avec "axios" dans le champs "upload"
           } catch (err) {}
           setPicture(fileName)
-          console.log(fileName)
     }
 
     const handlePost = async (e) => {
-        if(desc.current.value === "" && picture === ""){
+        //Si il n'y a pas d'image ou de texte, empecher le rechargement de la page
+        if(desc.current.value === "" && picture === ""){ 
             e.preventDefault();
         }
         if(desc.current.value !== "" || picture !== ""){
@@ -36,8 +37,9 @@ export default function AddPost() {
             }
             try{
                 await axios.post("http://localhost:5000/api/posts",post);
+                //Envoyer le poste vers le "backend", et recharger la page pour que le poste s'affiche
             }catch(err){
-                    console.log(err)        
+                    console.log(err) //En cas d'erreur    
             }
         }
     }

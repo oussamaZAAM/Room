@@ -13,6 +13,7 @@ export default function OtherProfile(props) {
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
 
+    //Detetmine le nom d'utilisateur depuis son idetifiant
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -20,6 +21,7 @@ export default function OtherProfile(props) {
             }
         }
     }
+    //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -27,6 +29,7 @@ export default function OtherProfile(props) {
             }
         }
     }
+    //Detetmine la photo de couverture d'utilisateur depuis son idetifiant
     function userCover(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -34,6 +37,7 @@ export default function OtherProfile(props) {
             }
         }
     }
+    //Detetmine la description d'utilisateur depuis son idetifiant
     function userDesc(thisId) {
         for (let i=0;i<users.length;i++){
             if(users[i]._id==thisId){
@@ -41,7 +45,8 @@ export default function OtherProfile(props) {
             }
         }
     }
-
+    
+    //Amener tous les utilisateurs
     useEffect(() => {
         const fetchUsers = async () => {
         const res = await axios.get("http://localhost:5000/api/user/allusers");
@@ -84,6 +89,7 @@ export default function OtherProfile(props) {
         }
     })
     
+    //Amener les postes depuis le "backend"
     useEffect(() => {
         const fetchPosts = async () => {
         const res = await axios.get("http://localhost:5000/api/posts/timeline/" + props.userId);
@@ -95,6 +101,7 @@ export default function OtherProfile(props) {
         };
         fetchPosts();
     }, [props.userId]);
+    //Envoyer les publications chacune a sa composante avec ses "props"
     const otherPosts = posts.map(x=>{
         return(
            <Post 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+//Creation du tableau du Post
 const postSchema = new mongoose.Schema({
     title: String,
     desc: String,
@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: new Date()
+        default: new Date() //On prend le temps de la creation du post comme date par defaut.
     }, 
     room: String,
     comments: Array,

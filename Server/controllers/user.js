@@ -1,5 +1,8 @@
 import User from '../models/user.js'
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt" //Sert a rendre les mots de passe crypte dans la base des donnees.
+
+//Les fonctions qu'on executera lorsqu'on accedera a un url dans le fichier ./routes/users.js
+
 export const register = async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
@@ -15,6 +18,7 @@ export const register = async (req, res) => {
          cover:user.cover,
      });  
     try{
+        //Assurant que le username et l'email sont uniques et qu'ils n'existent pas deja dans la base de donnee
         const currentUserEmail = await User.findOne({email: newUser.email} ) 
         const currentUserName = await User.findOne({username: newUser.username} ) 
         if(!currentUserEmail && !currentUserName) {
@@ -89,6 +93,7 @@ export const allUsers = async (req, res) => {
       }
     } 
   ;
+  //checkPsw sert a compare le mot de passe cree avec celui qu'existe dans la base de donne d'un certain utilisateur. 
   export const checkPsw = async (req, res) => {
     const valid = await bcrypt.compare(req.body.pw1, req.body.pw2)
     res.status(200).json({status:valid})

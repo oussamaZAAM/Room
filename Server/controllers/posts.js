@@ -57,7 +57,7 @@ export const allPosts = async (req, res) => {
         res.status(403).json("you can update only your post");
       }
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(err); 
     }
   };
   

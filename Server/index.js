@@ -7,7 +7,7 @@ import userRoutes from './routes/user.js';
 import dotenv from "dotenv"
 import multer from "multer"
 import path from "path";
-import {fileURLToPath} from 'url';
+import {fileURLToPath} from 'url'; 
 
 const __filename = fileURLToPath(import.meta.url);
 //__dirname sert a donne le path au root en dependant sur la machine locale dont on execute ce code.

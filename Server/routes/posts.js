@@ -10,4 +10,4 @@ router.get('/profile/:username', allPosts)
 router.get("/timeline/:userId", feedPosts)
 router.put("/:id", updatePost)
 router.delete("/:id", deletePost)
-export default router;
+export default router; 

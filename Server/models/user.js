@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     picture: String,
     cover: String,
     followers: Array,
-    following: Array,
+    following: Array, 
 });
 
 const User = mongoose.model('User', userSchema);

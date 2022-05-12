@@ -11,4 +11,4 @@ router.post('/login', login);
 router.put("/:id", update);
 router.post('/check', checkPsw)
 
-export default router;
+export default router; 

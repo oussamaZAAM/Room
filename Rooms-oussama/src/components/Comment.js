@@ -324,7 +324,7 @@ export default function Comment(props) {
             {...props.post, comments:edited}
             //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
         );
-    }
+    } 
     //Supprimer un commentaire
     const handleDeleteComment = async (e) => {
         e.preventDefault()

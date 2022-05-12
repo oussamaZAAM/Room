@@ -51,7 +51,6 @@ export default function AddPost() {
             <form>
             <div className="add-post">
                 <img src={"http://localhost:5000/images/" + user.picture} className="profileimage" style={{marginRight: "10px"}}/>
-
                 <textarea className="add-post-textarea" type="textarea" placeholder="What's on your mind?" ref={desc}/>
                 <div className="uploadimage">
                     <label>

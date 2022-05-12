@@ -21,7 +21,7 @@ export default function Feed() {
         })
       );
     };
-    fetchPosts();
+    fetchPosts(); 
   }, [user._id]);
     //Envoyer les publications chacune a sa composante avec ses "props"
     const myPosts = posts.map(x=>{

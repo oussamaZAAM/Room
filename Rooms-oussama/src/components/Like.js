@@ -5,6 +5,6 @@ export default function Like() {
     return(
         <>
             <img className="post-like" src={likeimage} width="20px" />
-        </>
+        </> 
     )
 }

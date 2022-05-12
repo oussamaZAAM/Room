@@ -12,5 +12,5 @@ export default function RoomCard(props) {
                 <p style={{padding: "0px"}}>{props.roomers.length} Roomers</p>
             </div>
         </div>
-    )
+    ) 
 } 

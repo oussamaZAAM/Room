@@ -206,7 +206,7 @@ export const Posts = [
           date: "7h ago"
         },
       ]
-    },
+    }, 
     {
         id: 2,
         desc: "Any good Sci-fi movie.",

@@ -12,7 +12,7 @@ export default function AddComment(props) {
           const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
           setPosts(res.data) //Changer la valeur de "state" des postes
         };
-        fetchPosts();
+        fetchPosts(); 
       }, [user._id, props.post.comments]); //Re-amener les postes a l'echange des id ou les commentaires
     const handleComment = async (e)=>{
         e.preventDefault()

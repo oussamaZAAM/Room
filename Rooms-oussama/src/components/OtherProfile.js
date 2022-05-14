@@ -131,16 +131,16 @@ export default function OtherProfile(props) {
     const handleFollow =  async () => {
         const followingList = user.following;
         const followersList = getUser(props.userId).followers;
-        if(!followingList.includes(userName(props.userId))){
-            followingList.push(userName(props.userId))
+        if(!followingList.includes(props.userId)){
+            followingList.push(props.userId)
         } else {
-            var index = followingList.indexOf(userName(props.userId))
+            var index = followingList.indexOf(props.userId)
             followingList.splice(index,1)
         }
-        if(!followersList.includes(user.username)){
-            followersList.push(user.username)
+        if(!followersList.includes(user._id)){
+            followersList.push(user._id)
         } else {
-            var index = followersList.indexOf(user.username)
+            var index = followersList.indexOf(user._id)
             followersList.splice(index,1)
         }
         
@@ -160,11 +160,11 @@ export default function OtherProfile(props) {
                 <div className="profile-name">
                     <h1>{userName(props.userId)}</h1>
                     <div className="profile-add">
-                        {!user.following.includes(userName(props.userId)) 
+                        {!user.following.includes(props.userId)
                             ? <AiOutlinePlusCircle size={30} onClick={handleFollow}/>
                             : <AiFillPlusCircle size={30} onClick={handleFollow}/>
                         }
-                        <b onClick={handleFollow}>{user.following.includes(userName(props.userId))?"Unfollow":"Follow"}</b>
+                        <b onClick={handleFollow}>{user.following.includes(props.userId)?"Unfollow":"Follow"}</b>
                     </div>
                 </div>
                 <div className="profile-desc">

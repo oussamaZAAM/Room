@@ -17,7 +17,7 @@ export default function Register() {
         e.preventDefault();
         
         if(password.current.value==rePassword.current.value){
-            const user = {username:username.current.value, email:email.current.value,password:password.current.value, picture:"../images/profile.png", cover:"../images/post1.jpg"}
+            const user = {username:username.current.value, email:email.current.value,password:password.current.value, picture:"../images/profile.png", cover:"../images/cover.png"}
             try{
                 await axios.post("http://localhost:5000/api/user/register",user);
                 navigate("/login");

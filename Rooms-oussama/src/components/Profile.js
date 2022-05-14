@@ -142,6 +142,9 @@ export default function Profile() {
                 vote={x.likeCount}
                 comments={x.comments}
                 post={x}
+                sharer={x.sharer}
+                shareDesc={x.shareDesc}
+                shareDate={x.shareDate}
                 />
     )})
 
@@ -266,7 +269,7 @@ const StyledModal = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  backdrop-filter: blur(6px);
+  background: none;
 `;
 const ModalContent = styled.div`
   display: flex;

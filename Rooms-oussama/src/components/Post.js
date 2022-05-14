@@ -8,6 +8,8 @@ import AddComment from "./AddComment";
 import axios from "axios";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+import styled from "styled-components";
 
 
 
@@ -28,6 +30,18 @@ export default function Post(props) {
     const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
 
+    
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
+
+
+    function openModal() {
+        setIsOpen(true); //Ouvrir le Modal
+    }
+
+    function closeModal() {
+        setIsOpen(false); //Fermer le Modal
+    }
 
 
     //33-64 : Determiner le temps qui a passe depuis le moment du publication de poste et le temps actuel
@@ -263,92 +277,273 @@ export default function Post(props) {
         //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
         setDeleted(!deleted);
     }
+    const postStyle = props.sharer.length!==0 ? {margin: "10px", padding : "20px", border: "1px solid black", borderRadius: "10px"} : {}
     if(!deleted){
     return(
           <div className="post">
-            <div className="post-grid">
-                 <Link className="comment-username" to={"../"+props.userId}>
-                     <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
-                </Link>
-                <div className="post-room-name">
-                    <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
-                    {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
-                    <p><small>{dateStr}</small></p>
-                </div>
-                {user._id === props.userId && 
-                    <div className="post-edit">
-                        <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
-                        <div style={style} className="post-edit-buttons">
-                            <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
-                            <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+               <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Example Modal"
+                    ariaHideApp={false}
+                >
+                <StyledModal onClick={() => setIsOpen(false)}>
+
+                <ModalContent
+                    className="modalContent"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="profile-modal">
+                        <div className="modal-edit-desc">
+                            <img src={"http://localhost:5000/images/"+user.picture} className="profileimage"/>
+                            <textarea
+                                className="modal-description" 
+                                placeholder="Add a description" 
+                                onChange={(event)=>handleChange(event)}
+                            />
+                        </div>
+                        <div className="modal-wrapper">
+                            <div className="modal-grid">
+                                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                                <div className="post-room-name" style={{gap: "20px"}} >
+                                    <b>{userName(props.userId)}</b>
+                                    <p><small>{dateStr}</small></p>
+                                </div>
+                            </div>
+                            <div className="modal-desc">
+                                <p className="description-content">{description}</p>
+                            </div>
+                            <div>
+                                {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
+                            </div>
+                            <div className="post-interact">
+                                <div className="modal-rating">
+                                    {vote >=0 
+                                        ? <AiFillLike className="post-like"/>
+                                        : <AiFillDislike className="post-like" />
+                                    }
+                                    <small>{roomers} Roomers</small>
+                                    <small>Vote : {vote}</small>
+                                    <small style={{width: "120%"}}>{props.comments.length} comments</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="div-submit">
+                            <input className="add-submit" value="Share" type="submit" style={{padding: "10px"}}/>
                         </div>
                     </div>
-                }
-            </div>
-            <div className="post-desc">
-                {isEdit && (
-                    <div className="edit-desc">
-                        <textarea
-                            className="edit-description" 
-                            value={descValue} 
-                            onChange={(event)=>handleChange(event)}
-                        />
-                        <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
-                        <AiOutlineCheck onClick={handleCheck} className="post-like"/>
+                </ModalContent>
+                </StyledModal>
+              </Modal>
+            
+            <div>
+              {props.sharer.length!==0 &&
+                (
+                  <>
+                    <div className="post-grid">
+                        <Link className="comment-username" to={"../"+props.userId}>
+                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                        </Link>
+                        <div className="post-room-name">
+                            <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
+                            {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
+                            <p><small>{dateStr}</small></p>
+                        </div>
+                        {user._id === props.userId && 
+                            <div className="post-edit">
+                                <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                                <div style={style} className="post-edit-buttons">
+                                    <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                                    <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                                </div>
+                            </div>
+                        }
                     </div>
-                )}
-                {!isEdit && <p className="description-content">{description}</p>}
+                  
+                    <div className="post-desc">
+                        {isEdit && (
+                            <div className="edit-desc">
+                                <textarea
+                                    className="edit-description" 
+                                    value={descValue} 
+                                    onChange={(event)=>handleChange(event)}
+                                />
+                                <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
+                                <AiOutlineCheck onClick={handleCheck} className="post-like"/>
+                            </div>
+                        )}
+                        {!isEdit && <p className="description-content">{description}</p>}
+                    </div>
+                  </>
+                )
+              }
             </div>
             <div>
-                {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
-            </div>
-            <div className="post-interact">
-                <div className="post-rating">
-                    {vote >=0 
-                        ? <AiFillLike className="post-like"/>
-                        : <AiFillDislike className="post-like" />
+                <div style={postStyle}>
+                <div className="post-grid">
+                    <Link className="comment-username" to={"../"+props.userId}>
+                        <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                    </Link>
+                    <div className="post-room-name">
+                        <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
+                        {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
+                        <p><small>{dateStr}</small></p>
+                    </div>
+                    {user._id === props.userId && 
+                        <div className="post-edit">
+                            {props.sharer.length==0 && 
+                                <>
+                                    <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
+                                    <div style={style} className="post-edit-buttons">
+                                        <AiFillEdit style={{cursor: "pointer"}} onClick={handleEditTrue}/>
+                                        <AiFillDelete style={{cursor: "pointer"}} onClick={handleDeletePost}/>
+                                    </div>
+                                </>
+                            }
+                        </div>
                     }
-                    <small>{roomers} Roomers</small>
-                    <small>{props.comments.length} comments</small>
                 </div>
-                <div className="post-rate">
-                    <div>
-                        {isLiked
-                            ? <AiFillLike onClick={()=>upvote()} className="post-like"/>
-                            : <AiOutlineLike onClick={()=>upvote()} className="post-like"/>
-                        }
-                        <small>{vote}</small>
-                        {isDisliked
-                            ? <AiFillDislike onClick={()=>downvote()} className="post-like"/>
-                            : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
-                        }
+                {props.sharer.length==0 
+                ?(
+                    <div className="post-desc">
+                        {isEdit && (
+                            <div className="edit-desc">
+                                <textarea
+                                    className="edit-description" 
+                                    value={descValue} 
+                                    onChange={(event)=>handleChange(event)}
+                                />
+                                <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
+                                <AiOutlineCheck onClick={handleCheck} className="post-like"/>
+                            </div>
+                        )}
+                        {!isEdit && <p className="description-content">{description}</p>}
                     </div>
-                    <div onClick={handlecomment}>
-                        <div style={{cursor: "pointer"}} className="hover-background">
-                            <BiComment />
-                            <small className="hidable" style={{marginLeft:"5px"}}> comments</small>
+                )
+                :(
+                    <p className="description-content">{props.desc}</p>
+                )}
+                <div>
+                    {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
+                </div>
+                <div className="post-interact">
+                    {props.sharer!==""
+                        ? (
+                            <div className="modal-rating">
+                                {vote >=0 
+                                    ? <AiFillLike className="post-like"/>
+                                    : <AiFillDislike className="post-like" />
+                                }
+                                <small>{roomers} Roomers</small>
+                                <small>Vote : {vote}</small>
+                                <small style={{width: "120%"}}>{props.comments.length} comments</small>
+                            </div>
+                        )
+                        : (
+                            <div className="post-rating">
+                                {vote >=0 
+                                    ? <AiFillLike className="post-like"/>
+                                    : <AiFillDislike className="post-like" />
+                                }
+                                <small>{roomers} Roomers</small>
+                                <small>{props.comments.length} comments</small>
+                            </div>
+                        )
+                    }
+                    {props.sharer.length===0 &&(
+                    <div className="post-rate">
+                        <div>
+                            {isLiked
+                                ? <AiFillLike onClick={()=>upvote()} className="post-like"/>
+                                : <AiOutlineLike onClick={()=>upvote()} className="post-like"/>
+                            }
+                            <small>{vote}</small>
+                            {isDisliked
+                                ? <AiFillDislike onClick={()=>downvote()} className="post-like"/>
+                                : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
+                            }
+                        </div>
+                        <div onClick={handlecomment}>
+                            <div style={{cursor: "pointer"}} className="hover-background">
+                                <BiComment />
+                                <small className="hidable" style={{marginLeft:"5px"}}> comments</small>
+                            </div>
+                        </div>
+                        <div className="hover-cursor">
+                            <div onClick={openModal} className="hover-background">
+                                <FiShare />
+                                <small className="hidable" style={{marginLeft:"5px"}}>share</small>
+                            </div>
                         </div>
                     </div>
-                    <div className="hover-cursor">
-                        <div className="hover-background">
-                            <FiShare />
-                            <small className="hidable" style={{marginLeft:"5px"}}>share</small>
+                    )}
+                </div>
+                </div>
+                {props.sharer.length!==0 &&(
+                    <div className="post-rate">
+                        <div>
+                            {isLiked
+                                ? <AiFillLike onClick={()=>upvote()} className="post-like"/>
+                                : <AiOutlineLike onClick={()=>upvote()} className="post-like"/>
+                            }
+                            <small>{vote}</small>
+                            {isDisliked
+                                ? <AiFillDislike onClick={()=>downvote()} className="post-like"/>
+                                : <AiOutlineDislike onClick={()=>downvote()} className="post-like"/>
+                            }
+                        </div>
+                        <div onClick={handlecomment}>
+                            <div style={{cursor: "pointer"}} className="hover-background">
+                                <BiComment />
+                                <small className="hidable" style={{marginLeft:"5px"}}> comments</small>
+                            </div>
+                        </div>
+                        <div className="hover-cursor">
+                            <div onClick={openModal} className="hover-background">
+                                <FiShare />
+                                <small className="hidable" style={{marginLeft:"5px"}}>share</small>
+                            </div>
                         </div>
                     </div>
+                )}
+                {comment && 
+                <div className="comment">
+                    <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
+                    <AddComment post={props.post} comments={props.comments}/>
+                    {props.comments.length!=0 && 
+                        comments
+                    }
                 </div>
-            </div>
-            {comment && 
-              <div className="comment">
-                <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
-                <AddComment post={props.post} comments={props.comments}/>
-                {props.comments.length!=0 && 
-                    comments
                 }
-              </div>
-            }
+            </div>
         </div>
     )
         } else{
             return null
         }
 }   
+const StyledModal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`;
+const ModalContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background-color: #eeeeee;
+  width: 50%;
+  min-height: 50vh;
+  padding: 30px;
+  box-shadow: 0px 3px 6px #00000029;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+`;

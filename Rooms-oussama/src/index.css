@@ -237,7 +237,6 @@ code {
 .post-room-name{
   display: flex;
   flex-direction: column;
-  justify-content: left;
   gap: 10px;
 }
 .post-room-name p{
@@ -281,6 +280,40 @@ code {
   align-items: center;
   padding: 10px 0 0 0;
 }
+.modal-grid{
+  margin-left: 15px;
+  display: grid;
+  grid-template-columns: 0.6fr 15fr;
+  align-items: center;
+  gap: 10px;
+}
+.modal-rating{
+  display: grid;
+  grid-template-columns: 0.5fr 5fr 5fr 1fr 0.5fr;
+  align-items: center;
+  padding: 10px 0 0 0;
+}
+.modal-edit-desc{
+  display: flex;
+  width: 100%;
+  margin-right: auto;
+  margin-left: 15px;
+}
+.modal-description{
+  border: 1px solid black;
+  border-radius: 5px;
+  word-wrap: break-word;
+  width: 85%;
+  height: 30px;
+  margin: 10px 0;
+  resize: none;
+}
+.modal-wrapper{
+  border: 1px solid black;
+  border-radius: 9px;
+  margin: 10px;
+  padding: 10px;
+}
 .post-rate{
   display: flex;
   /* grid-template-columns: 1fr 1fr 0.4fr; */
@@ -294,6 +327,10 @@ code {
 .post-rate div{
   display: flex;
   align-items: center;
+}
+.modal-desc{
+  margin-right: auto;
+  margin-left: 15px;
 }
 .post-desc{
   margin-left: 15px;
@@ -712,10 +749,18 @@ code {
     width: 300px;
   }
 }
+.navbar-notice{
+  display: flex;
+  gap: 5px;
+}
+.navbar-notif{
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 430px) {
   
   .navbar-notice{
-    display: none;
+    width: 30px;
   }
   .navbar-logo{
     width: 45px;

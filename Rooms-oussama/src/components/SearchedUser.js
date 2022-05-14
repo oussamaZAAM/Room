@@ -44,9 +44,6 @@ export default function SearchedUser(props) {
         // }
     }
     // console.log(user.following.includes(userName(props.id)))
-    console.log(user.following)
-    const [isFollowed, setIsFollowed] = useState(user.following.includes(userName(props.id)))
-    const [Followed, setFollowed] = useState(user.following.includes(userName(props.id)) ? "Unfollow" : "Follow")
     
     const handleFollow =  async () => {
         const followingList = user.following;
@@ -64,14 +61,7 @@ export default function SearchedUser(props) {
             var index = followersList.indexOf(user.username)
             followersList.splice(index,1)
         }
-        setIsFollowed(prev=>!prev)
-        setFollowed(prev=>{
-            if(prev == "Unfollow"){
-                return "Follow"
-            } else {
-                return "Unfollow"
-            }
-        })
+        
         await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, following: followingList})
         dispatch({ type: "LOGIN_SUCCESS", payload: {...user, following:followingList}});
         localStorage.setItem("user", JSON.stringify({...user, following:followingList}));
@@ -92,11 +82,11 @@ export default function SearchedUser(props) {
                     {!(user._id == props.id) &&
                         <>
                             <div className="profile-add">
-                                {!isFollowed 
+                                {!user.following.includes(userName(props.id)) 
                                     ? <AiOutlinePlusCircle size={30} onClick={handleFollow}/>
                                     : <AiFillPlusCircle size={30} onClick={handleFollow}/>
                                 }
-                                <b>{Followed}</b>
+                                <b>{user.following.includes(userName(props.id)) ? "Unfollow" : "Follow"}</b>
                             </div>
                         </>
                     }

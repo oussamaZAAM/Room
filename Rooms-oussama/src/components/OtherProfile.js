@@ -164,7 +164,7 @@ export default function OtherProfile(props) {
                             ? <AiOutlinePlusCircle size={30} onClick={handleFollow}/>
                             : <AiFillPlusCircle size={30} onClick={handleFollow}/>
                         }
-                        <b onClick={handleFollow}>{user.following.includes(userName(props.userId))?"Follow":"Unfollow"}</b>
+                        <b onClick={handleFollow}>{user.following.includes(userName(props.userId))?"Unfollow":"Follow"}</b>
                     </div>
                 </div>
                 <div className="profile-desc">

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import {motion, AnimatePresence} from 'framer-motion'
 import Navbar from "./Navbar";
 import Post from "./Post";
 import { postCall } from "../apiCalls";
@@ -25,6 +26,8 @@ export default function Feed() {
   }, [user._id]);
     //Envoyer les publications chacune a sa composante avec ses "props"
     const myPosts = posts.map(x=>{
+        if(!Array.isArray(x)){
+         
         return(
            <Post 
                 key={x._id}
@@ -39,14 +42,37 @@ export default function Feed() {
                 comments={x.comments}
                 post={x}
                 />
-    )})
+    )
+} else{
+  return (x.map(x=>{
+    return (
+    <Post 
+                key={x._id}
+                id={x._id}
+                desc={x.desc}
+                img={x.photo}
+                date={x.date}
+                userId={x.userId}
+                room={x.room}
+                like={x.likes}
+                disLike={x.dislikes}
+                comments={x.comments}
+                post={x}
+                />
+    )
+  }))
+}})
     return(
         <>
             <Navbar />
+            <AnimatePresence>
+            <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
             <div className="feed">
                 <AddPost /> 
                 {myPosts.length!=0 && myPosts }
             </div>
+            </motion.dev>
+            </AnimatePresence>
         </>
     )
 }

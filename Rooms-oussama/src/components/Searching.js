@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {motion, AnimatePresence} from 'framer-motion'
+
 import Navbar from "./Navbar";
 import Profile from "./Profile";
 import SearchedUser from "./SearchedUser";
@@ -40,8 +42,11 @@ export default function Searching(props) {
 
     const searchedUsers = users.map(x=>{
         return(x.username.toLowerCase().includes(props.userId.toLowerCase()) //Rendre le recherche insensible au majuscules et miniscules
-            ?<SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
-            :null)
+            ?(<AnimatePresence>
+            <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
+                <SearchedUser key={x._id} id={x._id} username={x.username} image={x.picture} />
+                </motion.dev>
+            </AnimatePresence>):null)
         }
     )
 

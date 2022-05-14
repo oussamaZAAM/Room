@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
+import {motion, AnimatePresence} from 'framer-motion'
+
 import Navbar from "./Navbar"
 import cover from "../images/post1.jpg"
 import { AiFillEdit, AiFillPlusCircle, AiOutlinePlusCircle } from "react-icons/ai"
@@ -150,8 +152,11 @@ export default function OtherProfile(props) {
         await axios.put(`http://localhost:5000/api/user/${props.userId}`, {...getUser(props.userId), followers: followersList})
     } 
     return(
-        <div className="profile">
+<>
             <Navbar />
+            <AnimatePresence>
+            <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
+        <div className="profile">
             <div className="profile-card">
                 <div className="profile-images">
                     <img className="profile-cover" src={"http://localhost:5000/images/" + userCover(props.userId)} />
@@ -186,5 +191,8 @@ export default function OtherProfile(props) {
             </div>
             {otherPosts}
         </div>
+        </motion.dev>
+         </AnimatePresence>
+        </>
     )
 } 

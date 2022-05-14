@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
+import {motion, AnimatePresence} from 'framer-motion'
+
 import Navbar from "./Navbar"
 import { AiFillEdit, AiOutlineClose } from "react-icons/ai"
 import RoomCard from "./RoomCard"
@@ -112,7 +114,8 @@ export default function Profile() {
         }
         changeCoverPic();
         const fetchPosts = async () => {
-        const res = await axios.get("http://localhost:5000/api/posts/timeline/" + user._id);
+        const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+        console.log(res.data)
         setPosts(
             res.data.sort((p1, p2) => {
               return new Date(p2.date) - new Date(p1.date);
@@ -122,6 +125,8 @@ export default function Profile() {
         fetchPosts();
     }, [user._id, profPic, coverPic]);
     const myPosts = posts.map(x=>{
+        Array.isArray(x)?x=x[0]:x=x
+
         return(
            <Post 
                 key={x._id}
@@ -141,14 +146,13 @@ export default function Profile() {
     )})
 
     return(
+        <>
+        <Navbar />
+        <AnimatePresence>
+            <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
         <div className="profile">
-            <Navbar />
-            <CSSTransition
-        in={modalIsOpen}
-        timeout={200}
-        classNames="modal"
-        unmountOnExit
-      >
+            
+            
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -208,7 +212,7 @@ export default function Profile() {
                 </ModalContent>
                 </StyledModal>
             </Modal>
-            </CSSTransition>
+            
             <div className="profile-card">
                 <div className="profile-images">
                     <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} />
@@ -247,6 +251,9 @@ export default function Profile() {
             <AddPost />
             {myPosts}
         </div>
+        </motion.dev>
+         </AnimatePresence>
+         </>
     )
 } 
 const StyledModal = styled.div`

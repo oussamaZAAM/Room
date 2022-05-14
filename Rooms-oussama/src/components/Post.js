@@ -7,7 +7,7 @@ import { AuthContext } from "../Context/authContext";
 import AddComment from "./AddComment";
 import axios from "axios";
 import { BsThreeDots } from "react-icons/bs";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 
 
@@ -267,11 +267,11 @@ export default function Post(props) {
     return(
           <div className="post">
             <div className="post-grid">
-                <Link to={"../"+props.userId}>
-                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                 <Link className="comment-username" to={"../"+props.userId}>
+                     <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
                 </Link>
                 <div className="post-room-name">
-                    <Link className="comment-username" to={"../"+props.userId}> <small>{userName(props.userId)}</small></Link>
+                    <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
                     {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
                     <p><small>{dateStr}</small></p>
                 </div>

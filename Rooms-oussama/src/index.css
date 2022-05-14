@@ -234,6 +234,12 @@ code {
   border-radius: 10px;
   margin: 2.5% 25%;
 }
+.post-room-name{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 10px;
+}
 .post-room-name p{
   margin-top: -25px;
 }

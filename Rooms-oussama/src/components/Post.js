@@ -271,7 +271,8 @@ export default function Post(props) {
                 <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
                 </Link>
                 <div className="post-room-name">
-                    <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5>
+                    <Link className="comment-username" to={"../"+props.userId}> <small>{userName(props.userId)}</small></Link>
+                    {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
                     <p><small>{dateStr}</small></p>
                 </div>
                 {user._id === props.userId && 

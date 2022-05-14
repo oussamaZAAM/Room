@@ -20,7 +20,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));//pour
 app.use(bodyParser.json({limit: "30mb", extended: true}));//Pour rendre app capable d'analyser les "json bodies"
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));//Pour rendre app capable d'analyser les "urlencoded bodies"
 app.use(cors());//Skip same-origin policy, il rend app capable d'appeler des API qui fait parti d'un domaine autre que celui-ci
-// les 15 lignes prochaines sert a telecharger les fichiers(images) dans ./public/images(backend)
+// les 15 lignes prochaines sert a telecharger les fichiers(images)  dans ./public/images(backend)
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, "public/images");

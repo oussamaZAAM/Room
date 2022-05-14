@@ -41,6 +41,9 @@ export default function Feed() {
                 disLike={x.dislikes}
                 comments={x.comments}
                 post={x}
+                sharer={x.sharer}
+                shareDesc={x.shareDesc}
+                shareDate={x.shareDate}
                 />
     )
 } else{

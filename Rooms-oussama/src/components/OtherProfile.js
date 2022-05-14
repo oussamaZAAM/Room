@@ -128,6 +128,9 @@ export default function OtherProfile(props) {
                 roomers={x.roomers}
                 vote={x.likeCount}
                 comments={x.comments}
+                sharer={x.sharer}
+                shareDesc={x.shareDesc}
+                shareDate={x.shareDate}
                 />
     )})
     const handleFollow =  async () => {

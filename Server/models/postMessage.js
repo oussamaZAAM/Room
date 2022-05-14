@@ -27,6 +27,12 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    sharer: {
+        type: String,
+        default: "a"
+    },
+    sharerDesc: String,
+    sharedPost: String,
     // vote: Number,
 });
 

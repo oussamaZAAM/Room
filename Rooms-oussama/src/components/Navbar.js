@@ -15,6 +15,7 @@ export default function Navbar() {
   const showStyle = {
     display: "block"
   }
+
   const [style, setStyle] = useState(hideStyle)
   //Si on clique sur le boutton de "Logout", on supprime l'utilisateur de localStorage
   function handleLogout() {
@@ -35,6 +36,11 @@ export default function Navbar() {
     setThisValue("")
     setStyle(hideStyle)
   }
+  const notificationStyle = (
+    <div>
+
+    </div>
+  )
   return(
         <div className="navbar">
             <ul className="navbar-list">
@@ -52,8 +58,8 @@ export default function Navbar() {
                 <li className="navbar-li"></li>
                 <li className="navbar-li">
                     <div className="navbar-notice">
-                        <AiFillMessage />
-                        <MdNotificationsActive />
+                        <AiFillMessage style={{cursor : "pointer"}} className="navbar-chat"/>
+                        <MdNotificationsActive style={{cursor : "pointer"}} className="navbar-notif" />
                     </div>
                 </li>
                 <li className="dropdown">

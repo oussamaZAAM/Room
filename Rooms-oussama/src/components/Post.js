@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose, AiFillDelete, AiFillEdit, AiOutlineCheck} from "react-icons/ai"
 import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
@@ -24,12 +24,14 @@ export default function Post(props) {
     const [isEdit, setIsEdit] = useState(false);
     const [style, setStyle] = useState(hideStyle);
     const [descValue,setDescValue] = useState(props.desc);
+    const [sharerDescValue,setSharerDescValue] = useState(props.shareDesc);
     const [description,setDescription] = useState(props.desc);
+    const [sharerDescription,setSharerDescription] = useState(props.shareDesc);
     const [likeState, setLikeState] = useState(props.post.likes)
     const [dislikeState, setDislikeState] = useState(props.post.dislikes)
     const [deleted, setDeleted] = useState(false)
     const {user} = useContext(AuthContext);
-
+    const desc = useRef();
     
     // let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
@@ -134,13 +136,11 @@ export default function Post(props) {
                 setVote(prevVote=>prevVote+1);
                 setRoomers(prevRoomer=>prevRoomer+1);
                 let likes=likeState;
-                console.log(likes)
                 setLikeState(prev=>{
                     prev.push(user.username)
                     return prev
                 })
                 likes.push(user.username)
-                console.log(likes)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -154,11 +154,9 @@ export default function Post(props) {
                     })
                     return list
                 })
-                console.log(likes)
                 likes=likes.filter((item) =>{
                     return item !== user.username
                 })
-                console.log(likes)
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -260,20 +258,52 @@ export default function Post(props) {
         setIsEdit(false) //Desactiver le mode de modification de texte de la pubication
     }
     function handleChange(event) {
+        if(user._id===props.userId){
         setDescValue(event.target.value) //Rendre la valeur de "input" incontrolle
+        } 
+        if(user._id===props.sharer){
+        setSharerDescValue(event.target.value) //Rendre la valeur de "input" incontrolle
+        }
     }
     const handleCheck = async () => {
-        setDescription(descValue)
+        
         setIsEdit(false)
         //Definir une liste constitues des elements precedents sauf de changement de la valeur de texte du commentaire
+        if(user._id===props.userId){
+            setDescription(descValue)
         await axios.put(
             `http://localhost:5000/api/posts/${props.id}`,
             {...props.post, desc: descValue}
-        );
+        )
+    } else{
+        if(user._id===props.sharer){
+            setSharerDescription(sharerDescValue)
+            await axios.put(
+                `http://localhost:5000/api/posts/${props.id}`,
+                {...props.post, shareDesc: sharerDescValue}
+            )
+        }
+    }
     }
 
+    const sharePost = async (e) => {
+        const post = {desc:props.desc, userId:props.userId, date: props.date, photo: props.img,room:props.room, sharer:user._id, sharerDate:new Date(), shareDesc:desc.current.value}
+        try{
+            await axios.post("http://localhost:5000/api/posts",post);
+            //Envoyer le poste vers le "backend", et recharger la page pour que le poste s'affiche
+        }catch(err){
+                console.log(err) //En cas d'erreur    
+        }
+        
+    }
     const handleDeletePost = async () => {
+        if(user._id===props.userId){
         await axios.delete(`http://localhost:5000/api/posts/${props.id}`, {data:{userId:user._id}})
+        } else{
+            if(user._id===props.sharer){
+                await axios.delete(`http://localhost:5000/api/posts/${props.id}`, {data:{userId:props.userId}})
+            }
+        }
         //Envoyer dans le "backend" une publication dans laquelles les commentaires sont modifees
         setDeleted(!deleted);
     }
@@ -300,6 +330,7 @@ export default function Post(props) {
                                 className="modal-description" 
                                 placeholder="Add a description" 
                                 onChange={(event)=>handleChange(event)}
+                                ref={desc}
                             />
                         </div>
                         <div className="modal-wrapper">
@@ -329,7 +360,7 @@ export default function Post(props) {
                             </div>
                         </div>
                         <div className="div-submit">
-                            <input className="add-submit" value="Share" type="submit" style={{padding: "10px"}}/>
+                            <input className="add-submit" value="Share" type="submit" onClick={sharePost} style={{padding: "10px"}}/>
                         </div>
                     </div>
                 </ModalContent>
@@ -341,15 +372,15 @@ export default function Post(props) {
                 (
                   <>
                     <div className="post-grid">
-                        <Link className="comment-username" to={"../"+props.userId}>
-                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Comment User Profile" />
+                        <Link className="comment-username" to={"../"+props.sharer}>
+                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.sharer)} alt="Comment User Profile"/>
                         </Link>
                         <div className="post-room-name">
-                            <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
+                            <Link className="comment-username" to={"../"+props.sharer}> <b>{userName(props.sharer)}</b></Link>
                             {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
                             <p><small>{dateStr}</small></p>
                         </div>
-                        {user._id === props.userId && 
+                        {(user._id === props.userId || user._id===props.sharer) && 
                             <div className="post-edit">
                                 <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
                                 <div style={style} className="post-edit-buttons">
@@ -365,14 +396,14 @@ export default function Post(props) {
                             <div className="edit-desc">
                                 <textarea
                                     className="edit-description" 
-                                    value={descValue} 
+                                    value={sharerDescValue} 
                                     onChange={(event)=>handleChange(event)}
                                 />
                                 <AiOutlineClose onClick={handleEditFalse} className="post-like"/>
                                 <AiOutlineCheck onClick={handleCheck} className="post-like"/>
                             </div>
                         )}
-                        {!isEdit && <p className="description-content">{description}</p>}
+                        {!isEdit && <p className="description-content">{sharerDescription}</p>}
                     </div>
                   </>
                 )

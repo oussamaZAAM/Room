@@ -29,9 +29,9 @@ const postSchema = new mongoose.Schema({
     },
     sharer: {
         type: String,
-        default: "a"
+        default: ""
     },
-    sharerDesc: String,
+    shareDesc: String,
     sharedPost: String,
 });
 

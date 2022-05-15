@@ -30,7 +30,6 @@ export default function Post(props) {
     const [likeState, setLikeState] = useState(props.post.likes)
     const [dislikeState, setDislikeState] = useState(props.post.dislikes)
     const [deleted, setDeleted] = useState(false)
-    const [change, setChange] = useState(0)
     const {user} = useContext(AuthContext);
     const desc = useRef();
     
@@ -299,7 +298,7 @@ const dateTime = (date1) => {
         }catch(err){
                 console.log(err) //En cas d'erreur    
         }
-        setChange(1)
+        setIsOpen(false)
         
     }
     const handleDeletePost = async () => {

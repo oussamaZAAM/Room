@@ -385,7 +385,10 @@ const dateTime = (date1) => {
                   <>
                     <div className="post-grid">
                         <Link className="comment-username" to={"../"+props.sharer}>
-                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.sharer)} alt="Comment User Profile"/>
+                            {userImg(props.sharer)==="https://i.ibb.co/J25RQCT/profile.png" 
+                                ? <img className="profileimage" src={userImg(props.sharer)} alt="User Profile"/>
+                                : <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.sharer)} alt="User Profile"/>
+                            }
                         </Link>
                         <div className="post-room-name">
                             <Link className="comment-username" to={"../"+props.sharer}> <b>{userName(props.sharer)}</b></Link>

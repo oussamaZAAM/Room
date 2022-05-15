@@ -24,12 +24,32 @@ export default function Feed() {
     };
     fetchPosts();
   }, [user._id]);
-    //Envoyer les publications chacune a sa composante avec ses "props"
-    const myPosts = posts.map(x=>{
-        if(!Array.isArray(x)){
-         
-        return(
-           <Post 
+  //Envoyer les publications chacune a sa composante avec ses "props"
+  const myPosts = posts.map(x=>{
+    if(!Array.isArray(x)){    
+      return(
+          <Post 
+              key={x._id}
+              id={x._id}
+              desc={x.desc}
+              img={x.photo}
+              date={x.date}
+              userId={x.userId}
+              room={x.room}
+              like={x.likes}
+              disLike={x.dislikes}
+              comments={x.comments}
+              post={x}
+              roomers={x.roomers}
+              sharer={x.sharer}
+              shareDesc={x.shareDesc}
+              shareDate={x.shareDate}
+          />
+      )
+    } else {
+      return (x.map(x=>{
+        return (
+            <Post 
                 key={x._id}
                 id={x._id}
                 desc={x.desc}
@@ -41,32 +61,11 @@ export default function Feed() {
                 disLike={x.dislikes}
                 comments={x.comments}
                 post={x}
-                roomers={x.roomers}
-                sharer={x.sharer}
-                shareDesc={x.shareDesc}
-                shareDate={x.shareDate}
-                />
-    )
-} else{
-  return (x.map(x=>{
-    return (
-    <Post 
-                key={x._id}
-                id={x._id}
-                desc={x.desc}
-                img={x.photo}
-                date={x.date}
-                userId={x.userId}
-                room={x.room}
-                like={x.likes}
-                disLike={x.dislikes}
-                comments={x.comments}
-                post={x}
-                />
-    )
-  }))
-}})
-    return(
+            />
+        )
+      }))
+    }})
+  return(
         <>
             <Navbar />
             <AnimatePresence>

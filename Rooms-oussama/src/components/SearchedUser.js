@@ -71,7 +71,11 @@ export default function SearchedUser(props) {
     return(
         <div >
             <div className="searched-user">
-                <Link to={"../"+props.id}><img src={"http://localhost:5000/images/"+props.image} alt="User Profile" className="searchimage" /></Link>
+                <Link to={"../"+props.id}>
+                {props.image==="https://i.ibb.co/J25RQCT/profile.png" 
+                    ? <img className="searchimage" src={props.image} alt="User Profile" />
+                    : <img className="searchimage" src={"http://localhost:5000/images/" + props.image} alt="User Profile" />
+                }</Link>
                 <div className="user-propreties">
                     <Link to={"../"+props.id} className="link-username"><b className="searched-username">{props.username}</b></Link>
                     <p>Friend</p>

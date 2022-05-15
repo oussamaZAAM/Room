@@ -45,7 +45,7 @@ export const allPosts = async (req, res) => {
       );
       const friendPosts1 = await Promise.all(
         currentUser.following.map((friendId) => {
-          return PostMessage.find({ sharer: friendId });
+          return PostMessage.find({ sharer: friendId, userId:{ $nin: currentUser.following} });
         })
       );
       const posts = userPosts.concat(friendPosts.flat())

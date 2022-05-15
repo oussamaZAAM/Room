@@ -27,7 +27,10 @@ export default function AddComment(props) {
             </div>
             <form>
             <div className="add-comment">
-                <img src={"http://localhost:5000/images/" + user.picture} className="profileimage"/>
+                {user.picture==="https://i.ibb.co/J25RQCT/profile.png" 
+                    ? <img className="profileimage" src={user.picture} />
+                    : <img className="profileimage" src={"http://localhost:5000/images/" + user.picture} />
+                }
                 <div className="add-comment-text">
                     <textarea type='textarea' className="add-comment-textarea" placeholder="New Comment" ref={content} />
                 </div> 

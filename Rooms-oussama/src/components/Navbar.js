@@ -65,7 +65,10 @@ export default function Navbar() {
                 <li className="dropdown">
                     <Link  className="link-username" to="../Profile">
                       <div className="navbar-link">
-                        <img className="navbar-profileimage" src={"http://localhost:5000/images/" + user.picture} />
+                        {user.picture==="https://i.ibb.co/J25RQCT/profile.png" 
+                            ? <img className="navbar-profileimage" src={user.picture} />
+                            : <img className="navbar-profileimage" src={"http://localhost:5000/images/" + user.picture} />
+                        }
                         <p className="navbar-name">{user.username}</p>
                       </div>
                     </Link>

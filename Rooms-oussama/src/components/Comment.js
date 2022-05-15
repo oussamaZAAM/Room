@@ -341,7 +341,10 @@ export default function Comment(props) {
         return(
             <div className="comment-grid">
                 <div className="comment-image">
-                    <img  className="profileimage" src={"http://localhost:5000/images/"+userImg(props.userId)} />
+                    {userImg(props.userId)==="https://i.ibb.co/J25RQCT/profile.png" 
+                        ? <img className="profileimage" src={userImg(props.userId)} alt="Post User Profile"/>
+                        : <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Post User Profile"/>
+                    }
                 </div>
                 <div className="comment-content">
                     <div className="comment-header">

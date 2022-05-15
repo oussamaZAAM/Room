@@ -176,7 +176,10 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} alt="Profile Image" className="profileimage" />
+                            {user.picture==="https://i.ibb.co/J25RQCT/profile.png" 
+                                ? <img className="profileimage" src={user.picture} alt="Profile image"/>
+                                : <img className="profileimage" src={"http://localhost:5000/images/" + (profPic1!==""?profPic1:user.picture)} alt="Profile image"/>
+                            }
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
@@ -184,7 +187,11 @@ export default function Profile() {
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Cover :</h3>
-                            <img src={"http://localhost:5000/images/" +(coverPic1!==""?coverPic1:user.cover)} alt="Cover Image" width="100px" />
+                            {/* <img src={"http://localhost:5000/images/" +(coverPic1!==""?coverPic1:user.cover)} alt="Cover Image" width="100px" /> */}
+                            {user.cover==="https://i.ibb.co/MVjMppt/cover.jpg" 
+                                ? <img src={user.cover} width="100px" alt="Cover image"/>
+                                : <img src={"http://localhost:5000/images/" + (coverPic1!==""?coverPic1:user.cover)} width="100px" alt="Cover image"/>
+                            }
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
@@ -218,8 +225,14 @@ export default function Profile() {
             
             <div className="profile-card">
                 <div className="profile-images">
-                    <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} alt="Cover image"/>
-                    <img className="profile-pic" src={"http://localhost:5000/images/" +user.picture} alt="Profile image"/>
+                    {user.cover==="https://i.ibb.co/MVjMppt/cover.jpg" 
+                        ? <img className="profile-cover" src={user.cover} alt="Cover image"/>
+                        : <img className="profile-cover" src={"http://localhost:5000/images/" + user.cover} alt="Cover image"/>
+                    }
+                    {user.picture==="https://i.ibb.co/J25RQCT/profile.png" 
+                        ? <img className="profile-pic" src={user.picture} alt="Profile image"/>
+                        : <img className="profile-pic" src={"http://localhost:5000/images/" + user.picture} alt="Profile image"/>
+                    }
                 </div>
                 <div className="profile-name1">
                     <h1>{user.username}</h1>

@@ -33,7 +33,6 @@ const postSchema = new mongoose.Schema({
     },
     sharerDesc: String,
     sharedPost: String,
-    // vote: Number,
 });
 
 const PostMessage = mongoose.model('PostMessage', postSchema);

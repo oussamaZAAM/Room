@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {motion, AnimatePresence} from 'framer-motion'
 
 import Navbar from "./Navbar";
-import Profile from "./Profile";
 import SearchedUser from "./SearchedUser";
 
 export default function Searching(props) {
@@ -11,21 +10,21 @@ export default function Searching(props) {
 
 
     //Detetmine le nom d'utilisateur depuis son idetifiant
-    function userName(thisId) {
-        for (let i=0;i<users.length;i++){
-            if(users[i]._id===thisId){
-                return(users[i].username)
-            }
-        }
-    }
+    // function userName(thisId) {
+    //     for (let i=0;i<users.length;i++){
+    //         if(users[i]._id===thisId){
+    //             return(users[i].username)
+    //         }
+    //     }
+    // }
     //Detetmine la photo de profil d'utilisateur depuis son idetifiant
-    function userImg(thisId) {
-        for (let i=0;i<users.length;i++){
-            if(users[i]._id===thisId){
-                return(users[i].picture)
-            }
-        }
-    }
+    // function userImg(thisId) {
+    //     for (let i=0;i<users.length;i++){
+    //         if(users[i]._id===thisId){
+    //             return(users[i].picture)
+    //         }
+    //     }
+    // }
 
 
     //Amener tous les utilisateurs

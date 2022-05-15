@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose, AiFillDelete, AiFillEdit, AiOutlineVerified, AiOutlineCheck} from "react-icons/ai"
-import { BiComment, BiCrosshair } from "react-icons/bi"
+import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose, AiFillDelete, AiFillEdit, AiOutlineCheck} from "react-icons/ai"
+import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
 import Comment from "./Comment";
 import { AuthContext } from "../Context/authContext";
@@ -31,7 +31,7 @@ export default function Post(props) {
     const {user} = useContext(AuthContext);
 
     
-    let subtitle;
+    // let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
 
 
@@ -98,7 +98,7 @@ export default function Post(props) {
     //Detetmine le nom d'utilisateur depuis son idetifiant
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].username)
             }
         }
@@ -106,7 +106,7 @@ export default function Post(props) {
     //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].picture)
             }
         }
@@ -295,7 +295,7 @@ export default function Post(props) {
                 >
                     <div className="profile-modal">
                         <div className="modal-edit-desc">
-                            <img src={"http://localhost:5000/images/"+user.picture} className="profileimage"/>
+                            <img src={"http://localhost:5000/images/"+user.picture} alt="User Profile" className="profileimage"/>
                             <textarea
                                 className="modal-description" 
                                 placeholder="Add a description" 
@@ -304,7 +304,7 @@ export default function Post(props) {
                         </div>
                         <div className="modal-wrapper">
                             <div className="modal-grid">
-                                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                                <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Post User Profile" />
                                 <div className="post-room-name" style={{gap: "20px"}} >
                                     <b>{userName(props.userId)}</b>
                                     <p><small>{dateStr}</small></p>
@@ -314,7 +314,7 @@ export default function Post(props) {
                                 <p className="description-content">{description}</p>
                             </div>
                             <div>
-                                {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
+                                {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" alt="Post image" />}
                             </div>
                             <div className="post-interact">
                                 <div className="modal-rating">
@@ -342,7 +342,7 @@ export default function Post(props) {
                   <>
                     <div className="post-grid">
                         <Link className="comment-username" to={"../"+props.userId}>
-                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                            <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Comment User Profile" />
                         </Link>
                         <div className="post-room-name">
                             <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
@@ -382,7 +382,7 @@ export default function Post(props) {
                 <div style={postStyle}>
                 <div className="post-grid">
                     <Link className="comment-username" to={"../"+props.userId}>
-                        <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                        <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Comment User Profile" />
                     </Link>
                     <div className="post-room-name">
                         <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
@@ -391,7 +391,7 @@ export default function Post(props) {
                     </div>
                     {user._id === props.userId && 
                         <div className="post-edit">
-                            {props.sharer.length==0 && 
+                            {props.sharer.length===0 && 
                                 <>
                                     <button onClick={handleDropwdown} className="dots-button"><BsThreeDots /></button>
                                     <div style={style} className="post-edit-buttons">
@@ -403,7 +403,7 @@ export default function Post(props) {
                         </div>
                     }
                 </div>
-                {props.sharer.length==0 
+                {props.sharer.length===0 
                 ?(
                     <div className="post-desc">
                         {isEdit && (
@@ -424,7 +424,7 @@ export default function Post(props) {
                     <p className="description-content">{props.desc}</p>
                 )}
                 <div>
-                    {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" />}
+                    {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" alt="Post image" />}
                 </div>
                 <div className="post-interact">
                     {props.sharer!==""
@@ -510,7 +510,7 @@ export default function Post(props) {
                 <div className="comment">
                     <div className="comment-close"><AiOutlineClose className="hover-background" onClick={()=>handlecomment()} /></div>
                     <AddComment post={props.post} comments={props.comments}/>
-                    {props.comments.length!=0 && 
+                    {props.comments.length!==0 && 
                         comments
                     }
                 </div>

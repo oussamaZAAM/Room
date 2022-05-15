@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import logo from "../images/logo.png"
-import { AiFillCloseSquare, AiFillMessage, AiOutlineClose } from "react-icons/ai";
+import { AiFillMessage, AiOutlineClose } from "react-icons/ai";
 import { MdNotificationsActive } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import { AuthContext } from "../Context/authContext";
 
 export default function Navbar() {
   const [thisValue, setThisValue] = useState("");
-  const {user, isFetching, error, dispatch} = useContext(AuthContext)
+  const {user, dispatch} = useContext(AuthContext)
   const hideStyle = {
     display: "none"
   }

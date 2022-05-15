@@ -27,22 +27,22 @@ export default function SearchedUser(props) {
         // return res;
 
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return users[i]
             }
         }
     }
 
     //Detetmine le nom d'utilisateur depuis son idetifiant
-    function userName(thisId){
-        // const res = await axios.get("http://localhost:5000/api/user/"+thisId);
-        // return res.username;
-        for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
-                return(users[i].username)
-            }
-        }
-    }
+    // function userName(thisId){
+    //     // const res = await axios.get("http://localhost:5000/api/user/"+thisId);
+    //     // return res.username;
+    //     for (let i=0;i<users.length;i++){
+    //         if(users[i]._id==thisId){
+    //             return(users[i].username)
+    //         }
+    //     }
+    // }
     
     const handleFollow =  async () => {
         const followingList = user.following;
@@ -57,8 +57,8 @@ export default function SearchedUser(props) {
         if(!followersList.includes(user._id)){
             followersList.push(user._id)
         } else {
-            var index = followersList.indexOf(user._id)
-            followersList.splice(index,1)
+            var index2 = followersList.indexOf(user._id)
+            followersList.splice(index2,1)
         }
         
         await axios.put(`http://localhost:5000/api/user/${user._id}`, {...user, following: followingList})
@@ -71,14 +71,14 @@ export default function SearchedUser(props) {
     return(
         <div >
             <div className="searched-user">
-                <Link to={"../"+props.id}><img src={"http://localhost:5000/images/"+props.image} className="searchimage" /></Link>
+                <Link to={"../"+props.id}><img src={"http://localhost:5000/images/"+props.image} alt="User Profile" className="searchimage" /></Link>
                 <div className="user-propreties">
                     <Link to={"../"+props.id} className="link-username"><b className="searched-username">{props.username}</b></Link>
                     <p>Friend</p>
                     <small>23 mutual friends</small>
                 </div>
                 <div className="searched-flex">
-                    {!(user._id == props.id) &&
+                    {!(user._id === props.id) &&
                         <>
                             <div className="profile-add">
                                 {!user.following.includes(props.id)

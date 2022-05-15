@@ -38,30 +38,23 @@ export const allPosts = async (req, res) => {
       const currentUser = await User.findById(req.params.userId);
       const userPosts = await PostMessage.find({ userId: currentUser._id, sharer:"" });
       const userPosts1 = await PostMessage.find({sharer: currentUser._id});
+      currentUser.following.push("")
       const friendPosts = await Promise.all(
         currentUser.following.map((friendId) => {
-          return PostMessage.find({ userId: friendId, sharer:{ $ne: currentUser._id} });
+          return PostMessage.find({ userId: friendId, sharer:{ $in : currentUser.following} });
         })
       );
       const friendPosts1 = await Promise.all(
         currentUser.following.map((friendId) => {
+          currentUser.following.push(currentUser._id)
           return PostMessage.find({ sharer: friendId, userId:{ $nin: currentUser.following} });
         })
       );
+      console.log(friendPosts)
+      console.log(friendPosts1)
       const posts = userPosts.concat(friendPosts.flat())
       const posts1= posts.concat(friendPosts1.flat())
       const posts2= posts1.concat(userPosts1)
-      // const dates = []
-      // const posts3= posts2.map((item) => {
-      //   if(dates.includes(item.date)){
-      //     return null
-      //   }else{
-      //     dates.push(item.date)
-      //     return item
-      //   }
-      // });
-      // console.log(posts3)
-      // const posts4=posts3.filter(item=>item!==null)
       res.status(200).json(posts2);
     } catch (err) {
       res.status(500).json(err);
@@ -70,7 +63,7 @@ export const allPosts = async (req, res) => {
    export const profilePosts = async (req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
-      const userPosts = await PostMessage.find({ userId: currentUser._id });
+      const userPosts = await PostMessage.find({ userId: currentUser._id, sharer: ""});
       const userSharedPosts = await PostMessage.find({ sharer: currentUser._id})
       const posts = userPosts.concat(userSharedPosts)
       res.status(200).json(posts);

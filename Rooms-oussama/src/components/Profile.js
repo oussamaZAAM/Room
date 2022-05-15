@@ -176,7 +176,7 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} alt="Profile Image" className="profileimage" />
+                            <img style={{backgroundImage:`url(${'http://localhost:5000/images/' + (profPic1!==""?profPic1:user.picture)})`}} alt="Profile Image" className="profileimage" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>

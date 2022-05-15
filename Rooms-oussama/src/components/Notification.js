@@ -42,7 +42,7 @@ const dateTime = (date1) => {
     }
     return dateStr
 }
-    switch(props.type){
+    switch(props.x[2]){
     case "like":{  
     return(
         <div className="notification-body">

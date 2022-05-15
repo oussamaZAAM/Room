@@ -41,7 +41,7 @@ export default function Feed() {
       const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
       const likeNotif = []
       res.data.forEach(post=>{
-           likeNotif.push(post.likes)
+           likeNotif.push(post.likes.map(x=>[...x, 'like']))
       })
       setLikeNotes(
         likeNotif.flat().sort((p1, p2) => {
@@ -54,7 +54,7 @@ export default function Feed() {
       const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
       const dislikeNotif = []
       res.data.forEach(post=>{
-           dislikeNotif.push(post.dislikes)
+           dislikeNotif.push(post.dislikes.map(x=>[...x, 'dislike']))
       })
       setDislikeNotes(
         dislikeNotif.flat().sort((p1, p2) => {
@@ -64,22 +64,33 @@ export default function Feed() {
     };
     fetchDislikes();
   }, [user._id]);
-  const likesNotif = likeNotes.map(x=>{
+  const notif=likeNotes.concat(dislikeNotes)
+  const notif1 = notif.sort((p1, p2) => {
+    return new Date(p2[1]) - new Date(p1[1]);
+  })
+  const notif2 = notif1.map(x=>{
     return(
-      <Notification 
+          <Notification 
         x={x}
-        type={"like"}
       />
     )
   })
-  const dislikesNotif = dislikeNotes.map(x=>{
-    return(
-      <Notification 
-        x={x}
-        type={"dislike"}
-      />
-    )
-  })
+  // const likesNotif = likeNotes.map(x=>{
+  //   return(
+  //     <Notification 
+  //       x={x}
+  //       type={"like"}
+  //     />
+  //   )
+  // })
+  // const dislikesNotif = dislikeNotes.map(x=>{
+  //   return(
+  //     <Notification 
+  //       x={x}
+  //       type={"dislike"}
+  //     />
+  //   )
+  // })
   //Envoyer les publications chacune a sa composante avec ses "props"
   const myPosts = posts.map(x=>{
     if(!Array.isArray(x)){    
@@ -129,8 +140,7 @@ export default function Feed() {
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                {likesNotif}
-                {dislikesNotif}
+                {notif2}
               </div>
               </motion.dev>
               </AnimatePresence>

@@ -30,7 +30,8 @@ export default function Profile() {
     const [coverPic, setCoverPic] = useState(null);
     const [profPic1, setProfPic1] = useState("");
     const [coverPic1, setCoverPic1] = useState("");
-
+    const [likeNotes, setLikeNotes] = useState([]);
+    const [dislikeNotes, setDislikeNotes] = useState([]);
     const userName = useRef();
     const email = useRef();
     const password = useRef();
@@ -134,7 +135,49 @@ export default function Profile() {
         );
         };
         fetchPosts();
+        const fetchLikes = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const likeNotif = []
+            res.data.forEach(post=>{
+                 likeNotif.push(post.likes)
+            })
+            setLikeNotes(
+              likeNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchLikes();
+          const fetchDislikes = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const dislikeNotif = []
+            res.data.forEach(post=>{
+                 dislikeNotif.push(post.dislikes)
+            })
+            setDislikeNotes(
+              dislikeNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchDislikes();
     }, [user._id, profPic, coverPic]);
+    const likesNotif = likeNotes.map(x=>{
+        return(
+          <Notification 
+            x={x}
+            type={"like"}
+          />
+        )
+      })
+      const dislikesNotif = dislikeNotes.map(x=>{
+        return(
+          <Notification 
+            x={x}
+            type={"dislike"}
+          />
+        )
+      })
     const myPosts = posts.map(x=>{
         Array.isArray(x)?x=x[0]:x=x
 
@@ -165,10 +208,8 @@ export default function Profile() {
         {isNotifClicked &&
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                <Notification />
-                <Notification />
-                <Notification />
-                <Notification />
+                {likesNotif}
+                {dislikesNotif}
               </div>
             }
         <AnimatePresence>

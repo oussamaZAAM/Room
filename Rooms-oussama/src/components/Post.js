@@ -40,6 +40,7 @@ export default function Post(props) {
 
     function openModal() {
         setIsOpen(true); //Ouvrir le Modal
+        setStyle(hideStyle)
     }
 
     function closeModal() {
@@ -276,23 +277,23 @@ const dateTime = (date1) => {
         //Definir une liste constitues des elements precedents sauf de changement de la valeur de texte du commentaire
         if(user._id===props.userId){
             setDescription(descValue)
-        await axios.put(
-            `http://localhost:5000/api/posts/${props.id}`,
-            {...props.post, desc: descValue}
-        )
-    } else{
-        if(user._id===props.sharer){
-            setSharerDescription(sharerDescValue)
             await axios.put(
                 `http://localhost:5000/api/posts/${props.id}`,
-                {...props.post, shareDesc: sharerDescValue}
+                {...props.post, desc: descValue}
             )
+        } else{
+            if(user._id===props.sharer){
+                setSharerDescription(sharerDescValue)
+                await axios.put(
+                    `http://localhost:5000/api/posts/${props.id}`,
+                    {...props.post, shareDesc: sharerDescValue}
+                )
+            }
         }
-    }
     }
 
     const sharePost = async (e) => {
-        const post = {desc:props.desc, userId:props.userId, date: props.date, photo: props.img,room:props.room, sharer:user._id, sharerDate:new Date(), shareDesc:desc.current.value}
+        const post = {desc:props.desc, userId:props.userId, date: props.date, photo: props.img,room:props.room, sharer:user._id, shareDate:new Date(), shareDesc:desc.current.value}
         try{
             await axios.post("http://localhost:5000/api/posts",post);
             //Envoyer le poste vers le "backend", et recharger la page pour que le poste s'affiche
@@ -334,7 +335,10 @@ const dateTime = (date1) => {
                 >
                     <div className="profile-modal">
                         <div className="modal-edit-desc">
-                            <img src={"http://localhost:5000/images/"+user.picture} alt="User Profile" className="profileimage"/>
+                            {user.picture==="https://i.ibb.co/J25RQCT/profile.png" 
+                                ? <img className="profileimage" src={user.picture} />
+                                : <img className="profileimage" src={"http://localhost:5000/images/" + user.picture} />
+                            }
                             <textarea
                                 className="modal-description" 
                                 placeholder="Add a description" 
@@ -344,7 +348,10 @@ const dateTime = (date1) => {
                         </div>
                         <div className="modal-wrapper">
                             <div className="modal-grid">
-                                <img className="profileimage" style={{backgroundImage:`url(${'http://localhost:5000/images/' + userImg(props.userId)})`}}  alt="Post User Profile" />
+                                {userImg(props.userId)==="https://i.ibb.co/J25RQCT/profile.png" 
+                                    ? <img className="profileimage" src={userImg(props.userId)} alt="Post User Profile"/>
+                                    : <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Post User Profile"/>
+                                }
                                 <div className="post-room-name" style={{gap: "20px"}} >
                                     <b>{userName(props.userId)}</b>
                                     <p><small>{dateTime(props.date)}</small></p>
@@ -389,7 +396,7 @@ const dateTime = (date1) => {
                         <div className="post-room-name">
                             <Link className="comment-username" to={"../"+props.sharer}> <b>{userName(props.sharer)}</b></Link>
                             {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
-                            <p><small>{dateTime(props.sharerDate)}</small></p>
+                            <p><small>{dateTime(props.shareDate)}</small></p>
                         </div>
                         {(user._id === props.userId || user._id===props.sharer) && 
                             <div className="post-edit">
@@ -424,7 +431,10 @@ const dateTime = (date1) => {
                 <div style={postStyle}>
                 <div className="post-grid">
                     <Link className="comment-username" to={"../"+props.userId}>
-                        <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Comment User Profile" />
+                        {userImg(props.userId)==="https://i.ibb.co/J25RQCT/profile.png" 
+                            ? <img className="profileimage" src={userImg(props.userId)} />
+                            : <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                        }
                     </Link>
                     <div className="post-room-name">
                         <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
@@ -467,6 +477,7 @@ const dateTime = (date1) => {
                 )}
                 <div>
                     {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" alt="Post image" />}
+                    {/* <img src="https://i.ibb.co/J25RQCT/profile.png" /> */}
                 </div>
             </div>
                 <div className="post-interact">

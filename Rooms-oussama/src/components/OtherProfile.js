@@ -162,8 +162,14 @@ export default function OtherProfile(props) {
         <div className="profile">
             <div className="profile-card">
                 <div className="profile-images">
-                    <img className="profile-cover" alt="Cover image" src={"http://localhost:5000/images/" + userCover(props.userId)} />
-                    <img className="profile-pic" alt="Profile image" src={"http://localhost:5000/images/" + userImg(props.userId)} />
+                    {userCover(props.userId)==="https://i.ibb.co/MVjMppt/cover.jpg" 
+                        ? <img className="profile-cover" src={userCover(props.userId)} alt="Cover image"/>
+                        : <img className="profile-cover" src={"http://localhost:5000/images/" + userCover(props.userId)} alt="Cover image"/>
+                    }
+                    {userImg(props.userId)==="https://i.ibb.co/J25RQCT/profile.png" 
+                        ? <img className="profile-pic" src={userImg(props.userId)} alt="Profile image"/>
+                        : <img className="profile-pic" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Profile image"/>
+                    }
                 </div>
                 <div className="profile-name">
                     <h1>{userName(props.userId)}</h1>

@@ -6,9 +6,9 @@ import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/authContext";
 
-export default function Navbar() {
+export default function Navbar(props) {
   const [thisValue, setThisValue] = useState("");
-  const {user, dispatch} = useContext(AuthContext)
+  const {user, dispatch} = useContext(AuthContext);
   const hideStyle = {
     display: "none"
   }
@@ -36,11 +36,6 @@ export default function Navbar() {
     setThisValue("")
     setStyle(hideStyle)
   }
-  const notificationStyle = (
-    <div>
-
-    </div>
-  )
   return(
         <div className="navbar">
             <ul className="navbar-list">
@@ -59,7 +54,7 @@ export default function Navbar() {
                 <li className="navbar-li">
                     <div className="navbar-notice">
                         <AiFillMessage style={{cursor : "pointer"}} className="navbar-chat"/>
-                        <MdNotificationsActive style={{cursor : "pointer"}} className="navbar-notif" />
+                        <MdNotificationsActive onClick={()=>props.handleNotif()} style={{cursor : "pointer"}} className="navbar-notif" />
                     </div>
                 </li>
                 <li className="dropdown">

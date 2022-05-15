@@ -9,12 +9,25 @@ import Post from "./Post"
 import { Rooms } from "../dummyData"
 import axios from "axios"
 import { AuthContext } from "../Context/authContext"
+import { MdNotificationsActive } from "react-icons/md"
+import Notification from "./Notification"
 // import AddPost from "./AddPost"
 
 export default function OtherProfile(props) {
+    const showStyle = {display: "flex", flexDirection: "column"}
+    const hideStyle = {display: "none"}
+    const [notifStyle, setNotifStyle] = useState(hideStyle);
+    const [isNotifClicked, setIsNotifClicked] = useState(false);
+    const [isMsgClicked, setIsMsgifClicked] = useState(false);
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const {user, dispatch}  = useContext(AuthContext);
+    
+    function handleNotif() {
+        setIsNotifClicked(true)
+        setIsMsgifClicked(false)
+        setNotifStyle(prev=>(prev.display==="none" ? showStyle : hideStyle))
+    }
 
     function getUser(thisId){
         for (let i=0;i<users.length;i++){
@@ -156,7 +169,17 @@ export default function OtherProfile(props) {
     } 
     return(
 <>
-            <Navbar />
+            <Navbar handleNotif={handleNotif}/>
+            {isNotifClicked &&
+              <div style={notifStyle} className="notification">
+                <div className="notif-bell"><MdNotificationsActive /></div>
+                <Notification />
+                <Notification />
+                <Notification />
+                <Notification />
+                <Notification />
+              </div>
+            }
             <AnimatePresence>
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
         <div className="profile">

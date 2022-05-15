@@ -457,16 +457,16 @@ export default function Post(props) {
                 <div>
                     {props.img && <img src={"http://localhost:5000/images/" + props.img} width="100%" alt="Post image" />}
                 </div>
+            </div>
                 <div className="post-interact">
                     {props.sharer!==""
                         ? (
-                            <div className="modal-rating">
+                            <div className="post-rating">
                                 {vote >=0 
                                     ? <AiFillLike className="post-like"/>
                                     : <AiFillDislike className="post-like" />
                                 }
-                                <small>{roomers} Roomers</small>
-                                <small>Vote : {vote}</small>
+                                <small>{props.like.length+props.disLike.length} Roomers</small>
                                 <small style={{width: "120%"}}>{props.comments.length} comments</small>
                             </div>
                         )
@@ -546,7 +546,6 @@ export default function Post(props) {
                     }
                 </div>
                 }
-            </div>
         </div>
     )
         } else{

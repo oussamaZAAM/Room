@@ -135,11 +135,12 @@ export default function Profile() {
         );
         };
         fetchPosts();
-        const fetchLikes = async () => {
+        
+          const fetchLikes = async () => {
             const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
             const likeNotif = []
             res.data.forEach(post=>{
-                 likeNotif.push(post.likes)
+                 likeNotif.push(post.likes.map(x=>[...x, 'like']))
             })
             setLikeNotes(
               likeNotif.flat().sort((p1, p2) => {
@@ -152,7 +153,7 @@ export default function Profile() {
             const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
             const dislikeNotif = []
             res.data.forEach(post=>{
-                 dislikeNotif.push(post.dislikes)
+                 dislikeNotif.push(post.dislikes.map(x=>[...x, 'dislike']))
             })
             setDislikeNotes(
               dislikeNotif.flat().sort((p1, p2) => {
@@ -162,22 +163,17 @@ export default function Profile() {
           };
           fetchDislikes();
     }, [user._id, profPic, coverPic]);
-    const likesNotif = likeNotes.map(x=>{
-        return(
+    const notif=likeNotes.concat(dislikeNotes)
+  const notif1 = notif.sort((p1, p2) => {
+    return new Date(p2[1]) - new Date(p1[1]);
+  })
+  const notif2 = notif1.map(x=>{
+    return(
           <Notification 
-            x={x}
-            type={"like"}
-          />
-        )
-      })
-      const dislikesNotif = dislikeNotes.map(x=>{
-        return(
-          <Notification 
-            x={x}
-            type={"dislike"}
-          />
-        )
-      })
+        x={x}
+      />
+    )
+  })
     const myPosts = posts.map(x=>{
         Array.isArray(x)?x=x[0]:x=x
 
@@ -208,8 +204,7 @@ export default function Profile() {
         {isNotifClicked &&
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                {likesNotif}
-                {dislikesNotif}
+                {notif2}
               </div>
             }
         <AnimatePresence>

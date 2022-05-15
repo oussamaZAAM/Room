@@ -97,8 +97,8 @@ export default function Feed() {
   const notif2 = notif1.map(x=>{
     return(
           <Notification 
-        x={x}
-      />
+            x={x}
+          />
     )
   })
   // const likesNotif = likeNotes.map(x=>{
@@ -166,7 +166,7 @@ export default function Feed() {
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                {notif2}
+                {notif2.length !==0 ? notif2 : <h5>How Empty!</h5>}
               </div>
               </motion.dev>
               </AnimatePresence>

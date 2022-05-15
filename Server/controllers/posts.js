@@ -32,6 +32,15 @@ export const allPosts = async (req, res) => {
       res.status(500).json(err);
     }
   };
+  
+export const myPost = async (req, res) => {
+    try {
+      const posts = await PostMessage.findOne({ _id: req.params.postId });
+      res.status(200).json(posts);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };
 
    export const feedPosts = async (req, res) => {
     try {

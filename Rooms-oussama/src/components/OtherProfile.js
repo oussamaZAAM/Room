@@ -115,7 +115,7 @@ export default function OtherProfile(props) {
     //Amener les postes depuis le "backend"
     useEffect(() => {
         const fetchPosts = async () => {
-        const res = await axios.get("http://localhost:5000/api/posts/timeline/" + props.userId);
+        const res = await axios.get("http://localhost:5000/api/posts/profile1/" + props.userId); 
         setPosts(
             res.data.sort((p1, p2) => {
               return new Date(p2.date) - new Date(p1.date);

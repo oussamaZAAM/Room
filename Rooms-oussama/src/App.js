@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/authContext";
 import OtherProfile from "./components/OtherProfile"
 import Searching from "./components/Searching"
+import PostPage from "./components/PostPage"
 
 
 export default function App() {
@@ -29,7 +30,12 @@ export default function App() {
     )
   }
 
-  
+  function HandlePost() {
+    let { id } = useParams();
+    return(
+      <PostPage id={id} />
+    )
+  }
 
     return(
     <BrowserRouter>
@@ -44,6 +50,9 @@ export default function App() {
               : <Login />} />
           <Route path="/search/:id" element={user 
               ? <HandleSearch />
+              : <Login />} />
+          <Route path="/posts/:id" element={user
+              ? <HandlePost />
               : <Login />} />
         {/* </Route> */}
       </Routes>

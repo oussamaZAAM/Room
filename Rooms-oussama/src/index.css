@@ -242,6 +242,12 @@ code {
 .post-room-name p{
   margin-top: -25px;
 }
+.post-username{
+  width: max-content;
+  text-decoration: none;
+  color: #000000;
+  padding: 10px 0;
+}
 .profileimage{
   width: 50px;
   height: 50px;
@@ -935,8 +941,8 @@ margin-left: 25px !important;
   gap: 10px;
   position: fixed;
   right: 23%;
-  z-index: 1;
-  height: 250px;
+  z-index: 2;
+  max-height: 250px;
   overflow-y: scroll;
   max-width: 400px;
 }
@@ -961,4 +967,18 @@ margin-left: 25px !important;
   width: 60px;
   height: 60px;
   border-radius: 50%;
+}
+.orig-post{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.orig-post-btn{
+  border: 0.5px solid;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.orig-post-btn:hover{
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }

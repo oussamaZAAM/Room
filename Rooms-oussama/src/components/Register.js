@@ -1,5 +1,5 @@
-import React, { useRef, useContext, useState } from "react";
-import { AuthContext } from "../Context/authContext";
+import React, { useRef,  useState } from "react";
+// import { AuthContext } from "../Context/authContext";
 import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
 
@@ -10,13 +10,13 @@ export default function Register() {
     const email = useRef();
     const password = useRef();
     const rePassword = useRef();
-    const {user, isFetching, error, dispatch} = useContext(AuthContext)
+    // const {user, isFetching, error, dispatch} = useContext(AuthContext)
     const navigate = useNavigate();
 
     const userRegister= async (e)=>{
         e.preventDefault();
         
-        if(password.current.value==rePassword.current.value){
+        if(password.current.value === rePassword.current.value){
             const user = {username:username.current.value, email:email.current.value,password:password.current.value, picture:"../images/profile.png", cover:"../images/post1.jpg"}
             try{
                 await axios.post("http://localhost:5000/api/user/register",user);

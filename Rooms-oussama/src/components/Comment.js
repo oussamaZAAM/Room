@@ -66,7 +66,7 @@ export default function Comment(props) {
     //Detetmine le nom d'utilisateur depuis son idetifiant 
     function userName(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].username)
             }
         }
@@ -74,7 +74,7 @@ export default function Comment(props) {
     //Detetmine la photo de profil d'utilisateur depuis son idetifiant
     function userImg(thisId) {
         for (let i=0;i<users.length;i++){
-            if(users[i]._id==thisId){
+            if(users[i]._id===thisId){
                 return(users[i].picture)
             }
         }

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import {motion, AnimatePresence} from 'framer-motion'
 import Navbar from "./Navbar";
 import Post from "./Post";
-import { postCall } from "../apiCalls";
+// import { postCall } from "../apiCalls";
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
 import AddPost from "./AddPost";
@@ -73,7 +73,7 @@ export default function Feed() {
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
             <div className="feed">
                 <AddPost /> 
-                {myPosts.length!=0 && myPosts }
+                {myPosts.length!==0 && myPosts }
             </div>
             </motion.dev>
             </AnimatePresence>

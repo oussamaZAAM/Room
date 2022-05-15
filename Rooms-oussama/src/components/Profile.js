@@ -5,13 +5,13 @@ import Navbar from "./Navbar"
 import { AiFillEdit, AiOutlineClose } from "react-icons/ai"
 import RoomCard from "./RoomCard"
 import Post from "./Post"
-import { Posts, Rooms } from "../dummyData"
+import { Rooms } from "../dummyData"
 import axios from "axios"
 import { AuthContext } from "../Context/authContext"
 import AddPost from "./AddPost"
 import Modal from 'react-modal';
 import { BsCardImage } from "react-icons/bs"
-import { CSSTransition } from 'react-transition-group';
+// import { CSSTransition } from 'react-transition-group';
 import styled from "styled-components";
 
 //Presque le meme que "Feed.js"
@@ -30,7 +30,7 @@ export default function Profile() {
     const desc = useRef();
 
     
-    let subtitle;
+    // let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
 
 
@@ -45,7 +45,7 @@ export default function Profile() {
            
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==user._id){
+            if(x.roomers[i].id===user._id){
                 return(
                     <RoomCard 
                         img={x.roomImg}
@@ -59,7 +59,7 @@ export default function Profile() {
     })
     const roomCards = Rooms1.map(x=>{
         for(let i=0;i<x.roomers.length;i++){
-            if(x.roomers[i].id==user._id){
+            if(x.roomers[i].id===user._id){
                 return(
                     <RoomCard 
                         key={x.roomId}
@@ -176,7 +176,7 @@ export default function Profile() {
                     <div className="modal-form"> 
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Profile :</h3>
-                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} className="profileimage" />
+                            <img src={"http://localhost:5000/images/" +(profPic1!==""?profPic1:user.picture)} alt="Profile Image" className="profileimage" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setProfPic(e.target.files[0])}/>
@@ -184,7 +184,7 @@ export default function Profile() {
                         </div>
                         <div className="flex-row">
                             <h3 style={{width: "200px"}}>Cover :</h3>
-                            <img src={"http://localhost:5000/images/" +(coverPic1!==""?coverPic1:user.cover)} width="100px" />
+                            <img src={"http://localhost:5000/images/" +(coverPic1!==""?coverPic1:user.cover)} alt="Cover Image" width="100px" />
                             <label>
                                 <BsCardImage className="upload-image"/>
                                 <input type="file" style={{display: "none"}} name="myImage" onChange={(e) => setCoverPic(e.target.files[0])}/>
@@ -218,8 +218,8 @@ export default function Profile() {
             
             <div className="profile-card">
                 <div className="profile-images">
-                    <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} />
-                    <img className="profile-pic" src={"http://localhost:5000/images/" +user.picture} />
+                    <img className="profile-cover" src={"http://localhost:5000/images/" +user.cover} alt="Cover image"/>
+                    <img className="profile-pic" src={"http://localhost:5000/images/" +user.picture} alt="Profile image"/>
                 </div>
                 <div className="profile-name1">
                     <h1>{user.username}</h1>
@@ -241,12 +241,12 @@ export default function Profile() {
             <div className="profile-rooms">
                 <h1 className="rooms-title">Rooms</h1>
                 <div className="profile-room-grid">
-                    {roomCards.length!=0
+                    {roomCards.length!==0
                         ? roomCards
                         : <h1 className="how-empty">How Empty</h1>
                     }
                 </div>
-                {roomCards.length!=0
+                {roomCards.length!==0
                     ? <div><button className="allrooms-button">See all Rooms</button></div>
                     : <div><button className="allrooms-button">See new Rooms</button></div>
                 }

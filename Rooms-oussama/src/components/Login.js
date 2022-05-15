@@ -8,7 +8,7 @@ export default function Login() {
     const [wrongPassword, setWrongPassword] = useState(false)
     const email= useRef();
     const password = useRef();
-    const {user, isFetching, error, dispatch} = useContext(AuthContext)
+    const { dispatch } = useContext(AuthContext)
 
     const handleLogin = async (e) => {
         e.preventDefault();

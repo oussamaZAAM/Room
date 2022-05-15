@@ -40,7 +40,7 @@ export const allPosts = async (req, res) => {
       const userPosts1 = await PostMessage.find({sharer: currentUser._id});
       const friendPosts = await Promise.all(
         currentUser.following.map((friendId) => {
-          return PostMessage.find({ userId: friendId });
+          return PostMessage.find({ userId: friendId, sharer:{ $ne: currentUser._id} });
         })
       );
       const friendPosts1 = await Promise.all(
@@ -51,6 +51,17 @@ export const allPosts = async (req, res) => {
       const posts = userPosts.concat(friendPosts.flat())
       const posts1= posts.concat(friendPosts1.flat())
       const posts2= posts1.concat(userPosts1)
+      // const dates = []
+      // const posts3= posts2.map((item) => {
+      //   if(dates.includes(item.date)){
+      //     return null
+      //   }else{
+      //     dates.push(item.date)
+      //     return item
+      //   }
+      // });
+      // console.log(posts3)
+      // const posts4=posts3.filter(item=>item!==null)
       res.status(200).json(posts2);
     } catch (err) {
       res.status(500).json(err);

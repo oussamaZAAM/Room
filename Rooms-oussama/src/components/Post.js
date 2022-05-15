@@ -47,8 +47,10 @@ export default function Post(props) {
 
 
     //33-64 : Determiner le temps qui a passe depuis le moment du publication de poste et le temps actuel
+   
+const dateTime = (date1) => {
     const d1 = Date.now();
-    const d2 = new Date(props.date);
+    const d2 = new Date(date1);
     var diff= Math.abs(d1-d2);
     var date = 0;
     var dateStr = "";
@@ -79,7 +81,9 @@ export default function Post(props) {
             }
         }
     }
-
+    return dateStr
+}
+    
     //Envoyer les commentaires chacune a sa composante avec ses "props"
     const comments = props.comments.map(x=>
         <Comment 
@@ -294,6 +298,7 @@ export default function Post(props) {
         }catch(err){
                 console.log(err) //En cas d'erreur    
         }
+        setIsOpen(false)
         
     }
     const handleDeletePost = async () => {
@@ -338,7 +343,7 @@ export default function Post(props) {
                                 <img className="profileimage" src={"http://localhost:5000/images/" + userImg(props.userId)} alt="Post User Profile" />
                                 <div className="post-room-name" style={{gap: "20px"}} >
                                     <b>{userName(props.userId)}</b>
-                                    <p><small>{dateStr}</small></p>
+                                    <p><small>{dateTime(props.date)}</small></p>
                                 </div>
                             </div>
                             <div className="modal-desc">
@@ -360,7 +365,7 @@ export default function Post(props) {
                             </div>
                         </div>
                         <div className="div-submit">
-                            <input className="add-submit" value="Share" type="submit" onClick={sharePost} style={{padding: "10px"}}/>
+                            <input className="add-submit" value="Share" type="submit" onClick={sharePost} style={{padding: "10px", cursor:"pointer"}}/>
                         </div>
                     </div>
                 </ModalContent>
@@ -378,7 +383,7 @@ export default function Post(props) {
                         <div className="post-room-name">
                             <Link className="comment-username" to={"../"+props.sharer}> <b>{userName(props.sharer)}</b></Link>
                             {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
-                            <p><small>{dateStr}</small></p>
+                            <p><small>{dateTime(props.sharerDate)}</small></p>
                         </div>
                         {(user._id === props.userId || user._id===props.sharer) && 
                             <div className="post-edit">
@@ -418,7 +423,7 @@ export default function Post(props) {
                     <div className="post-room-name">
                         <Link className="comment-username" to={"../"+props.userId}> <b>{userName(props.userId)}</b></Link>
                         {/* <h5><b>{props.room} -</b> <small>{userName(props.userId)}</small></h5> */}
-                        <p><small>{dateStr}</small></p>
+                        <p><small>{dateTime(props.date)}</small></p>
                     </div>
                     {user._id === props.userId && 
                         <div className="post-edit">

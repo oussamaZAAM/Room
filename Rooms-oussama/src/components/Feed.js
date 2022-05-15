@@ -81,6 +81,8 @@ export default function Feed() {
         <>
             <Navbar handleNotif={handleNotif} />
             {isNotifClicked &&
+            <AnimatePresence>
+            <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
                 <Notification />
@@ -88,6 +90,8 @@ export default function Feed() {
                 <Notification />
                 <Notification />
               </div>
+              </motion.dev>
+              </AnimatePresence>
             }
             <AnimatePresence>
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>

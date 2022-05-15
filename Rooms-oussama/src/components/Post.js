@@ -133,8 +133,8 @@ const dateTime = (date1) => {
         fetchUsers();
     }, []);
 
-    const isLiked = likeState.includes(user.username) //Etat de boutton de "like"
-    const isDisliked = dislikeState.includes(user.username) //Etat de boutton de "dislike"
+    const isLiked = likeState.flat().includes(user.username) //Etat de boutton de "like"
+    const isDisliked = dislikeState.flat().includes(user.username) //Etat de boutton de "dislike"
     //Clique sur le button de "like" declenche ce code ci-dessous
     const upvote = async () => {
         if(!isDisliked){
@@ -143,10 +143,10 @@ const dateTime = (date1) => {
                 setRoomers(prevRoomer=>prevRoomer+1);
                 let likes=likeState;
                 setLikeState(prev=>{
-                    prev.push(user.username)
+                    prev.push([user.username, new Date()])
                     return prev
                 })
-                likes.push(user.username)
+                likes.push([user.username, new Date()])
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -156,12 +156,12 @@ const dateTime = (date1) => {
                 let likes=likeState;
                 setLikeState(prev=>{
                     const list = prev.filter((item)=> {
-                        return item !== user.username
+                        return item[0] !== user.username
                     })
                     return list
                 })
                 likes=likes.filter((item) =>{
-                    return item !== user.username
+                    return item[0] !== user.username
                 })
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
@@ -171,19 +171,19 @@ const dateTime = (date1) => {
             setVote(prevVote=>prevVote+2)
             const likes=likeState
                 setLikeState(prev=>{
-                    prev.push(user.username)
+                    prev.push([user.username, new Date()])
                     return prev
                 })
-                likes.push(user.username)
+                likes.push([user.username, new Date()])
             let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
-                        return item !== user.username
+                        return item[0] !== user.username
                     })
                     return list
                 })
                 dislikes= dislikes.filter(function(item) {
-                    return item !== user.username
+                    return item[0] !== user.username
                 })
             await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
             //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
@@ -197,10 +197,10 @@ const dateTime = (date1) => {
                 setRoomers(prevRoomer=>prevRoomer+1);
                 const dislikes=dislikeState
                 setDislikeState(prev=>{
-                    prev.push(user.username)
+                    prev.push([user.username, new Date()])
                     return prev
                 })
-                dislikes.push(user.username)
+                dislikes.push([user.username, new Date()])
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -210,12 +210,12 @@ const dateTime = (date1) => {
                 let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
-                        return item !== user.username
+                        return item[0] !== user.username
                     })
                     return list
                 })
                 dislikes=dislikes.filter(function(item) {
-                    return item !== user.username
+                    return item[0] !== user.username
                 })
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
@@ -224,19 +224,19 @@ const dateTime = (date1) => {
             setVote(prevVote=>prevVote-2)
             let dislikes=dislikeState
             setDislikeState(prev=>{
-                prev.push(user.username)
+                prev.push([user.username, new Date()])
                 return prev
             })
-            dislikes.push(user.username)
+            dislikes.push([user.username, new Date()])
         let likes=likeState;
             setLikeState(prev=>{
                 const list = prev.filter(function(item) {
-                    return item !== user.username
+                    return item[0] !== user.username
                 })
                 return list
             })
             likes=likes.filter(function(item) {
-                return item !== user.username
+                return item[0] !== user.username
             })
         await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes,dislikes:dislikes} );
         //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees

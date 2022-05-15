@@ -36,14 +36,22 @@ export const allPosts = async (req, res) => {
    export const feedPosts = async (req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
-      const userPosts = await PostMessage.find({ userId: currentUser._id });
+      const userPosts = await PostMessage.find({ userId: currentUser._id, sharer:"" });
+      const userPosts1 = await PostMessage.find({sharer: currentUser._id});
       const friendPosts = await Promise.all(
         currentUser.following.map((friendId) => {
           return PostMessage.find({ userId: friendId });
         })
       );
+      const friendPosts1 = await Promise.all(
+        currentUser.following.map((friendId) => {
+          return PostMessage.find({ sharer: friendId });
+        })
+      );
       const posts = userPosts.concat(friendPosts.flat())
-      res.status(200).json(posts);
+      const posts1= posts.concat(friendPosts1.flat())
+      const posts2= posts1.concat(userPosts1)
+      res.status(200).json(posts2);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -52,8 +60,9 @@ export const allPosts = async (req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
       const userPosts = await PostMessage.find({ userId: currentUser._id });
-     
-      res.status(200).json(userPosts);
+      const userSharedPosts = await PostMessage.find({ sharer: currentUser._id})
+      const posts = userPosts.concat(userSharedPosts)
+      res.status(200).json(posts);
     } catch (err) {
       res.status(500).json(err);
     }

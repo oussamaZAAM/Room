@@ -97,6 +97,7 @@ export default function Feed() {
   const notif2 = notif1.map(x=>{
     return(
           <Notification 
+            key={x.date}
             x={x}
           />
     )

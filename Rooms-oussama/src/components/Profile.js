@@ -196,8 +196,9 @@ export default function Profile() {
   const notif2 = notif1.map(x=>{
     return(
           <Notification 
-        x={x}
-      />
+            key={x.date}
+            x={x}
+          />
     )
   })
     const myPosts = posts.map(x=>{

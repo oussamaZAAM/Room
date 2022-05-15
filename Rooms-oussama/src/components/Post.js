@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike, AiOutlineClose, AiFillDelete, AiFillEdit, AiOutlineCheck} from "react-icons/ai"
+import {motion, AnimatePresence} from 'framer-motion'
 import { BiComment } from "react-icons/bi"
 import { FiShare } from "react-icons/fi"
 import Comment from "./Comment";
@@ -325,8 +326,11 @@ const dateTime = (date1) => {
                 >
                 <StyledModal onClick={() => setIsOpen(false)}>
 
+              <AnimatePresence>
+               <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
                 <ModalContent
                     className="modalContent"
+                    style={{margin: "2.5% 25%"}}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="profile-modal">
@@ -376,9 +380,11 @@ const dateTime = (date1) => {
                         </div>
                     </div>
                 </ModalContent>
+              </motion.dev>
+              </AnimatePresence>
                 </StyledModal>
               </Modal>
-            
+
             <div>
               {props.sharer.length!==0 &&
                 (

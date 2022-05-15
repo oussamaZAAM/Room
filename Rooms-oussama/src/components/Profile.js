@@ -32,6 +32,7 @@ export default function Profile() {
     const [coverPic1, setCoverPic1] = useState("");
     const [likeNotes, setLikeNotes] = useState([]);
     const [dislikeNotes, setDislikeNotes] = useState([]);
+    const [commentNotes, setCommentNotes] = useState([]);
     const userName = useRef();
     const email = useRef();
     const password = useRef();
@@ -162,11 +163,36 @@ export default function Profile() {
             );
           };
           fetchDislikes();
+          const fetchComments = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const commentNotif = []
+            res.data.forEach(post=>{
+                 commentNotif.push(post.comments.map(x=>{return {...x, type:'dislike'}}))
+            })
+            setCommentNotes(
+              commentNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchComments();
     }, [user._id, profPic, coverPic]);
     const notif=likeNotes.concat(dislikeNotes)
-  const notif1 = notif.sort((p1, p2) => {
-    return new Date(p2[1]) - new Date(p1[1]);
-  })
+    const notiff=notif.concat(commentNotes)
+    const notif1 = notiff.sort((p1, p2) => {
+      if(Array.isArray(p1) && Array.isArray(p2)) {
+        return new Date(p2[1]) - new Date(p1[1])
+      }
+      if(Array.isArray(p1) && !Array.isArray(p2)) {
+        return new Date(p2.date) - new Date(p1[1])
+      }
+      if(!Array.isArray(p1) && !Array.isArray(p2)) {
+        return new Date(p2.date) - new Date(p1.date)
+      }
+      if(!Array.isArray(p1) && Array.isArray(p2)) {
+        return new Date(p2[1]) - new Date(p1.date)
+      }
+    })
   const notif2 = notif1.map(x=>{
     return(
           <Notification 

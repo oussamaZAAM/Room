@@ -42,6 +42,7 @@ const dateTime = (date1) => {
     }
     return dateStr
 }
+if(Array.isArray(props.x)){
     switch(props.x[2]){
     case "like":{  
     return(
@@ -65,6 +66,17 @@ const dateTime = (date1) => {
             </div>
         )
     }
+}
+} else{
+    return(
+        <div className="notification-body">
+            <img className="notificationimage" alt="Notification profile" src="https://i.ibb.co/J25RQCT/profile.png" />
+            <div className="notification-text">
+                <p><b>{props.x.username}</b> has commented on your Post</p>
+                <small>{dateTime(props.x.date)}</small>
+            </div>
+        </div>
+    )
 }
     
 }

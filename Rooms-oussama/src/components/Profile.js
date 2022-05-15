@@ -13,10 +13,17 @@ import Modal from 'react-modal';
 import { BsCardImage } from "react-icons/bs"
 // import { CSSTransition } from 'react-transition-group';
 import styled from "styled-components";
+import { MdNotificationsActive } from "react-icons/md"
+import Notification from "./Notification"
 
 //Presque le meme que "Feed.js"
 
 export default function Profile() {
+    const showStyle = {display: "flex", flexDirection: "column"}
+    const hideStyle = {display: "none"}
+    const [notifStyle, setNotifStyle] = useState(hideStyle);
+    const [isNotifClicked, setIsNotifClicked] = useState(false);
+    const [isMsgClicked, setIsMsgifClicked] = useState(false);
     const [posts, setPosts] = useState([]);
     const { user, dispatch } = useContext(AuthContext);
     const [profPic, setProfPic] = useState(null);
@@ -33,7 +40,12 @@ export default function Profile() {
     // let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false); //Modal pour le changement des donnees d'utilisateur
 
-
+    
+    function handleNotif() {
+        setIsNotifClicked(true)
+        setIsMsgifClicked(false)
+        setNotifStyle(prev=>(prev.display==="none" ? showStyle : hideStyle))
+    }
     function openModal() {
         setIsOpen(true); //Ouvrir le Modal
     }
@@ -150,7 +162,16 @@ export default function Profile() {
 
     return(
         <>
-        <Navbar />
+        <Navbar handleNotif={handleNotif}/>
+        {isNotifClicked &&
+              <div style={notifStyle} className="notification">
+                <div className="notif-bell"><MdNotificationsActive /></div>
+                <Notification />
+                <Notification />
+                <Notification />
+                <Notification />
+              </div>
+            }
         <AnimatePresence>
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
         <div className="profile">

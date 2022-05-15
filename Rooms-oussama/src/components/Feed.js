@@ -6,11 +6,23 @@ import Post from "./Post";
 import axios from "axios"
 import { AuthContext } from "../Context/authContext";
 import AddPost from "./AddPost";
+import { MdNotificationsActive } from "react-icons/md";
+import Notification from "./Notification";
 
 export default function Feed() {
-
+  const showStyle = {display: "flex", flexDirection: "column"}
+  const hideStyle = {display: "none"}
+  const [notifStyle, setNotifStyle] = useState(hideStyle);
+  const [isNotifClicked, setIsNotifClicked] = useState(false);
+  const [isMsgClicked, setIsMsgifClicked] = useState(false);
   const [posts, setPosts] = useState([]);
   const { user } = useContext(AuthContext);
+
+  function handleNotif() {
+    setIsNotifClicked(true)
+    setIsMsgifClicked(false)
+    setNotifStyle(prev=>(prev.display==="none" ? showStyle : hideStyle))
+  }
 
   //Amener tous les publications du "backend"
   useEffect(() => {
@@ -67,7 +79,16 @@ export default function Feed() {
     }})
   return(
         <>
-            <Navbar />
+            <Navbar handleNotif={handleNotif} />
+            {isNotifClicked &&
+              <div style={notifStyle} className="notification">
+                <div className="notif-bell"><MdNotificationsActive /></div>
+                <Notification />
+                <Notification />
+                <Notification />
+                <Notification />
+              </div>
+            }
             <AnimatePresence>
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
             <div className="feed">

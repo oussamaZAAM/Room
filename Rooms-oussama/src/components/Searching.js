@@ -4,9 +4,23 @@ import {motion, AnimatePresence} from 'framer-motion'
 
 import Navbar from "./Navbar";
 import SearchedUser from "./SearchedUser";
+import { MdNotificationsActive } from "react-icons/md";
+import Notification from "./Notification";
 
 export default function Searching(props) {
+    const showStyle = {display: "flex", flexDirection: "column"}
+    const hideStyle = {display: "none"}
+    const [notifStyle, setNotifStyle] = useState(hideStyle);
+    const [isNotifClicked, setIsNotifClicked] = useState(false);
+    const [isMsgClicked, setIsMsgifClicked] = useState(false);
     const [users, setUsers] = useState([]);
+
+    
+    function handleNotif() {
+        setIsNotifClicked(true)
+        setIsMsgifClicked(false)
+        setNotifStyle(prev=>(prev.display==="none" ? showStyle : hideStyle))
+    }
 
 
     //Detetmine le nom d'utilisateur depuis son idetifiant
@@ -51,7 +65,16 @@ export default function Searching(props) {
 
     return(
         <>
-            <Navbar />
+            <Navbar handleNotif={handleNotif}/>
+            {isNotifClicked &&
+              <div style={notifStyle} className="notification">
+                <div className="notif-bell"><MdNotificationsActive /></div>
+                <Notification />
+                <Notification />
+                <Notification />
+                <Notification />
+              </div>
+            }
             <div className="post">
                 <h2 className="search-title">People</h2>
                 <div className="search-div">

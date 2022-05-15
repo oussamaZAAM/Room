@@ -16,6 +16,8 @@ export default function Feed() {
   const [isNotifClicked, setIsNotifClicked] = useState(false);
   const [isMsgClicked, setIsMsgifClicked] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [likeNotes, setLikeNotes] = useState([]);
+  const [dislikeNotes, setDislikeNotes] = useState([]);
   const { user } = useContext(AuthContext);
 
   function handleNotif() {
@@ -35,7 +37,49 @@ export default function Feed() {
       );
     };
     fetchPosts();
+    const fetchLikes = async () => {
+      const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+      const likeNotif = []
+      res.data.forEach(post=>{
+           likeNotif.push(post.likes)
+      })
+      setLikeNotes(
+        likeNotif.flat().sort((p1, p2) => {
+          return new Date(p2[1]) - new Date(p1[1]);
+        })
+      );
+    };
+    fetchLikes();
+    const fetchDislikes = async () => {
+      const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+      const dislikeNotif = []
+      res.data.forEach(post=>{
+           dislikeNotif.push(post.dislikes)
+      })
+      setDislikeNotes(
+        dislikeNotif.flat().sort((p1, p2) => {
+          return new Date(p2[1]) - new Date(p1[1]);
+        })
+      );
+    };
+    fetchDislikes();
   }, [user._id]);
+  const likesNotif = likeNotes.map(x=>{
+    return(
+      <Notification 
+        x={x}
+        type={"like"}
+      />
+    )
+  })
+  const dislikesNotif = dislikeNotes.map(x=>{
+    return(
+      <Notification 
+        x={x}
+        type={"dislike"}
+      />
+    )
+  })
   //Envoyer les publications chacune a sa composante avec ses "props"
   const myPosts = posts.map(x=>{
     if(!Array.isArray(x)){    
@@ -85,10 +129,8 @@ export default function Feed() {
             <motion.dev initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                <Notification />
-                <Notification />
-                <Notification />
-                <Notification />
+                {likesNotif}
+                {dislikesNotif}
               </div>
               </motion.dev>
               </AnimatePresence>

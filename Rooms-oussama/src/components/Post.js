@@ -389,7 +389,6 @@ const dateTime = (date1) => {
               {props.sharer.length!==0 &&
                 (
                   <>
-                    <div className="orig-post"><small className="orig-post-btn">Visit the Original Post</small></div>
                     <div className="post-grid">
                         <Link className="comment-username" to={"../"+props.sharer}>
                             {userImg(props.sharer)==="https://i.ibb.co/J25RQCT/profile.png" 
@@ -433,9 +432,9 @@ const dateTime = (date1) => {
             </div>
             <div>
                 <div style={postStyle}>
-                {props.sharer.length===0 && <div className="orig-post">
+                <div className="orig-post">
                     <Link className="post-username" to={"../posts/"+props.id}><small className="orig-post-btn">Visit the Original Post</small></Link>
-                </div>}
+                </div>
                 <div className="post-grid">
                     <Link className="comment-username" to={"../"+props.userId}>
                         {userImg(props.userId)==="https://i.ibb.co/J25RQCT/profile.png" 

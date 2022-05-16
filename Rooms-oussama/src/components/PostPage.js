@@ -128,6 +128,9 @@ export default function PostPage(props) {
               comments={posts.comments}
               post={posts}
               roomers={posts.roomers}
+              sharer={""}
+              shareDesc={""}
+            //   shareDate={x.shareDate}
           />
             </div>
             </motion.dev>

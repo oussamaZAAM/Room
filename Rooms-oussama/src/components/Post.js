@@ -15,7 +15,6 @@ import styled from "styled-components";
 
 
 export default function Post(props) {
-    console.log(props.like)
     const showStyle = {display: "flex"}
     const hideStyle = {display: "none"}
     const [users, setUsers] = useState([]);

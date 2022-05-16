@@ -47,16 +47,18 @@ export const myPost = async (req, res) => {
       const currentUser = await User.findById(req.params.userId);
       const userPosts = await PostMessage.find({ userId: currentUser._id, sharer:"" });
       const userPosts1 = await PostMessage.find({sharer: currentUser._id});
-      currentUser.following.push("")
+      const fPost = [...currentUser.following]
+      const fPost1 = [...currentUser.following]
+      fPost.push("")
+      fPost1.push(currentUser._id)
       const friendPosts = await Promise.all(
-        currentUser.following.map((friendId) => {
-          return PostMessage.find({ userId: friendId, sharer:{ $in : currentUser.following} });
+        fPost.map((friendId) => {
+          return PostMessage.find({ userId: friendId, sharer:{ $in : fPost} });
         })
       );
       const friendPosts1 = await Promise.all(
         currentUser.following.map((friendId) => {
-          currentUser.following.push(currentUser._id)
-          return PostMessage.find({ sharer: friendId, userId:{ $nin: currentUser.following} });
+          return PostMessage.find({ sharer: friendId, userId:{ $nin: fPost1} });
         })
       );
       console.log(friendPosts)

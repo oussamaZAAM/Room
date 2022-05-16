@@ -102,22 +102,7 @@ export default function Feed() {
           />
     )
   })
-  // const likesNotif = likeNotes.map(x=>{
-  //   return(
-  //     <Notification 
-  //       x={x}
-  //       type={"like"}
-  //     />
-  //   )
-  // })
-  // const dislikesNotif = dislikeNotes.map(x=>{
-  //   return(
-  //     <Notification 
-  //       x={x}
-  //       type={"dislike"}
-  //     />
-  //   )
-  // })
+
   //Envoyer les publications chacune a sa composante avec ses "props"
   const myPosts = posts.map(x=>{
     if(!Array.isArray(x)){    

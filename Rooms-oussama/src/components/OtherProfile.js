@@ -21,6 +21,9 @@ export default function OtherProfile(props) {
     const [isMsgClicked, setIsMsgifClicked] = useState(false);
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [likeNotes, setLikeNotes] = useState([]);
+  const [dislikeNotes, setDislikeNotes] = useState([]);
+  const [commentNotes, setCommentNotes] = useState([]);
     const {user, dispatch}  = useContext(AuthContext);
     
     function handleNotif() {
@@ -80,8 +83,69 @@ export default function OtherProfile(props) {
         );
         };
         fetchUsers();
+        const fetchLikes = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const likeNotif = []
+            res.data.forEach(post=>{
+                 likeNotif.push(post.likes.map(x=>[...x, 'like']))
+            })
+            setLikeNotes(
+              likeNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchLikes();
+          const fetchDislikes = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const dislikeNotif = []
+            res.data.forEach(post=>{
+                 dislikeNotif.push(post.dislikes.map(x=>[...x, 'dislike']))
+            })
+            setDislikeNotes(
+              dislikeNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchDislikes();
+          const fetchComments = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/profile1/" + user._id);
+            const commentNotif = []
+            res.data.forEach(post=>{
+                 commentNotif.push(post.comments.map(x=>{return {...x, type:'dislike'}}))
+            })
+            setCommentNotes(
+              commentNotif.flat().sort((p1, p2) => {
+                return new Date(p2[1]) - new Date(p1[1]);
+              })
+            );
+          };
+          fetchComments();
     }, []);
-
+    const notif=likeNotes.concat(dislikeNotes)
+    const notiff=notif.concat(commentNotes)
+    const notif1 = notiff.sort((p1, p2) => {
+      if(Array.isArray(p1) && Array.isArray(p2)) {
+        return new Date(p2[2]) - new Date(p1[2])
+      }
+      if(Array.isArray(p1) && !Array.isArray(p2)) {
+        return new Date(p2.date) - new Date(p1[2])
+      }
+      if(!Array.isArray(p1) && !Array.isArray(p2)) {
+        return new Date(p2.date) - new Date(p1.date)
+      }
+      if(!Array.isArray(p1) && Array.isArray(p2)) {
+        return new Date(p2[2]) - new Date(p1.date)
+      }
+    })
+    const notif2 = notif1.map(x=>{
+      return(
+            <Notification 
+              key={x.date}
+              x={x}
+            />
+      )})
     const Rooms1 = Rooms.filter(x=>{
         for(let i=0;i<x.roomers.length;i++){
             if(x.roomers[i].id===props.userId){
@@ -173,11 +237,7 @@ export default function OtherProfile(props) {
             {isNotifClicked &&
               <div style={notifStyle} className="notification">
                 <div className="notif-bell"><MdNotificationsActive /></div>
-                <Notification />
-                <Notification />
-                <Notification />
-                <Notification />
-                <Notification />
+                {notif2.length !==0 ? notif2 : <h5>How Empty!</h5>}
               </div>
             }
             <AnimatePresence>

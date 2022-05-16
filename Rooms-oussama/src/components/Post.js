@@ -143,10 +143,10 @@ const dateTime = (date1) => {
                 setRoomers(prevRoomer=>prevRoomer+1);
                 let likes=likeState;
                 setLikeState(prev=>{
-                    prev.push([user.username, new Date()])
+                    prev.push([user.username,props.id, new Date()])
                     return prev
                 })
-                likes.push([user.username, new Date()])
+                likes.push([user.username,props.id, new Date()])
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, likes:likes, dislikes:dislikeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -171,10 +171,10 @@ const dateTime = (date1) => {
             setVote(prevVote=>prevVote+2)
             const likes=likeState
                 setLikeState(prev=>{
-                    prev.push([user.username, new Date()])
+                    prev.push([user.username,props.id, new Date()])
                     return prev
                 })
-                likes.push([user.username, new Date()])
+                likes.push([user.username,props.id, new Date()])
             let dislikes=dislikeState;
                 setDislikeState(prev=>{
                     const list = prev.filter(function(item) {
@@ -197,10 +197,10 @@ const dateTime = (date1) => {
                 setRoomers(prevRoomer=>prevRoomer+1);
                 const dislikes=dislikeState
                 setDislikeState(prev=>{
-                    prev.push([user.username, new Date()])
+                    prev.push([user.username,props.id, new Date()])
                     return prev
                 })
-                dislikes.push([user.username, new Date()])
+                dislikes.push([user.username,props.id, new Date()])
                 await axios.put("http://localhost:5000/api/posts/" + props.id,{...props.post, dislikes:dislikes, likes:likeState} );
                 //Envoyer dans le "backend" une publication dans laquelles l'etat de "like" sont modifees
 
@@ -224,10 +224,10 @@ const dateTime = (date1) => {
             setVote(prevVote=>prevVote-2)
             let dislikes=dislikeState
             setDislikeState(prev=>{
-                prev.push([user.username, new Date()])
+                prev.push([user.username,props.id, new Date()])
                 return prev
             })
-            dislikes.push([user.username, new Date()])
+            dislikes.push([user.username,props.id, new Date()])
         let likes=likeState;
             setLikeState(prev=>{
                 const list = prev.filter(function(item) {

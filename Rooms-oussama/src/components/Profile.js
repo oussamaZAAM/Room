@@ -181,16 +181,16 @@ export default function Profile() {
     const notiff=notif.concat(commentNotes)
     const notif1 = notiff.sort((p1, p2) => {
       if(Array.isArray(p1) && Array.isArray(p2)) {
-        return new Date(p2[1]) - new Date(p1[1])
+        return new Date(p2[2]) - new Date(p1[2])
       }
       if(Array.isArray(p1) && !Array.isArray(p2)) {
-        return new Date(p2.date) - new Date(p1[1])
+        return new Date(p2.date) - new Date(p1[2])
       }
       if(!Array.isArray(p1) && !Array.isArray(p2)) {
         return new Date(p2.date) - new Date(p1.date)
       }
       if(!Array.isArray(p1) && Array.isArray(p2)) {
-        return new Date(p2[1]) - new Date(p1.date)
+        return new Date(p2[2]) - new Date(p1.date)
       }
     })
   const notif2 = notif1.map(x=>{

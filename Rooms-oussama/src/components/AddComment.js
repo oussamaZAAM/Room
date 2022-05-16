@@ -18,7 +18,7 @@ export default function AddComment(props) {
         e.preventDefault()
         const res = await axios.get("http://localhost:5000/api/posts/" + props.post._id);
         //Modifier le poste identifie par le "id" dans les "props" par l'objet dont les commentaires sont ajoutes
-        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...res.data.comments,{userId:user._id,username:user.username,content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
+        await axios.put("http://localhost:5000/api/posts/"+ props.post._id, {...props.post, comments:[...res.data.comments,{userId:user._id,username:user.username, postId:props.post._id, content:content.current.value,date:new Date(),likes:[], dislikes:[]}]})
     }
     return(
         <form className="comment-add">

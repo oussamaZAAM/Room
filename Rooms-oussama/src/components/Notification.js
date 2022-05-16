@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-
+import {Link} from "react-router-dom"
 import { AuthContext } from "../Context/authContext";
 import axios from 'axios'
 
@@ -43,26 +43,32 @@ const dateTime = (date1) => {
     return dateStr
 }
 if(Array.isArray(props.x)){
-    switch(props.x[2]){
+    switch(props.x[3]){
     case "like":{  
     return(
         <div className="notification-body">
+                        <Link to={"../posts/"+props.x[1]}>
+
             <img className="notificationimage" alt="Notification profile" src="https://i.ibb.co/J25RQCT/profile.png" />
             <div className="notification-text">
                 <p><b>{props.x[0]}</b> has liked your Post</p>
-                <small>{dateTime(props.x[1])}</small>
+                <small>{dateTime(props.x[2])}</small>
             </div>
+            </Link>
         </div>
     )
     }
     case "dislike": {
         return(
             <div className="notification-body">
+                <Link to={"../posts/"+props.x[1]}>
                 <img className="notificationimage" alt="Notification profile" src="https://i.ibb.co/J25RQCT/profile.png" />
                 <div className="notification-text">
                     <p><b>{props.x[0]}</b> has disliked your Post</p>
-                    <small>{dateTime(props.x[1])}</small>
+                    <small>{dateTime(props.x[2])}</small>
                 </div>
+                </Link>
+
             </div>
         )
     }
@@ -70,11 +76,13 @@ if(Array.isArray(props.x)){
 } else{
     return(
         <div className="notification-body">
+            <Link to={"../posts/"+props.x.postId}>
             <img className="notificationimage" alt="Notification profile" src="https://i.ibb.co/J25RQCT/profile.png" />
             <div className="notification-text">
                 <p><b>{props.x.username}</b> has commented on your Post</p>
                 <small>{dateTime(props.x.date)}</small>
             </div>
+            </Link>
         </div>
     )
 }
